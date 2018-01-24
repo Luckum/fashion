@@ -1,0 +1,100 @@
+//accordion
+@accordion-title-margin-bottom:                 15px;
+@accordion-title-padding-vertical:              5px;
+@accordion-title-padding-horizontal:            15px;
+@accordion-title-font-size:                     18px;
+@accordion-title-line-height:                   24px;
+@accordion-title-background:                    #fff;
+
+.product-accordion{
+	margin-top: -1px;
+	.uk-accordion-title{
+		font-size: 11px;
+		text-transform: uppercase;
+		border: 1px solid #000;
+		margin-bottom: -1px;
+		position: relative;
+		padding: 2px 15px;
+		&:before{
+			font-family: 'Courier New', sans-serif;
+			content: '+';
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			font-size: 22px;
+		}
+		&.uk-active{
+			background: #000;
+			color: #fff;
+			&:before{
+				content: '-';
+			}
+		}
+	}
+	.uk-accordion-content{
+		margin-bottom: -1px;
+		font-size: 14px;
+		line-height: 1.5;
+		padding: 20px;
+		border: 1px solid #000;
+	}
+}
+.account-wrapper {
+	.uk-accordion-title, .accordion-title{
+		display: block;
+		margin: 0;
+		padding: 2px 10px;
+		border: 1px solid #000;
+		margin-top: -1px;
+		font-size: 11px;
+		text-transform: uppercase;
+		line-height: 24px;
+		cursor: pointer;
+		position: relative;
+		&:hover{
+			text-decoration: none;
+		}
+		&:before{
+			content: '>';
+			position: absolute;
+			right: 10px;
+			top: 2px;
+			font-size: 15px;
+			font-weight: 300;
+		}
+		&.uk-active, &.active{
+			background: #000;
+			color: #fff;
+			&:before{
+				color: #000;
+			}
+		}
+	}
+	.uk-accordion-content {
+		padding: 0 20px;
+		@media (max-width: @breakpoint-large) {
+			padding: 20px 0;
+		}
+	}
+}
+
+.accordion-title-custom{
+	padding: 10px;
+	border-bottom: 1px solid #000;
+	@media (max-width: @breakpoint-medium) {
+		padding: 10px 0;
+	}
+	&.active-custom{
+		background: #000;
+		color: #fff;
+	}
+}
+.accordion-content-custom{
+	padding: 20px 10px 20px 0;
+}
+
+.block-accordion-title{
+	width: 94%;
+	margin-left: 30px;
+}

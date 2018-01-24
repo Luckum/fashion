@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /members/auth/
+Sitemap: http://23-15.com/sitemap.xml

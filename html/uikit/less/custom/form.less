@@ -1,0 +1,131 @@
+@form-gutter: 30px;
+@form-focus-border:                             @light-gray;
+@form-focus-background:                         transparent;
+@form-focus-color:                              #000;
+
+.uk-form-modal {
+	label {
+		cursor: pointer;
+	}
+	input[type="email"],
+	input[type="password"],
+	input[type="text"],
+	input[type="tel"] {
+		display: block;
+		width: 100%;
+		border: none;
+		border-bottom: 1px solid #000;
+		padding-left: 0;
+		border-radius: 0;
+		color: #000;
+		&:focus {
+			background: transparent;
+			border-bottom-color: #000;
+		}
+		&::placeholder {
+			color: #878787;
+		}
+		&:focus {
+			&::placeholder {
+				color: transparent;
+			}
+		}
+	}
+	a {
+		text-decoration: underline;
+		&:hover {
+			text-decoration: none;
+			color: #000;
+		}
+		&.uk-button{
+			text-decoration: none;
+			&:hover{
+				color: #fff;
+				border-color: #000;
+			}
+		}
+	}
+}
+.uk-form-label{
+	font-weight: 700;
+}
+.form-group-checkbox {
+	position: relative;
+	padding-left: 15px;
+	input[type="checkbox"] {
+		display: none;
+	}
+	input[type="checkbox"] + .label-checkbox span {
+		width: 10px;
+		height: 10px;
+		background: #fff;
+		border: 1px solid #000;
+		text-align: center;
+		cursor: pointer;
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	input[type="checkbox"]:checked + .label-checkbox span:before {
+		content: '';
+		width: 6px;
+		height: 6px;
+		background: #000;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+}
+
+.form-bag{
+	display: inline-block;
+	width: 120px;
+	.select2-container {
+		width: 100% !important;
+	}
+}
+
+//shopping-cart page
+.tel-code{
+	display: inline-block;
+	width: 15%;
+}
+.tel{
+	display: inline-block;
+	width: 79%;
+}
+.uk-form-select{
+	.select2-container {
+		width: 100% !important;
+	}
+}
+textarea.description-textarea{
+	width: 100%;
+	min-height: 217px;
+	background: #fff;
+	border: 1px solid #000;
+	resize: vertical;
+}
+.uk-input-small{
+	width: 180px;
+	display: inline-block;
+	@media (max-width: @breakpoint-large) {
+		width: 108px;
+	}
+}
+.uk-form-mini{
+	width: 100px;
+	display: inline-block;
+}
+.shopping-cart-form-wrapper{
+	.uk-push-1-10{
+	@media (min-width: @breakpoint-medium) and (max-width: @breakpoint-large) {
+		
+			left: 0 !important;
+		}
+	}
+}

@@ -1,0 +1,98 @@
+//button
+
+@button-height:                                  40px;
+@button-mini-height:                             20px;
+@button-small-height:                            40px;
+@button-large-height:                            40px;
+
+@button-line-height:                             40px;
+@button-mini-line-height:                        20px;
+@button-small-line-height:                       40px;
+@button-large-line-height:                       40px;
+
+@button-mini-font-size:                          11px;
+@button-small-font-size:                         14px;
+@button-large-font-size:                         14px;
+
+@button-padding-horizontal:                      18px;
+@button-mini-padding-horizontal:                 6px;
+@button-small-padding-horizontal:                20px;
+@button-large-padding-horizontal:                52px;
+
+@button-font-size:                               1rem;
+@button-background:                              transparent;
+@button-color:                                   #000;
+@button-hover-background:                        #000;
+@button-hover-color:                             #fff;
+@button-active-background:                       #000;
+@button-active-color:                            #fff;
+
+.hook-button() {
+	border: 2px solid;
+	&-small-size{
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+	@media (max-width: @breakpoint-small) {
+		padding: 0 15px;
+	}
+	&-inverse{
+		border-color: #fff;
+		color: #fff !important;
+	}
+}
+
+.uk-button-inverse:hover, 
+.uk-button-inverse:focus{
+		color: #000 !important;
+		background: #fff;
+	}
+
+.uk-button-payment{
+	padding: 0 3px;
+	.smaller-img{
+		width: 70%;
+	}
+	&:hover{
+		background: transparent;
+	}
+}
+.uk-button-null{
+	font-size: 18px;
+	padding: 0;
+	border: none;
+	&:hover, &:focus {
+		background: none;
+		color: #8e8e8e;
+	}
+}
+.uk-button-default{
+	font-size: 18px;
+	padding: 0;
+	border: none;
+	background: none;
+	&:hover, &:focus {
+		background: none;
+		color: #8e8e8e;
+	}
+	.uk-icon-chevron-circle-right{
+		font-size: 42px;
+	}
+}
+.uk-button-block, .image-block img{
+	display: block;
+	width: 100%;
+}
+.button-dropdown{
+	padding: 0 10px;
+	&:hover, &:focus{
+		background: transparent;
+		color: #000;
+		border: 1px solid #000;
+	}
+}
+.button-active{
+	background: #000;
+	border: 1px solid #000;
+	color: #fff;
+}

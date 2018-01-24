@@ -1,0 +1,1 @@
+<?php return array ('types' => array(1 => Yii::t('base', 'new'),2 => Yii::t('base', 'very good'),3 => Yii::t('base', 'good'),4 => Yii::t('base', 'fair'),));?>

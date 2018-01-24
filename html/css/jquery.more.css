@@ -1,0 +1,12 @@
+﻿/* CSS for jQuery More plugin v1.1.0. */
+.more-hidden {
+	display: none;
+}
+.more-link {
+	margin-left: 1em;
+	padding: 0.125em;
+    font-weight: 400 !important;
+}
+.more-link img {
+	border: none;
+}

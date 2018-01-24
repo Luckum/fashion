@@ -1,0 +1,113 @@
+@comment-header-margin-bottom:                  10px;
+
+@comment-avatar-margin-right:                   10px;
+
+@comment-title-margin-top:                      5px;
+@comment-title-font-size:                       16px;
+@comment-title-line-height:                     22px;
+
+@comment-meta-margin-top:                       2px;
+@comment-meta-color:                            #000;
+@comment-meta-font-size:                        11px;
+@comment-meta-line-height:                      18px;
+
+@comment-list-margin-top:                       15px;
+@comment-list-padding-left:                     100px;
+
+.comment-header{
+	margin-bottom: 0;
+}
+.uk-comment-custom{
+	margin-bottom: 40px;
+	.uk-comment-title{
+		margin-right: 10px;
+		font-weight: 700;
+	}
+	.uk-comment-meta{
+		li{
+			margin-top: 0;
+		}
+	}
+	.uk-comment-avatar{
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		border: 1px solid @light-gray;
+		border-radius: 50%;
+		text-align: center;
+		overflow: hidden;
+		.icon-ic_account{
+			color: @light-gray;
+			font-size: 25px;
+			line-height: 35px;
+		}
+	}
+}
+.uk-comment-body{
+	padding-left: 40px;
+}
+.comments{
+	border-bottom: 1px solid #000;
+}
+.comments-title{
+	padding-bottom: 8px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 25px;
+}
+.uk-pagination-comments{
+	li{
+		padding: 2px;
+		a{
+			
+			&:hover{
+				color: #000;
+				font-weight: normal;
+				text-decoration: underline;
+			}
+		}
+	}
+	li.uk-active > a{
+			color: #000;
+				font-weight: normal;
+				text-decoration: underline;
+		}
+}
+.comment-textarea{
+	width: 100%;
+	min-height: 200px;
+	background: #e6e6e6;
+	border: none;
+	resize: vertical;
+	&:focus{
+		outline: none;
+	}
+}
+.icon-unread{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	background: #000;
+	border-radius: 50%;
+	position: relative;
+	text-align: center;
+	&:before{
+		content:'!';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		font-size: 14px;
+		line-height: 14px;
+		color: #fff;
+		font-style: normal;
+	}
+}
+.textarea-margin-left{
+	margin-left: 80px;
+}
+.comment-link{
+	margin-left: 40px;
+	font-size: 12px;
+	margin-top: 5px;
+}

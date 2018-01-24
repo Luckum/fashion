@@ -1,0 +1,42 @@
+RewriteEngine on
+
+DirectoryIndex index.html index.php under_construction.html 
+
+# redirects from 23-15.com to n2315.com
+RewriteCond %{HTTP_HOST} ^fashion.dev$ [OR]
+RewriteCond %{HTTP_HOST} ^www.fashion.dev$
+RewriteRule (.*)$ http://fashion.dev/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule . index.php
+#RewriteRule ^(.*)$ index.php
+
+RewriteRule ^all-brands /shop/all-brands
+
+#max size of upload file
+php_value upload_max_filesize 25M
+php_value post_max_size 26M
+
+Options -Indexes
+
+<IfModule mod_expires.c>
+  <FilesMatch \.(gif|png|jpg|jpeg|ogg|mp4|mkv|flv|swf|wmv|asf|asx|wma|wax|wmx|wm|woff|svg)$>
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+  ExpiresActive on
+  ExpiresByType image/jpeg "access plus 7 day"
+  ExpiresByType image/gif "access plus 7 day"
+  ExpiresByType image/png "access plus 7 day"
+  <FilesMatch \.(css|js)$>
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>

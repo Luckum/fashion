@@ -1,0 +1,131 @@
+@dropdown-z-index: 970;
+@dropdown-width: 200px;
+@dropdown-margin-top: 0;
+@dropdown-padding: 15px;
+@dropdown-background: #fff;
+@dropdown-color: #000;
+@dropdown-font-size: 1rem;
+@dropdown-animation: uk-fade;
+@dropdown-divider-border-width: 1px;
+@dropdown-divider-border: transparent;
+@dropdown-small-padding: 5px;
+@dropdown-navbar-margin: 0;
+@dropdown-navbar-background: #f5f5f5;
+@dropdown-navbar-color: #444;
+@dropdown-navbar-animation: uk-slide-top-fixed;
+@dropdown-scrollable-height: 200px;
+.dropdown-nav {
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		li {
+			display: inline-block;
+			margin-right: 11px;
+			a {
+				text-transform: uppercase;
+			}
+		}
+		.dropdown-nav-active {
+			text-decoration: underline;
+		}
+	}
+}
+
+.uk-navbar-nav {
+	.uk-dropdown {
+		border-bottom: 2px solid #000;
+	}
+}
+
+.uk-navbar-nav > li.uk-open > a {
+	text-decoration: underline;
+}
+
+//dropdown bag
+.uk-navbar-flip.dropdown-bag-wrapper {
+	position: static !important;
+}
+.dropdown-bag-wrapper{
+	position: relative;
+	max-width: 100%;
+	table-layout: fixed;
+	.uk-dropdown {
+		background: #000;
+		color: #fff;
+		width: 485px;
+		padding: 40px 40px 30px 20px;
+		line-height: 1.5;
+		@media (max-width: @breakpoint-small) {
+			width: 320px;
+			padding: 10px;
+		}
+		>.uk-close {
+			position: absolute;
+			right: 40px;
+			top: 48px;
+			z-index: 600;
+			&:before,
+			&:after {
+				border-color: #fff;
+			}
+			@media (max-width: @breakpoint-small) {
+				right: 12px;
+			}
+		}
+	}
+}
+.delete-item{
+	position: relative;
+	width: 15px;
+	height: 15px;
+	border: 1px solid #000;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 14px;
+	cursor: pointer;
+	text-decoration: none !important;
+	&-light{
+		border: 1px solid #fff;
+	}
+	&:before{
+		font-family: 'Courier New', sans-serif;
+		content: '+';
+		display: inline-block;
+		transform: rotate(45deg);
+		font-size: 20px;
+	}
+	&:hover{
+		color: @light-gray;
+		border-color: @light-gray;
+		text-decoration: none;
+		&:before{
+			color: @light-gray;
+		}
+	}
+}
+.navbar-main li.uk-open {
+	.uk-dropdown{
+		display: block !important;
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none;
+	}
+}
+.subnav{
+	.uk-dropdown{
+		display: block !important;
+		width: 100% !important;
+		text-align: center;
+		border-bottom: 2px solid #000;
+		li{
+			&.uk-active{
+				text-decoration: underline;
+			}
+		}
+	}
+	&.uk-active {
+		z-index: 979;
+	}
+}
