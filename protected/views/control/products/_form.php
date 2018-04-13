@@ -152,6 +152,37 @@ $category_id_for_external_sale = Category::model()->getExternalSaleCategoryId();
             <div class="img-preview"></div>
         </div>
     </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_url1'); ?>
+        <?php echo $form->textField($model,'image_url1',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->error($model,'image_url1'); ?>
+    </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_url2'); ?>
+        <?php echo $form->textField($model,'image_url2',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->error($model,'image_url2'); ?>
+    </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_url3'); ?>
+        <?php echo $form->textField($model,'image_url3',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->error($model,'image_url3'); ?>
+    </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_url4'); ?>
+        <?php echo $form->textField($model,'image_url4',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->error($model,'image_url4'); ?>
+    </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_url5'); ?>
+        <?php echo $form->textField($model,'image_url5',array('size'=>60,'maxlength'=>255)); ?>
+        <?php echo $form->error($model,'image_url5'); ?>
+    </div>
+    
     <div class="row">
         <?php echo $form->labelEx($model,'color'); ?>
         <?php echo $form->dropDownList($model,'color', Yii::app()->params['colors']); ?>
@@ -335,7 +366,7 @@ $category_id_for_external_sale = Category::model()->getExternalSaleCategoryId();
         
         loadCatSizes(<?= (!empty($model->category_id)) ? $model->category_id : '""'?>, <?= ($model->isNewRecord && !$model->hasErrors()) ? 'false' : 'true' ?>);
 
-        // Предпросмотр изображений перед загрузкой на сервер.
+        // ???????????? ??????????? ????? ????????? ?? ??????.
         $('input[type="file"]').on('change', function() {
             var fReader;
             var imgPrew = $(this)

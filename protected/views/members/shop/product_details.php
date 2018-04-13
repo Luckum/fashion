@@ -130,10 +130,10 @@
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
                                 <li><a href="#"
-                                       onclick="Share.facebook('<?=$p_link?>', '23-15.COM', '<?= $this->createAbsoluteUrl('/images/upload/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
+                                       onclick="Share.facebook('<?=$p_link?>', 'n2315.COM', '<?= $this->createAbsoluteUrl('/images/upload/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
                                             class="uk-icon-facebook"></i></a></li>
                                 <li><a href="#"
-                                       onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', '23-15.com')"><i
+                                       onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', 'n2315.com')"><i
                                             class="uk-icon-twitter"></i></a></li>
                             </ul>
                         </div>

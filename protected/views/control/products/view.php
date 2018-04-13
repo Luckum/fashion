@@ -105,6 +105,14 @@ $this->breadcrumbs=array(
 			'value' => $model->getStatusName(),
 		),
 		'added_date',
+        array(
+            'label' => Yii::t('base', 'Product Link'),
+            'value' => Yii::app()->createAbsoluteUrl($model::getProductUrl($model->id))
+        ),
+        array(
+            'label' => Yii::t('base', 'Twitter Share Link'),
+            'value' => 'https://twitter.com/intent/tweet?text=' . urlencode($model->brand->name . ' ' . $model->title) . '&url=' . Yii::app()->createAbsoluteUrl($model::getProductUrl($model->id, $model)) . '&hashtags=n2315.com'
+        )
 	),
 )); ?>
 

@@ -103,6 +103,8 @@ class Product extends CActiveRecord implements IECartPosition
             array('parentCategory', 'parentCat', 'on' => 'sell'),
             array('user_id, category_id, brand_id, our_selection, condition, featured, featured_order, external_sale', 'numerical', 'integerOnly' => true),
             array('title, custom_size, image2, image3, image4, image5, size_type', 'length', 'max' => 255),
+            array('image_url1, image_url2, image_url3, image_url4, image_url5', 'length', 'max' => 255),
+            array('image_url1, image_url2, image_url3, image_url4, image_url5', 'url'),
             array('price, init_price', 'length', 'max' => 9),
             array('color', 'length', 'max' => 20),
             array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg', 'allowEmpty' => true),
@@ -155,6 +157,11 @@ class Product extends CActiveRecord implements IECartPosition
             'image3' => Yii::t('base', 'Image 3'),
             'image4' => Yii::t('base', 'Image 4'),
             'image5' => Yii::t('base', 'Image 5'),
+            'image_url1' => Yii::t('base', 'Image Url 1'),
+            'image_url2' => Yii::t('base', 'Image Url 2'),
+            'image_url3' => Yii::t('base', 'Image Url 3'),
+            'image_url4' => Yii::t('base', 'Image Url 4'),
+            'image_url5' => Yii::t('base', 'Image Url 5'),
             'color' => Yii::t('base', 'Color'),
             'price' => Yii::t('base', 'Price'),
             'init_price' => Yii::t('base', 'Original price'),
@@ -323,6 +330,8 @@ class Product extends CActiveRecord implements IECartPosition
 
     public function afterValidate()
     {
+        //print_r($this);
+        //die();
         /*if ($this->oldImage1 == 'blank') $this->addError('image1', Yii::t('base', '*required'));
         if ($this->oldImage2 == 'blank') $this->addError('image2', Yii::t('base', '*required'));
         if ($this->oldImage3 == 'blank') $this->addError('image3', Yii::t('base', '*required'));
@@ -367,7 +376,6 @@ class Product extends CActiveRecord implements IECartPosition
             }
         }
 
-
         return parent::afterValidate();
     }
 
@@ -394,6 +402,7 @@ class Product extends CActiveRecord implements IECartPosition
 
     protected function beforeValidate()
     {
+        
         if ($this->isNewRecord) {
             $this->added_date = new CDbExpression('NOW()');
         }
