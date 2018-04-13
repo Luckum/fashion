@@ -121,9 +121,11 @@ class ShopController extends MemberController
             $this->meta_description = $data['seo_description'];
             //$this->meta_keywords = $data['seo_keywords'];
         } elseif (isset($model->name)) {
-            $this->title = $model->name . " | " . Yii::t('base', 'shop designer fashion') . " | 23-15";
+            //$this->title = $model->name . " | " . Yii::t('base', 'shop designer fashion') . " | 23-15";
+            $this->title = $model->name . " for Women | N2315";
+            $this->meta_description = "Shop our curated catalog of " . $model->name . " for Women on N2315, a new online destination for exciting designer fashion.";
         } else {
-            $this->title = "Shop | " . Yii::t('base', 'shop designer fashion') . " | 23-15";
+            $this->title = "Shop | " . Yii::t('base', 'shop designer fashion') . " | N2315";
         }
         
         $order = 't.our_selection DESC';
@@ -293,9 +295,9 @@ class ShopController extends MemberController
             $isCanAddCommentsAndMakeOffers = $model->canUserAddCommentsAndMakeOffers();
             // meta тэги.
             //$this->meta_description = $model->description;
-            $this->meta_description = 'buy '.$model->title.' by '.$model->brand->name.' at the lowest price on 23-15, an online consignment shop for secondhand fashion.';
+            $this->meta_description = 'Buy ' . ucwords($model->title) . ' by '.$model->brand->name.' on N2315, a new online destination for exciting designer fashion';
             // Заголовок.
-            $this->title = $model->brand->name . ': ' . $model->title . ' | ' . Yii::app()->params['seo']['site_name'];
+            $this->title = $model->brand->name . ': ' . ucwords($model->title) . ' | ' . Yii::app()->params['seo']['site_name'];
             $attributes = $model->getProductAttributes($model->id);
             $attributes = array_filter($attributes, function($el) {
                 return $el['isActive'] && !empty($el['definedValue']);

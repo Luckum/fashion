@@ -77,6 +77,37 @@ $(document).ready(function() {
                 $(this).css('visibility', 'visible');
             });
     }
+    
+    $('#newsletter-link').click(function() {
+        if ($('#newsletter-frm').is(':visible')) {
+            $('#newsletter-frm').slideUp();
+        } else {
+            $('#newsletter-frm').show();
+            $('#newsletter-frm').addClass('uk-animation-slide-bottom');
+            document.documentElement.scrollTop = document.documentElement.scrollHeight;
+        }
+    });
+    
+    $('#newsletter-btn').click(function() {
+        $.ajax({
+            url: "/site/subscribe",
+            type: "POST",
+            data: {email: $('#newsletter-email').val()},
+            success: function(response) {
+                var data = $.parseJSON(response);
+                if (!(data && data.success)) {
+                    if (data.error) {
+                        $('#newsletter-frm').html(data.error);
+                        setTimeout(function() { $('#newsletter-frm').slideUp(); }, 5000);
+                    }
+                } else {
+                    $('#newsletter-frm').html('Thank you for subscribing!');
+                    setTimeout(function() { $('#newsletter-frm').slideUp(); }, 3000);
+                }
+            },
+        });
+    });
+    
 });
 
 $(window).on('load', function() {

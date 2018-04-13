@@ -109,13 +109,25 @@ if (YII_DEBUG) {
         <div id="js-search-result" class="scrollbar-inner"></div>
     </div>
     <!--END SEARCH MODAL-->
-
+    
+    <div id="newsletter-frm" style="float: right; margin-right: 10%; display: none;">
+        <form class="uk-form">
+            <input type="email" id="newsletter-email" style="border: 2px solid #000;" placeholder="<?= Yii::t('base', 'email address') ?>">
+            <input type="button" id="newsletter-btn" value="<?= Yii::t('base', 'Subscribe') ?>" class="uk-button uk-button-small" style="line-height: 26px; min-height: 26px;">
+        </form>
+    </div>
+    
     <!--FOOTER-->
     <div class="footer">
         <div class="footer-inner">
             <div class="uk-flex uk-flex-middle uk-flex-space-between uk-flex-row-reverse">
                 <div>
                     <ul class="footer-list">
+                        <?php if (Yii::app()->member->isGuest): ?>
+                            <li>
+                                <a href="javascript:void(0);" id="newsletter-link">Newsletter</a>
+                            </li>
+                        <?php endif; ?>
                         <?php $menu = UtilsHelper::getRightFooterLinks(Yii::app()->getLanguage()); ?>
                         <?php $count = count($menu); ?>
                         <?php for ($i = 0; $i < $count; $i++) : ?>

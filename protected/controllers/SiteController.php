@@ -374,4 +374,36 @@ class SiteController extends Controller
         // }
         die('ok!');
     }
+    
+    public function actionSubscribe()
+    {
+        $email = $_POST['email'];
+        
+        $mailChimp = new MailChimp(Yii::app()->params['mailchimp']['api_key']);
+        $list_id = Yii::app()->params['mailchimp']['list_id'];
+        $result = $mailChimp->post("lists/$list_id/members", [
+            'email_address' => $email,
+            'status' => 'subscribed',
+        ]);
+        
+        $res = [
+            'success' => false
+        ];
+        
+        if ($result['status'] == 'subscribed') {
+            $res = [
+                'success' => true,
+            ];
+        } else {
+            if (isset($result['detail']) && !empty($result['detail'])) {
+                $res = [
+                    'error' => $result['detail']
+                ];
+            }
+        }
+        
+        die(CJSON::encode(
+            $res
+        ));
+    }
 }

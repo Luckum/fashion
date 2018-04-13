@@ -1,6 +1,6 @@
 <!--MAIN BLOCK-->
 <div class="uk-block uk-margin-large-top">
-    <div class="uk-container uk-container-center">
+    <div class="uk-container uk-container-center" style="max-width: 95%;">
         <!--HEADERS-->
         <div class="uk-text-center">
             <?php if (!empty($model)): ?>

@@ -420,7 +420,7 @@
 
 <script>
     $(document).ready(function () {
-        var url = '<?= Yii:: app()->createUrl("/members/auth/login") ?>';
+        /*var url = '<?= Yii:: app()->createUrl("/members/auth/login") ?>';
         var wrapper = $('#login_content');
 
        $.ajax({
@@ -433,7 +433,7 @@
                     $(wrapper).html(data);
                 }
             }
-        });
+        });*/
         /**
          * Пожаловаться (Report Item).
          */

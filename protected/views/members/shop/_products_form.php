@@ -222,11 +222,11 @@
                    $i < $count;
                    $i++) : ?>
 
-            <?php $isNewRow = (($i % 4) == 0 || $i == 0); ?>
+            <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
             <?php $modalParameters = ""; ?>
             <div <?php echo $isNewRow ?
                 // new row
-                'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-4 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
+                'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
                 '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">' :
                 // new item
                 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
@@ -248,17 +248,18 @@
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
                             'itemprop' => "image",
+                            'style' => 'width: calc(14 * (100% / 18));',
                         )
                     )?>
                 </div>
-                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top">
+                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: 50px;">
                     <?php echo Brand::getFormatedTitle($products[$i]['brand_name']); ?>
                 </div>
             </a>
-            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left">
+            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
                 <?php echo Product::getFormatedTitle(CHtml::encode($products[$i]['title'])); ?>
             </div>
-            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left">
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
 
                 <?php
                 $old_price = $products[$i]['init_price'];
@@ -285,7 +286,7 @@
             <?php
             $countInRow++;
 
-            if ($countInRow == 4 || $i == ($count - 1)) {
+            if ($countInRow == 3 || $i == ($count - 1)) {
                 echo '</div></div>';
                 $countInRow = 0; // reset counter for next row
             } else {
@@ -363,13 +364,13 @@
                 /**
                  * Корректировка размеров изображения.
                  */
-                if (typeof alignImageSize != 'undefined') {
+                /*if (typeof alignImageSize != 'undefined') {
                     alignImageSize(this,
-                        globals.imgmw,
-                        globals.imgmh,
+                        476,
+                        600,
                         globals.imgbc
                     );
-                }
+                }*/
                 /**
                  * Корректировка декстопного Safari.
                  */
