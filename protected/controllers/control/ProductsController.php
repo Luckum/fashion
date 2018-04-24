@@ -31,7 +31,8 @@ class ProductsController extends AdminController
         // $this->performAjaxValidation($model);
         if (isset($_POST['Product'])) {
             $model->attributes = $_POST['Product'];
-             
+            $model->is_url = 0; 
+            
             if($model->external_sale) {
                 $model->size_type = NULL;
                 //$model->category_id = Category::model()->getExternalSaleCategoryId();
@@ -54,30 +55,35 @@ class ProductsController extends AdminController
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
                 $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image2) && !empty($model->image_url2)) {
                 $arr = explode('/', $model->image_url2);
                 $f_name = end($arr);
                 $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image3) && !empty($model->image_url3)) {
                 $arr = explode('/', $model->image_url3);
                 $f_name = end($arr);
                 $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image4) && !empty($model->image_url4)) {
                 $arr = explode('/', $model->image_url4);
                 $f_name = end($arr);
-                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image5) && !empty($model->image_url5)) {
                 $arr = explode('/', $model->image_url5);
                 $f_name = end($arr);
-                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->image5 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if ($model->save()) {
@@ -87,7 +93,7 @@ class ProductsController extends AdminController
                 if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
                 if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
 
-                if (!empty($model->image1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
+                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
                 if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
                 if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
                 if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);
@@ -127,6 +133,7 @@ class ProductsController extends AdminController
 
         if (isset($_POST['Product'])) {
             $model->attributes = $_POST['Product'];
+            $model->is_url = 0;
 
             if($model->external_sale) {
                 $model->size_type = NULL;
@@ -156,30 +163,35 @@ class ProductsController extends AdminController
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
                 $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image2) && !empty($model->image_url2)) {
                 $arr = explode('/', $model->image_url2);
                 $f_name = end($arr);
                 $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image3) && !empty($model->image_url3)) {
                 $arr = explode('/', $model->image_url3);
                 $f_name = end($arr);
                 $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image4) && !empty($model->image_url4)) {
                 $arr = explode('/', $model->image_url4);
                 $f_name = end($arr);
-                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if (empty($model->image5) && !empty($model->image_url5)) {
                 $arr = explode('/', $model->image_url5);
                 $f_name = end($arr);
-                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->image5 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                $model->is_url = 1;
             }
             
             if ($model->save()) {
@@ -189,7 +201,7 @@ class ProductsController extends AdminController
                 if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
                 if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
                 
-                if (!empty($model->image1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
+                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
                 if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
                 if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
                 if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);

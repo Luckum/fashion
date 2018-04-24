@@ -234,7 +234,7 @@
             <a href="<?php
             echo $url; ?>" <?=$modalParameters; ?>
                class="uk-display-block product-url">
-                <div class="thumbnail-image" style="text-align:center;">
+                <div class="thumbnail-image<?= $products[$i]['is_url'] ? '-url' : '' ?>" style="text-align:center;">
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
                         if (!empty($products[$i]['image1'])) {
@@ -377,6 +377,24 @@
                         globals.imgbc
                     );
                 }*/
+                
+                var arr = {};
+                $(".thumbnail-image").each(function() {
+                    arr[$(this).height()] = arr[$(this).height()] + 1 || 1;
+                })
+                var max = 0;
+                var height;
+                for (var key in arr) {
+                    if (arr[key] > max) {
+                        max = arr[key];
+                        height = key;
+                    }
+                }
+                $(".thumbnail-image-url").each(function() {
+                    $(this).height(height);
+                    $(this).css({'overflow': 'hidden'});
+                });
+
                 /**
                  * Корректировка декстопного Safari.
                  */

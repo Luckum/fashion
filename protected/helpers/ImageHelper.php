@@ -61,11 +61,11 @@ abstract class ImageWrapperAbstract
                 $rate = $this->max_height / $this->input_height;
             }
 
-            if ($this->input_width > 794) {
-                $this->output_width = 794;
-            } else {
+            //if ($this->input_width > 794) {
+                //$this->output_width = 794;
+            //} else {
                 $this->output_width = $this->input_width * $rate;
-            }
+            //}
             
             $this->output_height = $this->input_height * $rate;
         }
