@@ -93,8 +93,8 @@ class Product extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('user_id, brand_id, title, description, color, price, init_price, added_date, condition', 'required', 'message' => '*required'),
-            array('image1,direct_url','isExternalSale'),
-            array('image1, image2, image3','isNotExternalSale'),
+            //array('image1,direct_url','isExternalSale'),
+            //array('image1, image2, image3','isNotExternalSale'),
             array('direct_url', 'url', 'defaultScheme' => 'http'),
             array('size_type', 'default', 'setOnEmpty' => true, 'value' => null),
             array('acceptTerms', 'required', 'on' => 'sell', 'message' => 'You must agree with Terms and Conditions'),

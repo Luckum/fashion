@@ -61,7 +61,12 @@ abstract class ImageWrapperAbstract
                 $rate = $this->max_height / $this->input_height;
             }
 
-            $this->output_width = $this->input_width * $rate;
+            if ($this->input_width > 794) {
+                $this->output_width = 794;
+            } else {
+                $this->output_width = $this->input_width * $rate;
+            }
+            
             $this->output_height = $this->input_height * $rate;
         }
     }
@@ -248,7 +253,7 @@ class ImageHelper
         return $new;
     }
 
-    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null)
+    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false)
     {
         $name = $newName == null ? $file->getName() : $newName;
 
@@ -276,7 +281,12 @@ class ImageHelper
         //
         try {
             //self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
-            self::saveWithoutCompress($file, $save_max_path, true);
+            if ($is_url) {
+                copy($is_url, $save_max_path);
+            } else {
+                self::saveWithoutCompress($file, $save_max_path, true);
+            }
+            
             self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true);
             self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true);
         } catch (Exception $e) {

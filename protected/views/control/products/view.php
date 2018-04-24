@@ -83,6 +83,36 @@ $this->breadcrumbs=array(
 			'value' => Yii::app()->request->getBaseUrl(true) . "/images/upload/" . $model->image5,
 			'visible' => $model->image5 != NULL,
 		),
+        array(
+            'name' => 'image_url1',
+            'type' => 'image',
+            'value' => $model->image_url1,
+            'visible' => $model->image_url1 != NULL,
+        ),
+        array(
+            'name' => 'image_url2',
+            'type' => 'image',
+            'value' => $model->image_url2,
+            'visible' => $model->image_url2 != NULL,
+        ),
+        array(
+            'name' => 'image_url3',
+            'type' => 'image',
+            'value' => $model->image_url3,
+            'visible' => $model->image_url3 != NULL,
+        ),
+        array(
+            'name' => 'image_url4',
+            'type' => 'image',
+            'value' => $model->image_url4,
+            'visible' => $model->image_url4 != NULL,
+        ),
+        array(
+            'name' => 'image_url5',
+            'type' => 'image',
+            'value' => $model->image_url5,
+            'visible' => $model->image_url5 != NULL,
+        ),
 		array(
 			'name' => 'price',
 			'value' => $model->price
@@ -112,6 +142,10 @@ $this->breadcrumbs=array(
         array(
             'label' => Yii::t('base', 'Twitter Share Link'),
             'value' => 'https://twitter.com/intent/tweet?text=' . urlencode($model->brand->name . ' ' . $model->title) . '&url=' . Yii::app()->createAbsoluteUrl($model::getProductUrl($model->id, $model)) . '&hashtags=n2315.com'
+        ),
+        array(
+            'label' => Yii::t('base', 'Pinterest Share Link'),
+            'value' => 'https://pinterest.com/pin/create/button/?url=' . Yii::app()->createAbsoluteUrl($model::getProductUrl($model->id, $model)) . '&media=' . Yii::app()->request->getBaseUrl(true) . "/images/upload/" . $model->image1 . '&description=' . urlencode($model->description)
         )
 	),
 )); ?>

@@ -40,24 +40,48 @@
                 ?>
                 <div id="photo-zoom-wrapper" class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 photo-zoom-in">
                     <div class="product-image-wrapper wishlist-wrapper">
-                        <?= CHtml::image($medium_dir . $model['image1'], $productTitle, array(
-                            'id' => 'image1',
-                            'small' => $medium_dir . $model['image1'],
-                            'big' => $big_dir . $model['image1']
-                        )) ?>
+                        <?php if (!empty($model['image1'])): ?>
+                            <?= CHtml::image($medium_dir . $model['image1'], $productTitle, array(
+                                'id' => 'image1',
+                                'small' => $medium_dir . $model['image1'],
+                                'big' => $big_dir . $model['image1']
+                            )) ?>
+                        <?php elseif (!empty($model['image_url1'])): ?>
+                            <?= CHtml::image($model['image_url1'], $productTitle, array(
+                                'id' => 'image1',
+                                'small' => $model['image_url1'],
+                                'big' => $model['image_url1']
+                            )) ?>
+                        <?php endif; ?>
                         <?php if(!$model->external_sale): ?>
-                        <?= CHtml::image($medium_dir . $model['image2'], $productTitle, array(
-                            'id' => 'image2',
-                            'small' => $medium_dir . $model['image2'],
-                            'big' => $big_dir . $model['image2'],
-                            'onerror' => '$(this).remove()'
-                        )) ?>
-                        <?= CHtml::image($medium_dir . $model['image3'], $productTitle, array(
-                            'id' => 'image3',
-                            'small' => $medium_dir . $model['image3'],
-                            'big' => $big_dir . $model['image3'],
-                            'onerror' => '$(this).remove()'
-                        )) ?>
+                            <?php if (!empty($model['image2'])): ?>
+                                <?= CHtml::image($medium_dir . $model['image2'], $productTitle, array(
+                                    'id' => 'image2',
+                                    'small' => $medium_dir . $model['image2'],
+                                    'big' => $big_dir . $model['image2'],
+                                    'onerror' => '$(this).remove()'
+                                )) ?>
+                            <?php elseif (!empty($model['image_url2'])): ?>
+                                <?= CHtml::image($model['image_url2'], $productTitle, array(
+                                    'id' => 'image2',
+                                    'small' => $model['image_url2'],
+                                    'big' => $model['image_url2']
+                                )) ?>
+                            <?php endif; ?>
+                            <?php if (!empty($model['image3'])): ?>
+                                <?= CHtml::image($medium_dir . $model['image3'], $productTitle, array(
+                                    'id' => 'image3',
+                                    'small' => $medium_dir . $model['image3'],
+                                    'big' => $big_dir . $model['image3'],
+                                    'onerror' => '$(this).remove()'
+                                )) ?>
+                            <?php elseif (!empty($model['image_url3'])): ?>
+                                <?= CHtml::image($model['image_url3'], $productTitle, array(
+                                    'id' => 'image3',
+                                    'small' => $model['image_url3'],
+                                    'big' => $model['image_url3']
+                                )) ?>
+                            <?php endif; ?>
                         <?php
                             if (!empty($model['image4'])) {
                                 echo CHtml::image($medium_dir . $model['image4'], $productTitle, array(
@@ -66,12 +90,26 @@
                                     'big' => $big_dir . $model['image4'],
                                     'onerror' => '$(this).remove()'
                                 ));
+                            } elseif (!empty($model['image_url4'])) {
+                                echo CHtml::image($model['image_url4'], $productTitle, array(
+                                    'id' => 'image4',
+                                    'small' => $model['image_url4'],
+                                    'big' => $model['image_url4'],
+                                    'onerror' => '$(this).remove()'
+                                ));
                             }
                             if (!empty($model['image5'])) {
                                 echo CHtml::image($medium_dir . $model['image5'], $productTitle, array(
                                     'id' => 'image5',
                                     'small' => $medium_dir . $model['image5'],
                                     'big' => $big_dir . $model['image5'],
+                                    'onerror' => '$(this).remove()'
+                                ));
+                            } elseif (!empty($model['image_url5'])) {
+                                echo CHtml::image($model['image_url5'], $productTitle, array(
+                                    'id' => 'image5',
+                                    'small' => $model['image_url5'],
+                                    'big' => $model['image_url5'],
                                     'onerror' => '$(this).remove()'
                                 ));
                             }
@@ -200,7 +238,7 @@
                                     <span style="padding-left: 15px;"><?=CHtml::encode($model->user->country->name)?></span>
                                 </div>
                                 <div><?= $model->user->sellerProfile->getTypeName() ?> <?=Yii::t('base', 'seller')?>
-                                    • <?= $model->user->getSoldCount() ?> <?=Yii::t('base', 'items sold')?>
+                                    <?= $model->user->getSoldCount() ?> <?=Yii::t('base', 'items sold')?>
                                 </div>
                                 <div class="uk-margin-large-top uk-margin-large-bottom">
                                     <span class="uk-display-inline-block uk-margin-small-right"><?=Yii::t('base', 'Feedback')?>:</span>
@@ -275,7 +313,11 @@
                     <div class="uk-grid">
                         <div class="uk-width-1-4">
                             <div class="image-wrapper">
-                                <?= CHtml::image($baseUrl . ShopConst::IMAGE_THUMBNAIL_DIR . $model['image1'], $productTitle) ?>
+                                <?php if (!empty($model['image1'])): ?>
+                                    <?= CHtml::image($baseUrl . ShopConst::IMAGE_THUMBNAIL_DIR . $model['image1'], $productTitle) ?>
+                                <?php else: ?>
+                                    <?= CHtml::image($model['image_url1'], $productTitle) ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="uk-width-3-4">

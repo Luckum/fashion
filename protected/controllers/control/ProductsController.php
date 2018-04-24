@@ -50,6 +50,36 @@ class ProductsController extends AdminController
             $model->image4 = ($img4 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img4->getName()) : null;
             $model->image5 = ($img5 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img5->getName()) : null;
 
+            if (empty($model->image1) && !empty($model->image_url1)) {
+                $arr = explode('/', $model->image_url1);
+                $f_name = end($arr);
+                $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image2) && !empty($model->image_url2)) {
+                $arr = explode('/', $model->image_url2);
+                $f_name = end($arr);
+                $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image3) && !empty($model->image_url3)) {
+                $arr = explode('/', $model->image_url3);
+                $f_name = end($arr);
+                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image4) && !empty($model->image_url4)) {
+                $arr = explode('/', $model->image_url4);
+                $f_name = end($arr);
+                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image5) && !empty($model->image_url5)) {
+                $arr = explode('/', $model->image_url5);
+                $f_name = end($arr);
+                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
             if ($model->save()) {
                 if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1);
                 if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2);
@@ -57,6 +87,12 @@ class ProductsController extends AdminController
                 if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
                 if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
 
+                if (!empty($model->image1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
+                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
+                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
+                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);
+                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5);
+                
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
@@ -116,12 +152,48 @@ class ProductsController extends AdminController
             $model->image4 = ($img4 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img4->getName()) : $oldImage4;
             $model->image5 = ($img5 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img5->getName()) : $oldImage5;
 
+            if (empty($model->image1) && !empty($model->image_url1)) {
+                $arr = explode('/', $model->image_url1);
+                $f_name = end($arr);
+                $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image2) && !empty($model->image_url2)) {
+                $arr = explode('/', $model->image_url2);
+                $f_name = end($arr);
+                $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image3) && !empty($model->image_url3)) {
+                $arr = explode('/', $model->image_url3);
+                $f_name = end($arr);
+                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image4) && !empty($model->image_url4)) {
+                $arr = explode('/', $model->image_url4);
+                $f_name = end($arr);
+                $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
+            if (empty($model->image5) && !empty($model->image_url5)) {
+                $arr = explode('/', $model->image_url5);
+                $f_name = end($arr);
+                $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+            }
+            
             if ($model->save()) {
                 if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1);
                 if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2);
                 if (isset($img3)) ImageHelper::cSaveWithReducedCopies($img3, $model->image3);
                 if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
                 if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
+                
+                if (!empty($model->image1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
+                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
+                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
+                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);
+                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5);
 
                 // if ($model->status == 'active') {
                 //     $template = Template:: model()->find("alias = 'accept_item' AND language = :lang",

@@ -237,12 +237,18 @@
                 <div class="thumbnail-image" style="text-align:center;">
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
-                        $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                        if (!empty($products[$i]['image1'])) {
+                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                            $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                        } else {
+                            $img_url = $products[$i]['image_url1'];
+                        }
+                        
                         $no_img   = $base . '/images/prod-no-img.png';
-                        $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                        
                     ?>
                     <?=CHtml::image(
-                        file_exists($img_path) ? '' : $no_img,
+                        !empty($products[$i]['image1']) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
                         ($products[$i]['title']) ? CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
                         array(
                             'data-plugin'   => 'lazy-load',
