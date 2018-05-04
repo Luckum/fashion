@@ -378,7 +378,7 @@
                     );
                 }*/
                 
-                var arr = {};
+                /*var arr = {};
                 $(".thumbnail-image").each(function() {
                     arr[$(this).height()] = arr[$(this).height()] + 1 || 1;
                 })
@@ -393,7 +393,7 @@
                 $(".thumbnail-image-url").each(function() {
                     $(this).height(height);
                     $(this).css({'overflow': 'hidden'});
-                });
+                });*/
 
                 /**
                  * Корректировка декстопного Safari.

@@ -61,12 +61,7 @@ abstract class ImageWrapperAbstract
                 $rate = $this->max_height / $this->input_height;
             }
 
-            //if ($this->input_width > 794) {
-                //$this->output_width = 794;
-            //} else {
-                $this->output_width = $this->input_width * $rate;
-            //}
-            
+            $this->output_width = $this->input_width * $rate;
             $this->output_height = $this->input_height * $rate;
         }
     }
@@ -103,49 +98,201 @@ abstract class ImageWrapperAbstract
         return in_array($ext, self::$extensions);
     }
 
-    public function create()
+    public function create($is_thumb = false)
     {
         $this->set_output_size($this->stop_compress());
 
         $this->get_source_image($this->file_path);
+        
+        $mode = 0;
 
-        $this->output_image = imagecreatetruecolor($this->output_width, $this->output_height);
-
-        imagecopyresampled(
-            $this->output_image,
-            $this->source_image,
-            0,
-            0,
-            0,
-            0,
-            $this->output_width,
-            $this->output_height,
-            $this->input_width,
-            $this->input_height
-        );
-
-        switch ($this->input_ext) {
-            case self::JPG :
-            case self::JPG_UPPER :
-            case self::JPEG_UPPER :
-            case self::JPEG : {
-                imagejpeg($this->output_image, $this->save_path, $this->quality);
-                break;
-            }
-            case self::PNG_UPPER :
-            case self::PNG : {
-                imagepng($this->output_image, $this->save_path);
-                break;
-            }
-            case self::GIF_UPPER :
-            case self::GIF : {
-                imagegif($this->output_image, $this->save_path);
-                break;
+        if (!$is_thumb) {
+            if (round($this->output_width) < Yii::app()->params['image_settings']['min_medium_width']) {
+                $this->output_width = Yii::app()->params['image_settings']['min_medium_width'];
+                $this->output_height = Yii::app()->params['image_settings']['min_medium_height'];
+                $mode = 1;
+            } else if (round($this->output_width) > Yii::app()->params['image_settings']['min_medium_width'] && round($this->output_width) < Yii::app()->params['image_settings']['mid_medium_width']) {
+                $mode = 2;
+                if (round($this->output_height) < Yii::app()->params['image_settings']['min_medium_height']) {
+                    $mode = 1;
+                }
+                $this->output_width = Yii::app()->params['image_settings']['min_medium_width'];
+                $this->output_height = Yii::app()->params['image_settings']['min_medium_height'];
+            } else if (round($this->output_width) > Yii::app()->params['image_settings']['mid_medium_width'] && round($this->output_width) < Yii::app()->params['image_settings']['max_medium_width']) {
+                $mode = 3;
+                if (round($this->output_height) < Yii::app()->params['image_settings']['mid_medium_height']) {
+                    $this->output_width = Yii::app()->params['image_settings']['min_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['min_medium_height'];
+                } else {
+                    $this->output_width = Yii::app()->params['image_settings']['mid_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['mid_medium_height'];
+                }
+            } else if (round($this->output_width) > Yii::app()->params['image_settings']['max_medium_width']) {
+                $mode = 4;
+                if (round($this->output_height) < Yii::app()->params['image_settings']['max_medium_height']) {
+                    $this->output_width = Yii::app()->params['image_settings']['mid_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['mid_medium_height'];
+                } else {
+                    $this->output_width = Yii::app()->params['image_settings']['max_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['max_medium_height'];
+                }
             }
         }
+        
+        switch ($mode) {
+            case 0:
+                $this->output_image = imagecreatetruecolor($this->output_width, $this->output_height);
 
-        imagedestroy($this->source_image);
-        imagedestroy($this->output_image);
+                imagecopyresampled(
+                    $this->output_image,
+                    $this->source_image,
+                    0,
+                    0,
+                    0,
+                    0,
+                    $this->output_width,
+                    $this->output_height,
+                    $this->input_width,
+                    $this->input_height
+                );
+
+                switch ($this->input_ext) {
+                    case self::JPG :
+                    case self::JPG_UPPER :
+                    case self::JPEG_UPPER :
+                    case self::JPEG : {
+                        imagejpeg($this->output_image, $this->save_path, $this->quality);
+                        break;
+                    }
+                    case self::PNG_UPPER :
+                    case self::PNG : {
+                        imagepng($this->output_image, $this->save_path);
+                        break;
+                    }
+                    case self::GIF_UPPER :
+                    case self::GIF : {
+                        imagegif($this->output_image, $this->save_path);
+                        break;
+                    }
+                }
+
+                imagedestroy($this->source_image);
+                imagedestroy($this->output_image);
+            break;
+            case 1:
+                self::img_resize($this->file_path, $this->save_path, $this->output_width, $this->output_height);
+            break;
+            case 2:
+            case 3:
+            case 4:
+                self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height);
+            break;
+        }
+    }
+    
+    public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 100)
+    {
+        if (!file_exists($src)) return false;
+        $size = getimagesize($src);
+        
+        if ($size === false) return false;
+        
+        $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+        $icfunc = 'imagecreatefrom' . $format;
+         
+        if (!function_exists($icfunc)) return false;
+         
+        $x_ratio = $width  / $size[0];
+        $y_ratio = $height / $size[1];
+         
+        if ($height == 0) {
+            $y_ratio = $x_ratio;
+            $height = $y_ratio * $size[1];
+        } elseif ($width == 0) {
+            $x_ratio = $y_ratio;
+            $width = $x_ratio * $size[0];
+        }
+         
+        $ratio = min($x_ratio, $y_ratio);
+        $use_x_ratio = ($x_ratio == $ratio);
+         
+        $new_width = $use_x_ratio  ? $width  : floor($size[0] * $ratio);
+        $new_height = !$use_x_ratio ? $height : floor($size[1] * $ratio);
+        $new_left = $use_x_ratio  ? 0 : floor(($width - $new_width)   / 2);
+        $new_top = !$use_x_ratio ? 0 : floor(($height - $new_height) / 2);
+         
+        $isrc = $icfunc($src);
+        $idest = imagecreatetruecolor($width, $height);
+         
+        imagefill($idest, 0, 0, $rgb);
+        imagecopyresampled($idest, $isrc, $new_left, $new_top, 0, 0, $new_width, $new_height, $size[0], $size[1]);
+         
+        imagejpeg($idest, $dest, $quality);
+         
+        imagedestroy($isrc);
+        imagedestroy($idest);
+         
+        return true;
+    }
+    
+    public function img_crop($src_img, $dest_img, $x0, $y0, $x1, $y1, $format = NULL, $quality = 90, $ignore_crop_width = 0, $ignore_crop_height = 0)
+    {
+        if (!file_exists($src_img)) return false;
+        $img_size = @getimagesize($src_img);
+        if ($img_size === false) return false;
+
+        if ($ignore_crop_width && $ignore_crop_height && $img_size[0] < $ignore_crop_width && $img_size[1] < $ignore_crop_height) {
+            return false;
+        }
+
+        $x0 = (int)$x0;
+        $x1 = (int)$x1;
+        $y0 = (int)$y0;
+        $y1 = (int)$y1;
+
+        $img_format = strtolower(substr($img_size['mime'], strpos($img_size['mime'], '/') + 1));
+        if (($img_format == 'x-ms-bmp') || ($img_format == 'bitmap')) {
+            $img_format = 'bmp';
+        }
+        if (!function_exists($fn_imgcreatefrom = 'imagecreatefrom' . $img_format))
+            return false;
+
+        if (!$format) {
+            $format = $img_format;
+        }
+
+        $new_width = $x1 - $x0;
+        $new_height = $y1 - $y0;
+
+        $gd_dest_img = imagecreatetruecolor($new_width, $new_height);
+        $gd_src_img = $fn_imgcreatefrom($src_img);
+
+        if (($format == 'png') || ($format == 'gif')) {
+            imagealphablending($gd_dest_img, false);
+            imagesavealpha($gd_dest_img, true);
+            $transparent = imagecolorallocatealpha($gd_dest_img, 255, 255, 255, 127);
+            imagefilledrectangle($gd_dest_img, 0, 0, $new_width, $new_height, $transparent);
+        }
+
+        imagecopyresampled($gd_dest_img, $gd_src_img, 0, 0, $x0, $y0, $new_width, $new_height, $new_width, $new_height);
+        switch ($format) {
+            case 'gif':
+                imagegif($gd_dest_img, $dest_img);
+                break;
+            case 'png':
+                imagepng($gd_dest_img, $dest_img);
+                break;
+            case 'bmp':
+                imagebmp($gd_dest_img, $dest_img);
+                break;
+            default:
+                imagejpeg($gd_dest_img, $dest_img, $quality);
+                break;
+        }
+        imagedestroy($gd_dest_img);
+        imagedestroy($gd_src_img);
+        
+        return true;
     }
 }
 
@@ -226,7 +373,7 @@ class ImageHelper
         $wrapper->create();
     }
 
-    public static function compress($file_path, $save_path, $max_width, $max_height, $quality, $remove_old)
+    public static function compress($file_path, $save_path, $max_width, $max_height, $quality, $remove_old, $is_thumb = false)
     {
         if ($remove_old) {
             if (file_exists($save_path) && is_file($save_path)) unlink($save_path);
@@ -234,7 +381,7 @@ class ImageHelper
 
         $wrapper = new FileImageWrapper($file_path, $save_path, $max_width, $max_height, $quality);
 
-        $wrapper->create();
+        $wrapper->create($is_thumb);
     }
 
     public static function getUniqueValidName($path, $name)
@@ -288,7 +435,7 @@ class ImageHelper
             }
             
             self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true);
-            self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true);
+            self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }
@@ -328,7 +475,7 @@ class ImageHelper
             //
             self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
             self::compress($save_max_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
-            self::compress($save_max_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true);
+            self::compress($save_max_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }
@@ -368,7 +515,7 @@ class ImageHelper
             //
             self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
             self::compress($save_max_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
-            self::compress($save_max_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true);
+            self::compress($save_max_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }
@@ -403,7 +550,7 @@ class ImageHelper
             // -------- create
             //
             self::compress($source_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
-            self::compress($source_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true);
+            self::compress($source_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }
@@ -438,7 +585,7 @@ class ImageHelper
             // -------- create
             //
             self::compress($source_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
-            self::compress($source_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true);
+            self::compress($source_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }
