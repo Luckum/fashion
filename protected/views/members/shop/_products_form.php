@@ -230,23 +230,35 @@
                 '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">' :
                 // new item
                 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
-            <?php $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id'])); ?>
-            <a href="<?php
-            echo $url; ?>" <?=$modalParameters; ?>
-               class="uk-display-block product-url">
-                <div class="thumbnail-image<?= $products[$i]['is_url'] ? '-url' : '' ?>" style="text-align:center;">
+            
+            <?php 
+                $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id']));
+                $target = "_self";
+                if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
+                    $url = $products[$i]['direct_url'];
+                    $target = "_blank";
+                }
+            ?>
+            <a href="<?php echo $url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>">
+                <div class="thumbnail-image" style="text-align:center;">
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
                         if (!empty($products[$i]['image1'])) {
                             $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
                             $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
-                        } else {
-                            $img_url = $products[$i]['image_url1'];
+                        } else if (!empty($products[$i]['image2'])) {
+                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image2'];
+                            $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image2'];
+                        } else if (!empty($products[$i]['image3'])) {
+                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image3'];
+                            $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image3'];
                         }
                         
                         $no_img   = $base . '/images/prod-no-img.png';
                         
                     ?>
+                    
+                        
                     <?=CHtml::image(
                         !empty($products[$i]['image1']) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
                         ($products[$i]['title']) ? CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),

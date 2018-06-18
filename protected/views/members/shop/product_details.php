@@ -46,55 +46,30 @@
                                 'small' => $medium_dir . $model['image1'],
                                 'big' => $big_dir . $model['image1']
                             )) ?>
-                        <?php elseif (!empty($model['image_url1'])): ?>
-                            <?= CHtml::image($model['image_url1'], $productTitle, array(
-                                'id' => 'image1',
-                                'small' => $model['image_url1'],
-                                'big' => $model['image_url1']
+                        <?php endif; ?>
+                        <?php if (!empty($model['image2'])): ?>
+                            <?= CHtml::image($medium_dir . $model['image2'], $productTitle, array(
+                                'id' => 'image2',
+                                'small' => $medium_dir . $model['image2'],
+                                'big' => $big_dir . $model['image2'],
+                                'onerror' => '$(this).remove()'
+                            )) ?>
+                        
+                        <?php endif; ?>
+                        <?php if (!empty($model['image3'])): ?>
+                            <?= CHtml::image($medium_dir . $model['image3'], $productTitle, array(
+                                'id' => 'image3',
+                                'small' => $medium_dir . $model['image3'],
+                                'big' => $big_dir . $model['image3'],
+                                'onerror' => '$(this).remove()'
                             )) ?>
                         <?php endif; ?>
-                        <?php if(!$model->external_sale): ?>
-                            <?php if (!empty($model['image2'])): ?>
-                                <?= CHtml::image($medium_dir . $model['image2'], $productTitle, array(
-                                    'id' => 'image2',
-                                    'small' => $medium_dir . $model['image2'],
-                                    'big' => $big_dir . $model['image2'],
-                                    'onerror' => '$(this).remove()'
-                                )) ?>
-                            <?php elseif (!empty($model['image_url2'])): ?>
-                                <?= CHtml::image($model['image_url2'], $productTitle, array(
-                                    'id' => 'image2',
-                                    'small' => $model['image_url2'],
-                                    'big' => $model['image_url2']
-                                )) ?>
-                            <?php endif; ?>
-                            <?php if (!empty($model['image3'])): ?>
-                                <?= CHtml::image($medium_dir . $model['image3'], $productTitle, array(
-                                    'id' => 'image3',
-                                    'small' => $medium_dir . $model['image3'],
-                                    'big' => $big_dir . $model['image3'],
-                                    'onerror' => '$(this).remove()'
-                                )) ?>
-                            <?php elseif (!empty($model['image_url3'])): ?>
-                                <?= CHtml::image($model['image_url3'], $productTitle, array(
-                                    'id' => 'image3',
-                                    'small' => $model['image_url3'],
-                                    'big' => $model['image_url3']
-                                )) ?>
-                            <?php endif; ?>
                         <?php
                             if (!empty($model['image4'])) {
                                 echo CHtml::image($medium_dir . $model['image4'], $productTitle, array(
                                     'id' => 'image4',
                                     'small' => $medium_dir . $model['image4'],
                                     'big' => $big_dir . $model['image4'],
-                                    'onerror' => '$(this).remove()'
-                                ));
-                            } elseif (!empty($model['image_url4'])) {
-                                echo CHtml::image($model['image_url4'], $productTitle, array(
-                                    'id' => 'image4',
-                                    'small' => $model['image_url4'],
-                                    'big' => $model['image_url4'],
                                     'onerror' => '$(this).remove()'
                                 ));
                             }
@@ -105,16 +80,8 @@
                                     'big' => $big_dir . $model['image5'],
                                     'onerror' => '$(this).remove()'
                                 ));
-                            } elseif (!empty($model['image_url5'])) {
-                                echo CHtml::image($model['image_url5'], $productTitle, array(
-                                    'id' => 'image5',
-                                    'small' => $model['image_url5'],
-                                    'big' => $model['image_url5'],
-                                    'onerror' => '$(this).remove()'
-                                ));
                             }
                          ?>
-                        <?php endif; ?>
                         <?php if (!Yii::app()->member->isGuest): ?>
                             <a id="add_to_wish" href="#"
                                class="<?= Wishlist::in_wishlist($model->id) ? 'uk-icon-star' : 'uk-icon-star-o' ?> wishlist-icon wishlist-additional-style"
@@ -126,11 +93,11 @@
                     <div class="product-description uk-padding-top-xxlarge">
                         <div class="product-detail">
                             <?php if(!$model->external_sale): ?>
-                            <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> size_chart) ? $model->custom_size : $model -> size_chart -> size?></div>
-                            <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
+                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> size_chart) ? $model->custom_size : $model -> size_chart -> size?></div>
+                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
                             <?php else: ?>
-                            <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> custom_size) ? Yii :: t('base', 'No size') : $model -> custom_size?></div>
-                            <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
+                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> custom_size) ? Yii :: t('base', 'No size') : $model -> custom_size?></div>
+                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
                             <?php endif; ?>
                             <?php if($model->isVisible): ?>
                                 <?php if($model->price == $model->init_price): ?>
@@ -143,19 +110,19 @@
                             <?php endif; ?>
                         </div>
                         <?php if(!$model->external_sale): ?>
-                        <?php if($model->isVisible): ?>
-                        <div class="uk-margin-large-top">
-                            <a id="add_to_bag" href="#" class="uk-button open-bag">
-                                <b><?= Yii::t('base', 'add to bag') ?></b>
-                            </a>
-                        </div>
-                        <?php endif; ?>
-                        <?php if ($isCanAddCommentsAndMakeOffers && $model->isVisible): ?>
-                            <div class="uk-margin-large-top">
-                                <a href="#make-offer" data-uk-modal="{center:true}"
-                                   class="uk-button"><?= Yii::t('base', 'make an offer') ?></a>
-                            </div>
-                        <?php endif; ?>
+                            <?php if($model->isVisible): ?>
+                                <div class="uk-margin-large-top">
+                                    <a id="add_to_bag" href="#" class="uk-button open-bag">
+                                        <b><?= Yii::t('base', 'add to bag') ?></b>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($isCanAddCommentsAndMakeOffers && $model->isVisible): ?>
+                                <div class="uk-margin-large-top">
+                                    <a href="#make-offer" data-uk-modal="{center:true}"
+                                       class="uk-button"><?= Yii::t('base', 'make an offer') ?></a>
+                                </div>
+                            <?php endif; ?>
                         <?php else: ?>
                             <div class="uk-margin-large-top">
                                 <a href="<?=$model->direct_url?>" target="_blank" style="width:97px;" class="uk-button open-bag">
@@ -178,18 +145,18 @@
                     </div>
                     <div class="product-information uk-flex uk-flex-middle uk-flex-space-around uk-margin-large-top">
                         <?php if(!$model->external_sale): ?>
-                        <div>
-                            <a href="#shipping-info"
-                               data-uk-modal="{center:true}"><?= Yii::t('base', 'Shipping info') ?></a>
-                        </div>
-                        <div>
-                            <a href="#size_chart" data-uk-modal="{center:true}"><?= Yii::t('base', 'Size chart') ?></a>
-                        </div>
-                        <div class="review">
-                            <a href="#report-product" data-uk-modal="{center:true}"><i
-                                    class="uk-icon-flag uk-margin-small-right"></i><?= Yii::t('base', 'Report item') ?>
-                            </a>
-                        </div>
+                            <div>
+                                <a href="#shipping-info"
+                                   data-uk-modal="{center:true}"><?= Yii::t('base', 'Shipping info') ?></a>
+                            </div>
+                            <div>
+                                <a href="#size_chart" data-uk-modal="{center:true}"><?= Yii::t('base', 'Size chart') ?></a>
+                            </div>
+                            <div class="review">
+                                <a href="#report-product" data-uk-modal="{center:true}"><i
+                                        class="uk-icon-flag uk-margin-small-right"></i><?= Yii::t('base', 'Report item') ?>
+                                </a>
+                            </div>
                         <?php endif; ?>
                     </div>
                     <div class="product-accordion">
@@ -200,56 +167,57 @@
                                     <?php echo nl2br(CHtml::encode($model->description)); ?>
                                 </span>
                                 <?php if(!$model->external_sale): ?>
-                                <div class="uk-flex">
-                                    <div class="uk-margin-right mt9">
-                                        <b><?=Yii::t('base', 'condition')?>:</b>
-                                        <br/><?= $model->getConditionsName() ?>
+                                    <div class="uk-flex">
+                                        <div class="uk-margin-right mt9">
+                                            <b><?=Yii::t('base', 'condition')?>:</b>
+                                            <br/><?= $model->getConditionsName() ?>
+                                        </div>
+                                        <div class="mt9 uk-margin-right">
+                                            <b><?=Yii::t('base', 'id')?>:</b>
+                                            <br/><?= $model->id ?>
+                                        </div>
+                                        <?php
+                                            if (!empty($attributes)):
+                                                $i = 2;
+                                                $ar = array();
+                                                foreach ($attributes as $attribute):
+                                                    if($i%4 == 0) {
+                                                        echo '</div><div class="uk-flex">';
+                                                    }
+                                                    echo '<div class="mt9 uk-margin-right">';
+                                                    echo '<b>'.strtolower($attribute['attributeName']->name).':</b>';
+                                                    echo '<br/>'.$attribute['definedValue'];
+                                                    echo '</div>';
+                                                    $i++;
+                                                endforeach;
+                                        ?>
+                                        <?php
+                                            endif;
+                                         ?>
                                     </div>
-                                    <div class="mt9 uk-margin-right">
-                                        <b><?=Yii::t('base', 'id')?>:</b>
-                                        <br/><?= $model->id ?>
-                                    </div>
-                                    <?php
-                                        if (!empty($attributes)):
-                                            $i = 2;
-                                            $ar = array();
-                                            foreach ($attributes as $attribute):
-                                                if($i%4 == 0) {
-                                                    echo '</div><div class="uk-flex">';
-                                                }
-                                                echo '<div class="mt9 uk-margin-right">';
-                                                echo '<b>'.strtolower($attribute['attributeName']->name).':</b>';
-                                                echo '<br/>'.$attribute['definedValue'];
-                                                echo '</div>';
-                                                $i++;
-                                            endforeach;
-                                    ?>
-                                    <?php
-                                        endif;
-                                     ?>
-                                </div>
                                 <?php endif; ?>
                             </div>
                             <?php if(!$model->external_sale): ?>
-                            <div class="uk-accordion-title pd20"><?=Yii::t('base', 'Seller information')?></div>
-                            <div class="uk-accordion-content">
-                                <div>
-                                    <b><?=CHtml::encode($model->user->username)?></b>
-                                    <span style="padding-left: 15px;"><?=CHtml::encode($model->user->country->name)?></span>
+                                <div class="uk-accordion-title pd20"><?=Yii::t('base', 'Seller information')?></div>
+                                <div class="uk-accordion-content">
+                                    <div>
+                                        <b><?=CHtml::encode($model->user->username)?></b>
+                                        <span style="padding-left: 15px;"><?=CHtml::encode($model->user->country->name)?></span>
+                                    </div>
+                                    <div>
+                                    <?= $model->user->sellerProfile->getTypeName() ?> <?=Yii::t('base', 'seller')?>
+                                        <?= $model->user->getSoldCount() ?> <?=Yii::t('base', 'items sold')?>
+                                    </div>
+                                    <div class="uk-margin-large-top uk-margin-large-bottom">
+                                        <span class="uk-display-inline-block uk-margin-small-right"><?=Yii::t('base', 'Feedback')?>:</span>
+                                        <input type="hidden" class="rating" data-filled="uk-icon-star"
+                                               data-empty="uk-icon-star-o" data-fractions="2">
+                                    </div>
+                                    <div>
+                                        <?php $profileLink = ($model->user->id == Yii::app()->member->id) ? '/my-account' : '/profile-'.$model->user->id; ?>
+                                        <a href="<?= $this->createAbsoluteUrl($profileLink) ?>"
+                                           class="uk-base-link"><?=Yii::t('base', 'view full profile')?></a></div>
                                 </div>
-                                <div><?= $model->user->sellerProfile->getTypeName() ?> <?=Yii::t('base', 'seller')?>
-                                    <?= $model->user->getSoldCount() ?> <?=Yii::t('base', 'items sold')?>
-                                </div>
-                                <div class="uk-margin-large-top uk-margin-large-bottom">
-                                    <span class="uk-display-inline-block uk-margin-small-right"><?=Yii::t('base', 'Feedback')?>:</span>
-                                    <input type="hidden" class="rating" data-filled="uk-icon-star"
-                                           data-empty="uk-icon-star-o" data-fractions="2">
-                                </div>
-                                <div>
-                                    <?php $profileLink = ($model->user->id == Yii::app()->member->id) ? '/my-account' : '/profile-'.$model->user->id; ?>
-                                    <a href="<?= $this->createAbsoluteUrl($profileLink) ?>"
-                                       class="uk-base-link"><?=Yii::t('base', 'view full profile')?></a></div>
-                            </div>
                             <?php endif; ?>
                         </div>
                     </div>
