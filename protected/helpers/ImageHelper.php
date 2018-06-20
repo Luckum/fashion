@@ -100,7 +100,8 @@ abstract class ImageWrapperAbstract
 
     public function create($is_thumb = false)
     {
-        $this->set_output_size($this->stop_compress());
+        //$this->set_output_size($this->stop_compress());
+        $this->set_output_size(true);
 
         $this->get_source_image($this->file_path);
         
@@ -430,6 +431,7 @@ class ImageHelper
             //self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
             if ($is_url) {
                 copy($is_url, $save_max_path);
+                
             } else {
                 self::saveWithoutCompress($file, $save_max_path, true);
             }

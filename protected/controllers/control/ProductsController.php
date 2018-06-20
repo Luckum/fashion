@@ -52,6 +52,9 @@ class ProductsController extends AdminController
             $model->image5 = ($img5 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img5->getName()) : null;
 
             if (empty($model->image1) && !empty($model->image_url1)) {
+                if (($pos_s = strpos($model->image_url1, '?')) !== false) {
+                    $model->image_url1 = substr($model->image_url1, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
                 $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -59,6 +62,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image2) && !empty($model->image_url2)) {
+                if (($pos_s = strpos($model->image_url2, '?')) !== false) {
+                    $model->image_url2 = substr($model->image_url2, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url2);
                 $f_name = end($arr);
                 $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -66,6 +72,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image3) && !empty($model->image_url3)) {
+                if (($pos_s = strpos($model->image_url3, '?')) !== false) {
+                    $model->image_url3 = substr($model->image_url3, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url3);
                 $f_name = end($arr);
                 $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -73,6 +82,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image4) && !empty($model->image_url4)) {
+                if (($pos_s = strpos($model->image_url4, '?')) !== false) {
+                    $model->image_url4 = substr($model->image_url4, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url4);
                 $f_name = end($arr);
                 $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -80,6 +92,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image5) && !empty($model->image_url5)) {
+                if (($pos_s = strpos($model->image_url5, '?')) !== false) {
+                    $model->image_url5 = substr($model->image_url5, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url5);
                 $f_name = end($arr);
                 $model->image5 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -160,6 +175,9 @@ class ProductsController extends AdminController
             $model->image5 = ($img5 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img5->getName()) : $oldImage5;
 
             if (empty($model->image1) && !empty($model->image_url1)) {
+                if (($pos_s = strpos($model->image_url1, '?')) !== false) {
+                    $model->image_url1 = substr($model->image_url1, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
                 $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -167,6 +185,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image2) && !empty($model->image_url2)) {
+                if (($pos_s = strpos($model->image_url2, '?')) !== false) {
+                    $model->image_url2 = substr($model->image_url2, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url2);
                 $f_name = end($arr);
                 $model->image2 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -174,6 +195,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image3) && !empty($model->image_url3)) {
+                if (($pos_s = strpos($model->image_url3, '?')) !== false) {
+                    $model->image_url3 = substr($model->image_url3, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url3);
                 $f_name = end($arr);
                 $model->image3 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -181,6 +205,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image4) && !empty($model->image_url4)) {
+                if (($pos_s = strpos($model->image_url4, '?')) !== false) {
+                    $model->image_url4 = substr($model->image_url4, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url4);
                 $f_name = end($arr);
                 $model->image4 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
@@ -188,6 +215,9 @@ class ProductsController extends AdminController
             }
             
             if (empty($model->image5) && !empty($model->image_url5)) {
+                if (($pos_s = strpos($model->image_url5, '?')) !== false) {
+                    $model->image_url5 = substr($model->image_url5, 0, $pos_s);
+                }
                 $arr = explode('/', $model->image_url5);
                 $f_name = end($arr);
                 $model->image5 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
