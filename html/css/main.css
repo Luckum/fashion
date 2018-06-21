@@ -1,4 +1,4 @@
-/* Оверлей */
+﻿/* Оверлей */
 
 div#lean_overlay {
     position: fixed;
@@ -572,6 +572,8 @@ div#mobile-start-dlg .btn-inverse:hover
 
 .main_menu_link {
     font-weight: 400 !important;
+    font-size: 16px !important;
+    text-transform: capitalize;
 }
 
 .main_menu_link span {
@@ -776,4 +778,35 @@ br.nl
     .post-item .post_description p {
         text-indent: 0px !important;
     }
+    .main-block-img {
+    	height: auto !important;
+    }
+}
+@media (min-width: 1200px) {
+    .uk-container {
+        max-width: 100%;
+        padding: 0 20px
+    }
+}
+@media (max-width: 960px) {
+	#navbar-collapse {
+		top: 0;
+		margin-top: 50px;
+	}
+	#navbar-collapse > ul > li > a {
+		color: #fff;
+		padding-left: 15px;
+		text-transform: uppercase !important;
+		font-size: 14px !important;
+	}
+	#dropdown-nav {
+		top: 0 !important;
+	}
+	.uk-navbar.uk-active .uk-navbar-nav-light li a, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a,
+	.uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
+		color: #000;
+	}
+}
+#dropdown-nav {
+	top: 380px;
 }

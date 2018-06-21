@@ -53,7 +53,7 @@
                         array('label'=>Yii::t('base', 'Static Pages'), 'url' => array('/control/pages/index'), 'visible' => !Yii::app()->admin->isGuest, 'active' => isset($this->pagesActive)),
                         array('label'=>Yii::t('base', 'Email Templates'), 'url' => array('/control/templates/index'), 'visible' => !Yii::app()->admin->isGuest, 'active' => isset($this->templatesActive)),
                         array('label'=>Yii::t('base', 'Homepage Blocks'), 'url' => array('/control/blocks/index'), 'visible' => (!Yii::app()->admin->isGuest), 'active' => isset($this->blocksActive)),
-                        array('label' => Yii::t('base', 'Main Menu Images'), 'url' => array('/control/menuImages/index'), 'visible' => (!Yii::app()->admin->isGuest)),
+                        //array('label' => Yii::t('base', 'Main Menu Images'), 'url' => array('/control/menuImages/index'), 'visible' => (!Yii::app()->admin->isGuest)),
                         array(
                             'label'=>Yii::t('base', 'Blog'), 
                             'url' => array('/control/blog/index'), 
