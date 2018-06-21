@@ -3,12 +3,12 @@
 <?php $top_menu = UtilsHelper::getTopMenu(); ?>
 
 <!--NAVBAR-->
-<nav class="uk-navbar" id="dropdown-nav" data-uk-sticky>
+<nav class="uk-navbar padding-top-30" id="dropdown-nav" data-uk-sticky>
     <a href="#" class="uk-navbar-toggle uk-navbar-toggle-home uk-hidden-large" data-uk-toggle="{target:'#navbar-collapse', cls: 'uk-animation-slide-left'}"></a>
     <div class="uk-navbar-content uk-navbar-flip show-menu" style="width: 100%;" id="navbar-collapse">
         <ul class="uk-navbar-nav uk-navbar-nav-light" style="width: 100%;">
             <li class="uk-visible-large">
-                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-white.jpg" style="margin-top: -5px;"></a>
+                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-black.jpg" style="margin-top: -5px;"></a>
             </li>
             <li class="uk-hidden-large">
                 <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-white.jpg" style="margin-top: -5px;"></a>
@@ -20,11 +20,11 @@
                 <?php else: ?>
                     <li class="nav-correction uk-hidden-medium uk-hidden-small">
                 <?php endif; ?>
-                        <a href="<?=$menu[$i]['url']?>" class="main_menu_link" style="font-weight: 400 !important; font-size: 16px !important; text-transform: capitalize;"><?=$menu[$i]['name']?></a>
+                        <a href="<?=$menu[$i]['url']?>" class="main_menu_link"><?=$menu[$i]['name']?></a>
                         <div class="uk-dropdown dropdown-nav">
                             <ul class="uk-nav uk-dropdown-nav">
                                 <?php foreach ($menu[$i]['items'] as $child) : ?>
-                                    <li style="display: block;"><a style="font-size:0.95rem; color: #000;" href="<?=$child['url']?>"><?=$child['name']?></a></li>
+                                    <li style="display: block;"><a style="font-size: 14px; color: #000;" href="<?=$child['url']?>"><?=$child['name']?></a></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -57,13 +57,12 @@
             <?php if ($top_menu['logout']['visible']) : ?>
                 <li class="uk-visible-large" style="float: right;">
                     <a class="main_menu_link" href="<?php echo $top_menu['logout']['url']; ?>">
-                        <i class="uk-icon-power-off uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['logout']['name']; ?></span>
                     </a>
                 </li>
             <?php endif; ?>
             <li style="float: right;" class="uk-visible-large">
-                <a class="main_menu_link search-icon" href="#search"><i class="icon-ic_search uk-margin-right-mini"></i>
+                <a class="main_menu_link search-icon" href="#search">
                     <?php echo Yii::t('base', 'Search'); ?>
                 </a>
             </li>
@@ -74,14 +73,12 @@
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-visible-large" style="float: right;">
                     <a class="main_menu_link" id="login_main" href="<?php echo $top_menu['login']['url']; ?>">
-                        <i class="icon-ic_account uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['login']['name'] ?></span>
                     </a>
                 </li>
             <?php } else { ?>
                 <li class="uk-visible-large" style="float: right;">
                     <a class="main_menu_link" href="<?php echo $top_menu['account']['url']; ?>">
-                        <i class="icon-ic_account uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['account']['name'] ?></span>
                     </a>
                 </li>
@@ -90,14 +87,12 @@
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-hidden-large">
                     <a class="main_menu_link" id="login_mobile" href="<?php echo $top_menu['login']['url']; ?>">
-                        <i class="icon-ic_account uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['login']['name'] ?></span>
                     </a>
                 </li>
             <?php } else { ?>
                 <li class="uk-hidden-large">
                     <a class="main_menu_link" href="<?php echo $top_menu['account']['url']; ?>">
-                        <i class="icon-ic_account uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['account']['name'] ?></span>
                     </a>
                 </li>
@@ -110,14 +105,13 @@
             <?php if ($top_menu['logout']['visible']) : ?>
                 <li class="uk-hidden-large">
                     <a class="main_menu_link" href="<?php echo $top_menu['logout']['url']; ?>">
-                        <i class="uk-icon-power-off uk-margin-right-mini"></i>
                         <span><?php echo $top_menu['logout']['name']; ?></span>
                     </a>
                 </li>
             <?php endif; ?>
             
             <li class="uk-hidden-large">
-                <a class="main_menu_link search-icon" href="#search"><i class="icon-ic_search uk-margin-right-mini"></i>
+                <a class="main_menu_link search-icon" href="#search">
                     <?php echo Yii::t('base', 'Search'); ?>
                 </a>
             </li>

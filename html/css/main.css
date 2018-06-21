@@ -495,7 +495,7 @@ img.no-image
 
 .top_menu > li > a
 {
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     font-size: 14px !important;
 }
 
@@ -572,7 +572,7 @@ div#mobile-start-dlg .btn-inverse:hover
 
 .main_menu_link {
     font-weight: 400 !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     text-transform: capitalize;
 }
 
@@ -806,7 +806,44 @@ br.nl
 	.uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
 		color: #000;
 	}
+	.margin-top-30-m {
+		margin-top: 0 !important;
+	}
+	.padding-left-40 {
+		padding-left: 20px !important;
+	}
+	.padding-right-20 {
+		padding-right: 0px !important;
+	}
+	.uk-navbar.uk-active {
+		background: #000 !important;
+	}
+	.padding-top-30 {
+		padding-top: 0 !important;
+	}
 }
 #dropdown-nav {
-	top: 380px;
+	top: 410px;
+}
+.margin-top-30-m {
+	margin-top: -30px;
+}
+.padding-left-40 {
+	padding-left: 40px;
+}
+.padding-right-20 {
+	padding-right: 20px;
+}
+.dropdown-nav ul li a {
+	text-transform: capitalize;
+}
+.uk-navbar.uk-active {
+	background: #fff;
+}
+.uk-navbar.uk-active .uk-navbar-nav-light li a, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a,
+.uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
+	color: #000;
+}
+.padding-top-30 {
+	padding-top: 30px;
 }

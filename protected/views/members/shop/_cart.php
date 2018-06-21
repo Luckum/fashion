@@ -3,7 +3,6 @@ $bag_count = Yii::app()->shoppingCart->getCount();
 $cartUrl = Yii::app()->createUrl('members/shop/cart');
 ?>
 <a class="main_menu_link" id="cart-anchor" title="<?php echo Yii::t('base', 'Bag'); ?>" href="<?= $cartUrl ?>">
-    <i class="icon-ic_shoppingbag uk-margin-right-mini"></i>
     <span><?php echo Yii::t('base', 'Bag'); ?> (<?= $bag_count ?>)</span>
 </a>
 
