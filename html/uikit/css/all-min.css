@@ -1455,7 +1455,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
 }
 
 .uk-navbar {
-    background: #000;
+/*    background: #000;*/
     color: #fff
 }
 
@@ -9188,13 +9188,13 @@ b, .uk-text-bold {
     line-height: 67px
 }
 
-.uk-navbar {
+/*.uk-navbar {
     background: #000
 }
 
 .uk-navbar.uk-active {
     background: #000
-}
+}*/
 
 .uk-navbar.uk-active .uk-navbar-brand svg {
     fill: #fff

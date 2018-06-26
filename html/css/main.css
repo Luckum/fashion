@@ -788,6 +788,44 @@ br.nl
         padding: 0 20px
     }
 }
+@media (min-width: 768px) {
+    .main-page-blocks {
+    	padding-left: 3.675rem;
+    	padding-right: calc(3.675rem - 20px);
+    }
+    .padding-left-1 {
+    	padding-left: 1.55rem;
+    }
+    .padding-right-1 {
+    	padding-right: 1.55rem;
+    }
+}
+@media (min-width: 1024px) {
+    .main-page-blocks {
+    	padding-left: 4.3rem;
+    	padding-right: calc(4.3rem - 20px);
+    }
+    .padding-left-1 {
+    	padding-left: 1.8625rem;
+    }
+    .padding-right-1 {
+    	padding-right: 1.8625rem;
+    }
+}
+@media (min-width: 1440px) {
+    .main-page-blocks {
+    	padding-left: 8.05rem;
+    	padding-right: calc(8.05rem - 20px);
+    }
+    .padding-left-1 {
+    	padding-left: 2.175rem;
+    }
+    .padding-right-1 {
+    	padding-right: 2.175rem;
+    }
+}
+
+
 @media (max-width: 960px) {
 	#navbar-collapse {
 		top: 0;
@@ -831,8 +869,11 @@ br.nl
 .padding-left-40 {
 	padding-left: 40px;
 }
-.padding-right-20 {
-	padding-right: 20px;
+.padding-left-60 {
+	padding-left: 60px;
+}
+.padding-right-40 {
+	padding-right: 40px;
 }
 .dropdown-nav ul li a {
 	text-transform: capitalize;
@@ -844,6 +885,15 @@ br.nl
 .uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
 	color: #000;
 }
+.uk-navbar-nav.uk-navbar-nav-light > li > a {
+	padding: 0 12px;
+}
 .padding-top-30 {
 	padding-top: 30px;
+}
+.padding-left-0 {
+	padding-left: 0;
+}
+.padding-right-0 {
+	padding-right: 0;
 }
