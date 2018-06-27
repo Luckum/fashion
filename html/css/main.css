@@ -844,6 +844,9 @@ br.nl
 	.uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
 		color: #000;
 	}
+	.uk-navbar {
+    	background: #000;
+    }
 	.margin-top-30-m {
 		margin-top: 0 !important;
 	}
@@ -858,6 +861,9 @@ br.nl
 	}
 	.padding-top-30 {
 		padding-top: 0 !important;
+	}
+	.padding-left-0 {
+		padding-left: 20px !important;
 	}
 }
 #dropdown-nav {

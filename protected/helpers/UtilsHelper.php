@@ -295,8 +295,14 @@ class UtilsHelper
         $menu['account'] = array(
             'name' => Yii::t('base', 'Account'),
             //'url' => '/my-account/items',
-            'url' => '/my-account/wishlist',
+            'url' => '/my-account/settings',
             'visible' => !Yii::app()->member->isGuest
+        );
+        
+        $menu['wishlist'] = array(
+            'name' => Yii::t('base', 'Wishlist'),
+            //'url' => '/my-account/items',
+            'url' => '/my-account/wishlist',
         );
 
         $menu['login'] = array(
@@ -432,18 +438,19 @@ class UtilsHelper
 
         $links = array(
             array(
-                'name' => Yii::t('base', 'Brands'),
+                'name' => Yii::t('base', 'Eitorial'),
+                'key' => 'blog',
+                'url' => Yii::app()->params['misc']['blog_url'],
+                'selected' => false
+            ),
+            array(
+                'name' => Yii::t('base', 'Designers'),
                 'key' => 'brands',
                 //'url' => '/shop/all-brands',
                 'url' => '/all-brands',
                 'selected' => false
             ),
-            array(
-                'name' => Yii::t('base', 'Blog'),
-                'key' => 'blog',
-                'url' => Yii::app()->params['misc']['blog_url'],
-                'selected' => false
-            ),
+            
 //            array(
 //                'name' => Yii::t('base', 'About'),
 //                'key' => 'about',
@@ -464,7 +471,7 @@ class UtilsHelper
         $criteria->addCondition('status = "active"');
         $criteria->addCondition('position =' . Page::POSITION_MENU . ' OR position=' . Page::POSITION_FOOTER_AND_MENU);
         $criteria->order = 'footer_order';
-        $menu = Page::model()->findAll($criteria);
+        /*$menu = Page::model()->findAll($criteria);
         foreach ($menu as $page) {
             array_push($links, array(
                 'name' => $page->page_title,
@@ -473,7 +480,7 @@ class UtilsHelper
                 'url' => ('/' . $page->slug),
                 'selected' => false
             ));
-        }
+        }*/
 
         foreach ($links as &$link) {
             if ($link['key'] == $selectedName) {

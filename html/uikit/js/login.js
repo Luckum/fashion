@@ -2,7 +2,7 @@
 
 // show login window
 //
-$('#login_main').click(function () {
+$('#login_main, #wishlist_main').click(function () {
     var url = $(this).attr('href');
     var wrapper = $('#login_content');
 
