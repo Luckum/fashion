@@ -839,6 +839,7 @@ br.nl
 	}
 	#dropdown-nav {
 		top: 0 !important;
+		position: fixed;
 	}
 	.uk-navbar.uk-active .uk-navbar-nav-light li a, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a,
 	.uk-navbar.uk-active .uk-navbar-nav-light li a:hover, .uk-navbar.uk-active .uk-navbar-nav-light .uk-subnav a:hover {
