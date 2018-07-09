@@ -102,17 +102,27 @@ class ProductsController extends AdminController
             }
             
             if ($model->save()) {
-                if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1);
-                if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2);
-                if (isset($img3)) ImageHelper::cSaveWithReducedCopies($img3, $model->image3);
-                if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
-                if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
+                $crop_mode = 0;
+                if ($model->category_id == 155 || $model->category_id == 157 || $model->category_id == 140 || $model->category_id == 136 || $model->category_id == 138 || $model->category_id == 137 || $model->category_id == 163) {
+                    $crop_mode = 1;
+                }
+                if ($model->category_id == 153 || $model->category_id == 154 || $model->category_id == 156 || $model->category_id == 129 || $model->category_id == 150 || $model->category_id == 148) {
+                    $crop_mode = 2;
+                }
+                if ($model->category_id == 149 || $model->category_id == 162 || $model->category_id == 161) {
+                    $crop_mode = 3;
+                }
+                if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1, false, $crop_mode);
+                if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2, false, $crop_mode);
+                if (isset($img3)) ImageHelper::cSaveWithReducedCopies($img3, $model->image3, false, $crop_mode);
+                if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4, false, $crop_mode);
+                if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5, false, $crop_mode);
 
-                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
-                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
-                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
-                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);
-                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5);
+                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1, $crop_mode);
+                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2, $crop_mode);
+                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3, $crop_mode);
+                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4, $crop_mode);
+                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5, $crop_mode);
                 
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -225,18 +235,29 @@ class ProductsController extends AdminController
             }
             
             if ($model->save()) {
-                if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1);
-                if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2);
-                if (isset($img3)) ImageHelper::cSaveWithReducedCopies($img3, $model->image3);
-                if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4);
-                if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5);
+                $crop_mode = 0;
+                if ($model->category_id == 155 || $model->category_id == 157 || $model->category_id == 140 || $model->category_id == 136 || $model->category_id == 138 || $model->category_id == 137 || $model->category_id == 163) {
+                    $crop_mode = 1;
+                }
+                if ($model->category_id == 153 || $model->category_id == 154 || $model->category_id == 156 || $model->category_id == 129 || $model->category_id == 150 || $model->category_id == 148) {
+                    $crop_mode = 2;
+                }
+                if ($model->category_id == 149 || $model->category_id == 162 || $model->category_id == 161) {
+                    $crop_mode = 3;
+                }
                 
-                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1);
-                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2);
-                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3);
-                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4);
-                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5);
+                if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1, false, $crop_mode);
+                if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2, false, $crop_mode);
+                if (isset($img3)) ImageHelper::cSaveWithReducedCopies($img3, $model->image3, false, $crop_mode);
+                if (isset($img4)) ImageHelper::cSaveWithReducedCopies($img4, $model->image4, false, $crop_mode);
+                if (isset($img5)) ImageHelper::cSaveWithReducedCopies($img5, $model->image5, false, $crop_mode);
 
+                if (!empty($model->image_url1)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image1, $model->image_url1, $crop_mode);
+                if (!empty($model->image_url2)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image2, $model->image_url2, $crop_mode);
+                if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3, $crop_mode);
+                if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4, $crop_mode);
+                if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5, $crop_mode);
+                
                 // if ($model->status == 'active') {
                 //     $template = Template:: model()->find("alias = 'accept_item' AND language = :lang",
                 //         array(':lang' => Yii::app()->getLanguage()));

@@ -98,7 +98,7 @@ abstract class ImageWrapperAbstract
         return in_array($ext, self::$extensions);
     }
 
-    public function create($is_thumb = false)
+    public function create($is_thumb = false, $crop_mode = 0)
     {
         //$this->set_output_size($this->stop_compress());
         $this->set_output_size(true);
@@ -186,7 +186,7 @@ abstract class ImageWrapperAbstract
             case 2:
             case 3:
             case 4:
-                self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height);
+                self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height, null, 90, 0, 0, $crop_mode);
             break;
         }
     }
@@ -236,7 +236,7 @@ abstract class ImageWrapperAbstract
         return true;
     }
     
-    public function img_crop($src_img, $dest_img, $x0, $y0, $x1, $y1, $format = NULL, $quality = 90, $ignore_crop_width = 0, $ignore_crop_height = 0)
+    public function img_crop($src_img, $dest_img, $x0, $y0, $x1, $y1, $format = NULL, $quality = 90, $ignore_crop_width = 0, $ignore_crop_height = 0, $crop_mode = 0)
     {
         if (!file_exists($src_img)) return false;
         $img_size = @getimagesize($src_img);
@@ -246,6 +246,30 @@ abstract class ImageWrapperAbstract
             return false;
         }
 
+        switch ($crop_mode) {
+            case 0:
+                $x_crop = ($img_size[0] - $x1) / 2;
+                $y_crop = ($img_size[1] - $y1) / 2;
+            break;
+            case 1:
+                //center and bottom
+                $x_crop = ($img_size[0] - $x1) / 2;
+                $y_crop = $img_size[1] - $y1;
+            break;
+            case 2:
+                //center and middle
+                $x_crop = ($img_size[0] - $x1) / 2;
+                $y_crop = ($img_size[1] - $y1) / 2;
+            break;
+            case 3:
+                //center and top
+                $x_crop = ($img_size[0] - $x1) / 2;
+                $y_crop = 0;
+            break;
+        }
+        
+        
+        
         $x0 = (int)$x0;
         $x1 = (int)$x1;
         $y0 = (int)$y0;
@@ -275,7 +299,8 @@ abstract class ImageWrapperAbstract
             imagefilledrectangle($gd_dest_img, 0, 0, $new_width, $new_height, $transparent);
         }
 
-        imagecopyresampled($gd_dest_img, $gd_src_img, 0, 0, $x0, $y0, $new_width, $new_height, $new_width, $new_height);
+        //imagecopyresampled($gd_dest_img, $gd_src_img, 0, 0, $x0, $y0, $new_width, $new_height, $new_width, $new_height);
+        imagecopyresampled($gd_dest_img, $gd_src_img, 0, 0, $x_crop, $y_crop, $new_width, $new_height, $new_width, $new_height);
         switch ($format) {
             case 'gif':
                 imagegif($gd_dest_img, $dest_img);
@@ -374,7 +399,7 @@ class ImageHelper
         $wrapper->create();
     }
 
-    public static function compress($file_path, $save_path, $max_width, $max_height, $quality, $remove_old, $is_thumb = false)
+    public static function compress($file_path, $save_path, $max_width, $max_height, $quality, $remove_old, $is_thumb = false, $crop_mode = 0)
     {
         if ($remove_old) {
             if (file_exists($save_path) && is_file($save_path)) unlink($save_path);
@@ -382,7 +407,7 @@ class ImageHelper
 
         $wrapper = new FileImageWrapper($file_path, $save_path, $max_width, $max_height, $quality);
 
-        $wrapper->create($is_thumb);
+        $wrapper->create($is_thumb, $crop_mode);
     }
 
     public static function getUniqueValidName($path, $name)
@@ -401,7 +426,7 @@ class ImageHelper
         return $new;
     }
 
-    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false)
+    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false, $crop_mode = 0)
     {
         $name = $newName == null ? $file->getName() : $newName;
 
@@ -436,7 +461,7 @@ class ImageHelper
                 self::saveWithoutCompress($file, $save_max_path, true);
             }
             
-            self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true);
+            self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true, false, $crop_mode);
             self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());

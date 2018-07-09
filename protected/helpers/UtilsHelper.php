@@ -438,7 +438,7 @@ class UtilsHelper
 
         $links = array(
             array(
-                'name' => Yii::t('base', 'Eitorial'),
+                'name' => Yii::t('base', 'Editorial'),
                 'key' => 'blog',
                 'url' => Yii::app()->params['misc']['blog_url'],
                 'selected' => false
