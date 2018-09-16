@@ -272,5 +272,17 @@ if (YII_DEBUG) {
 
 <!--main.js-->
 <script src="<?=Yii::app()->request->baseUrl ?>/js/main.js"></script>
+<script type="text/javascript">
+    var vglnk = { key: 'faedf054dc942ae45cb08b26927dbeae' };
+​
+    (function(d, t) {
+        var s = d.createElement(t);
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = '//cdn.viglink.com/api/vglnk.js';
+        var r = d.getElementsByTagName(t)[0];
+            r.parentNode.insertBefore(s, r);
+    }(document, 'script'));
+</script>
 </body>
 </html>

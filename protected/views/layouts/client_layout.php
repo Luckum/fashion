@@ -6,7 +6,7 @@
 <nav class="uk-navbar padding-top-30" id="dropdown-nav" data-uk-sticky>
     <a href="#" class="uk-navbar-toggle uk-navbar-toggle-home uk-hidden-large" data-uk-toggle="{target:'#navbar-collapse', cls: 'uk-animation-slide-left'}"></a>
     <div class="uk-navbar-content uk-navbar-flip show-menu" style="width: 100%; padding-right: 20px;" id="navbar-collapse">
-        <ul class="uk-navbar-nav uk-navbar-nav-light" style="width: 100%;">
+        <ul class="uk-navbar-nav top_menu uk-navbar-nav-light" style="width: 100%;">
             <li class="uk-visible-large">
                 <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-black.jpg" style="margin-top: -15px;"></a>
             </li>

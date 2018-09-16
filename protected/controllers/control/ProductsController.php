@@ -236,7 +236,7 @@ class ProductsController extends AdminController
             
             if ($model->save()) {
                 $crop_mode = 0;
-                if ($model->category_id == 155 || $model->category_id == 157 || $model->category_id == 140 || $model->category_id == 136 || $model->category_id == 138 || $model->category_id == 137 || $model->category_id == 163) {
+                /*if ($model->category_id == 155 || $model->category_id == 157 || $model->category_id == 140 || $model->category_id == 136 || $model->category_id == 138 || $model->category_id == 137 || $model->category_id == 163) {
                     $crop_mode = 1;
                 }
                 if ($model->category_id == 153 || $model->category_id == 154 || $model->category_id == 156 || $model->category_id == 129 || $model->category_id == 150 || $model->category_id == 148) {
@@ -244,7 +244,7 @@ class ProductsController extends AdminController
                 }
                 if ($model->category_id == 149 || $model->category_id == 162 || $model->category_id == 161) {
                     $crop_mode = 3;
-                }
+                }*/
                 
                 if (isset($img1)) ImageHelper::cSaveWithReducedCopies($img1, $model->image1, false, $crop_mode);
                 if (isset($img2)) ImageHelper::cSaveWithReducedCopies($img2, $model->image2, false, $crop_mode);

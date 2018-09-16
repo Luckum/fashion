@@ -128,7 +128,7 @@ abstract class ImageWrapperAbstract
                     $this->output_width = Yii::app()->params['image_settings']['mid_medium_width'];
                     $this->output_height = Yii::app()->params['image_settings']['mid_medium_height'];
                 }
-            } else if (round($this->output_width) > Yii::app()->params['image_settings']['max_medium_width']) {
+            } else if (round($this->output_width) > Yii::app()->params['image_settings']['max_medium_width'] && round($this->output_width) < Yii::app()->params['image_settings']['smax_medium_width']) {
                 $mode = 4;
                 if (round($this->output_height) < Yii::app()->params['image_settings']['max_medium_height']) {
                     $this->output_width = Yii::app()->params['image_settings']['mid_medium_width'];
@@ -136,6 +136,15 @@ abstract class ImageWrapperAbstract
                 } else {
                     $this->output_width = Yii::app()->params['image_settings']['max_medium_width'];
                     $this->output_height = Yii::app()->params['image_settings']['max_medium_height'];
+                }
+            } else if (round($this->output_width) > Yii::app()->params['image_settings']['smax_medium_width']) {
+                $mode = 5;
+                if (round($this->output_height) < Yii::app()->params['image_settings']['smax_medium_height']) {
+                    $this->output_width = Yii::app()->params['image_settings']['max_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['max_medium_height'];
+                } else {
+                    $this->output_width = Yii::app()->params['image_settings']['smax_medium_width'];
+                    $this->output_height = Yii::app()->params['image_settings']['smax_medium_height'];
                 }
             }
         }
@@ -181,11 +190,12 @@ abstract class ImageWrapperAbstract
                 imagedestroy($this->output_image);
             break;
             case 1:
-                self::img_resize($this->file_path, $this->save_path, $this->output_width, $this->output_height);
-            break;
             case 2:
             case 3:
             case 4:
+                self::img_resize($this->file_path, $this->save_path, $this->output_width, $this->output_height);
+            break;
+            case 5:
                 self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height, null, 90, 0, 0, $crop_mode);
             break;
         }
@@ -396,7 +406,7 @@ class ImageHelper
 
         $wrapper = new CUploadedImageWrapper($file, $save_path, $max_width, $max_height, $quality);
 
-        $wrapper->create();
+        $wrapper->create(true);
     }
 
     public static function compress($file_path, $save_path, $max_width, $max_height, $quality, $remove_old, $is_thumb = false, $crop_mode = 0)
@@ -501,7 +511,7 @@ class ImageHelper
             // -------- save
             //
             self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
-            self::compress($save_max_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
+            self::compress($save_max_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true, true);
             self::compress($save_max_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
@@ -576,7 +586,7 @@ class ImageHelper
 
             // -------- create
             //
-            self::compress($source_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true);
+            self::compress($source_path, $medium_dir . $name, $medium_width, $medium_height, $quality, true, true);
             self::compress($source_path, $thumbnail_dir . $name, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
