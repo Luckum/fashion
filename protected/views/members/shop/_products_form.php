@@ -234,9 +234,13 @@
             <?php 
                 $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id']));
                 $target = "_self";
+                $partner_site_name = $partner_site_url = '';
                 if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
                     $url = $products[$i]['direct_url'];
                     $target = "_blank";
+                    $partner = Product::getExternalSiteName($url);
+                    $partner_site_name = $partner['name'];
+                    $partner_site_url = $partner['url'];
                 }
             ?>
             <a href="<?php echo $url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>">
@@ -300,6 +304,16 @@
                 <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?php echo $products[$i]['full_size']; ?></span>
                 <?php endif; ?>
             </div>
+            <?php if (!empty($partner_site_name)): ?>
+                <div class="uk-margin-large-left partner-name" style="margin-left: 90px !important;">
+                    <div class="partner-img">
+                        <img src="/images/external_link.jpg">
+                    </div>
+                    <div class="partner-lnk">
+                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <?php
             $countInRow++;

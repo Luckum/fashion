@@ -45,14 +45,14 @@
                     </li>
             <?php endfor; ?>
             
-            <?php $second_menu = UtilsHelper::getSecondMenu();
+<!--            <?php $second_menu = UtilsHelper::getSecondMenu();
                 foreach ($second_menu as $item): ?>
                     <li>
                         <a class="main_menu_link"<?php if($item['key'] == 'sell' && Yii::app()->member->isGuest){
                             echo ' id="login_sell" '; // for calling of modal login window
                             } ?>  href="<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>
                     </li>
-            <?php endforeach; ?>
+            <?php endforeach; ?>-->
             
             <?php if ($top_menu['logout']['visible']) : ?>
                 <li class="uk-visible-large" style="float: right;">

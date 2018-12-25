@@ -36,7 +36,7 @@ $category_id_for_external_sale = Category::model()->getExternalSaleCategoryId();
 
     <div id="isExternalSale_categoryId" class="row">
         <?php echo $form->labelEx($model,'category_id'); ?>
-        <?php echo $form->dropDownList($model,'category_id',Category::getSubCategoryList(), array('onchange' => 'reloadSizes(this)')); ?>
+        <?php echo $form->dropDownList($model,'category_id',Category::getSubCategoryList(Category::getIdByAlias('featured')), array('onchange' => 'reloadSizes(this)')); ?>
         <?php echo $form->error($model,'category_id'); ?>
         <?php echo CHtml::textField('Product[Invalid][category_id]', isset($invalidProd['category_id']) ? $invalidProd['category_id'] : "", array('class' => 'invalid', 'style' => 'display: none')); ?>
     </div>

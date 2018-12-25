@@ -21,9 +21,18 @@
 	");
 ?>
 
+<?php if (Yii::app()->user->hasFlash('importSuccess')): ?>
+    <div class="row-fluid">
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('importSuccess'); ?>
+        </div>
+    </div>
+<?php endif; ?>
+
 <h1><?=Yii::t('base', 'Manage Products');?></h1>
 <p><?=Yii::t('base', 'You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.'); ?></p>
 <div class="text-right">
+    <?php echo CHtml::link(Yii::t('base', 'Import scrapper data'), array('/control/products/import'), array('class' => 'btn btn-success')); ?>
     <?php echo CHtml::link(Yii::t('base', 'Create New Product'), array('/control/products/create'), array('class' => 'btn btn-primary')); ?>
 </div>
 

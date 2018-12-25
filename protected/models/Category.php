@@ -298,8 +298,10 @@ class Category extends CActiveRecord
         if($parent_id) {
         	$condition .= " AND parent_id = ".$parent_id;
         }
-        if(Category::model()->getExternalSaleCategoryId())
-        	$condition .= " OR external_sale = 1";
+        if ($parent_id && $parent_id !== self::getIdByAlias('featured')) {
+            if(Category::model()->getExternalSaleCategoryId())
+                $condition .= " OR external_sale = 1";
+        }
         
         $list = Category::model()->findAll('parent_id IS NOT NULL'.$condition);
         foreach ($list as $key => $value) {
@@ -515,5 +517,14 @@ class Category extends CActiveRecord
     {
     	$category = $this->findByAttributes(array('external_sale' => 1));
     	return ($category) ? $category->id : NULL;
+    }
+    
+    public static function getIdByAlias($alias)
+    {
+        $cat = self::model()->findByAttributes(['alias' => $alias]);
+        if ($cat) {
+            return $cat->id;
+        }
+        return false;
     }
 }

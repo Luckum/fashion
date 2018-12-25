@@ -92,7 +92,7 @@ class Product extends CActiveRecord implements IECartPosition
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, brand_id, title, description, color, price, init_price, added_date, condition', 'required', 'message' => '*required'),
+            array('user_id, brand_id, title, price, init_price, added_date, condition', 'required', 'message' => '*required'),
             //array('image1,direct_url','isExternalSale'),
             //array('image1, image2, image3','isNotExternalSale'),
             array('direct_url', 'url', 'defaultScheme' => 'http'),
@@ -106,7 +106,8 @@ class Product extends CActiveRecord implements IECartPosition
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'length', 'max' => 255),
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'url'),
             array('price, init_price', 'length', 'max' => 9),
-            array('color', 'length', 'max' => 20),
+            array('color', 'length', 'max' => 20, 'allowEmpty' => true),
+            array('description', 'length', 'max' => 1000, 'allowEmpty' => true),
             //array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg', 'allowEmpty' => true),
             array('status', 'in', 'range' => array(self::PRODUCT_STATUS_ACTIVE, self::PRODUCT_STATUS_DEACTIVE, self::PRODUCT_STATUS_PENDING, self::PRODUCT_STATUS_DECLINED, self::PRODUCT_STATUS_SOLD)),
             //array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => true),
@@ -932,10 +933,18 @@ class Product extends CActiveRecord implements IECartPosition
         return $filename.'.jpg';
         
     }
+    
+    public static function getExternalSiteName($url)
+    {
+        $name = '';
+        if (!empty($url)) {
+            $url_arr = parse_url($url);
+            $url_host = str_replace('www.', '', $url_arr['host']);
+            $url_host_ar = explode('.', $url_host);
+            $name = strtoupper($url_host_ar[0]);
+            $url = $url_arr['scheme'] . '://' . $url_arr['host'];
+        }
+        
+        return array('name' => $name, 'url' => $url);
+    }
 }
-
-
-
-
-
-

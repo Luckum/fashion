@@ -48,10 +48,17 @@
                 '<div class="thumbnail uk-margin-bottom">' :
                 // new item
                 'class="thumbnail uk-margin-bottom">'; ?>
-            <?php $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id'])); ?>
-            <a href="<?php
-            echo $url; ?>" <?=$modalParameters; ?>
-               class="uk-display-block product-url">
+            <?php
+                $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id']));
+                $target = "_self";
+                if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
+                    $url = $products[$i]['direct_url'];
+                    $target = "_blank";
+                }
+            
+            ?>
+            
+            <a href="<?php echo $url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>">
                 <div class="thumbnail-image">
                     <?=CHtml :: image(
                         Yii :: app() -> request -> getBaseUrl(true) . ShopConst :: IMAGE_MEDIUM_DIR . $products[$i]['image1'],

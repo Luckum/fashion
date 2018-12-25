@@ -904,3 +904,25 @@ br.nl
 .padding-right-0 {
 	padding-right: 0;
 }
+.partner-name {
+	padding-top: 7px;
+}
+.partner-name .partner-img,
+.partner-name .partner-lnk
+{
+	float: left;
+}
+.partner-name .partner-lnk {
+	padding-left: 5px;
+}
+.partner-name .partner-img img {
+	width: 11px;
+	opacity: .5;
+	margin-bottom: 3px;
+}
+.partner-name .partner-lnk a {
+	color: #999;
+}
+.partner-name .partner-lnk a:hover {
+	color: #999;
+}
