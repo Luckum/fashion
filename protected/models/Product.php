@@ -175,7 +175,7 @@ class Product extends CActiveRecord implements IECartPosition
             'status' => Yii::t('base', 'Status'),
             'size_type' => Yii::t('base', 'Size'),
             'category_search' => Yii::t('base', 'Category'),
-            'parent_category_search' => Yii::t('base', 'Sub Category'),
+            'parent_category_search' => Yii::t('base', 'Parent Category'),
             'brand_search' => Yii::t('base', 'Brand'),
             'size_search' => Yii::t('base', 'Size'),
             'user_search' => Yii::t('base', 'User'),
@@ -940,11 +940,60 @@ class Product extends CActiveRecord implements IECartPosition
         if (!empty($url)) {
             $url_arr = parse_url($url);
             $url_host = str_replace('www.', '', $url_arr['host']);
-            $url_host_ar = explode('.', $url_host);
-            $name = strtoupper($url_host_ar[0]);
+            $name = $url_host;
+            //$url_host_ar = explode('.', $url_host);
+            //$name = strtoupper($url_host_ar[0]);
             $url = $url_arr['scheme'] . '://' . $url_arr['host'];
         }
         
         return array('name' => $name, 'url' => $url);
+    }
+    
+    public static function clearImages()
+    {
+        set_time_limit(10000);
+        ini_set('memory_limit', '512M');
+        
+        $excluded = ['.', '..', 'blocks', 'lg', 'medium', 'thumbnail', 'images'];
+        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR;
+        $files = scandir($path);
+        if (count($files) > 2) {
+            foreach ($files as $file) {
+                if (!in_array($file, $excluded)) {
+                    $product = self::model()->find("image1 = '" . $file . "' OR image2 = '" . $file . "' OR image3 = '" . $file . "' OR image4 = '" . $file . "' OR image5 = '" . $file . "'");
+                    if (!$product) {
+                        unlink($path . $file);
+                    }
+                }
+            }
+        }
+        
+        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR;
+        $files = scandir($path);
+        if (count($files) > 2) {
+            foreach ($files as $file) {
+                if (!in_array($file, $excluded)) {
+                    $product = self::model()->find("image1 = '" . $file . "' OR image2 = '" . $file . "' OR image3 = '" . $file . "' OR image4 = '" . $file . "' OR image5 = '" . $file . "'");
+                    if (!$product) {
+                        unlink($path . $file);
+                    }
+                }
+            }
+        }
+        
+        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_THUMBNAIL_DIR;
+        $files = scandir($path);
+        if (count($files) > 2) {
+            foreach ($files as $file) {
+                if (!in_array($file, $excluded)) {
+                    $product = self::model()->find("image1 = '" . $file . "' OR image2 = '" . $file . "' OR image3 = '" . $file . "' OR image4 = '" . $file . "' OR image5 = '" . $file . "'");
+                    if (!$product) {
+                        unlink($path . $file);
+                    }
+                }
+            }
+        }
+        
+        return true;
     }
 }

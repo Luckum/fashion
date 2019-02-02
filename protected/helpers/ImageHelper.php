@@ -196,7 +196,8 @@ abstract class ImageWrapperAbstract
                 self::img_resize($this->file_path, $this->save_path, $this->output_width, $this->output_height);
             break;
             case 5:
-                self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height, null, 90, 0, 0, $crop_mode);
+                self::img_resize($this->file_path, $this->save_path, $this->output_width, $this->output_height);
+                //self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height, null, 90, 0, 0, $crop_mode);
             break;
         }
     }

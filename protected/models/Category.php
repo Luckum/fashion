@@ -521,7 +521,7 @@ class Category extends CActiveRecord
     
     public static function getIdByAlias($alias)
     {
-        $cat = self::model()->findByAttributes(['alias' => $alias]);
+        $cat = self::model()->find("LOWER(alias) = '" . strtolower($alias) . "'");
         if ($cat) {
             return $cat->id;
         }

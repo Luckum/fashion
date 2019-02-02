@@ -68,53 +68,59 @@ class ScrpProduct extends CActiveRecord
         $datas = self::model()->findAll();
         if ($datas) {
             foreach ($datas as $k => $data) {
-                for ($i = 2; $i < 5; $i ++) {
+                $category_id = 0;
+                for ($i = 4; $i > 0 ; $i --) {
                     $category_level = 'category_lvl' . $i;
-                    $category = Category::model()->find("alias = '" . $data->$category_level . "' AND (parent_id != " . $feat_cat_id . " OR parent_id is null)");
+                    $category = Category::model()->find("LOWER(alias) = '" . strtolower($data->$category_level) . "' AND (parent_id != " . $feat_cat_id . " OR parent_id is null)");
                     if ($category) {
-                        if ($category->alias == 'accessories') {
-                            $category = Category::model()->findByAttributes(['alias' => 'other', 'parent_id' => $category->id]);
+                        if (strtolower($category->alias) == 'accessories') {
+                            $category = Category::model()->find("LOWER(alias) = 'other' AND parent_id = " . $category->id);
                         }
                         $category_id = $category->id;
+                        break;
                     }
                 }
                 
-                $brand = Brand::model()->find("LOWER(name) = '" . strtolower($data->brand) . "'");
-                if (!$brand) {
-                    $brand = new Brand();
-                    $brand->name = $data->brand;
-                    $brand->save();
-                }
-                $brand_id = $brand->id;
-                
-                if (!Product::model()->exists("direct_url = '" . $data->url . "'")) {
-                    if (file_exists($data->picture_path)) {
-                        $arr = explode('\\', $data->picture_path);
-                        //$arr = explode('/', $data->image_url1);
-                        $f_name = end($arr);
-                        $crop_mode = 0;
-                        $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
-                        ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode);
-                        unlink($data->picture_path);
-                        
-                        $product = new Product();
-                        $product->user_id = 185;
-                        $product->category_id = $category_id;
-                        $product->brand_id = $brand_id;
-                        $product->title = $data->name;
-                        $product->description = '';
-                        $product->image1 = $image;
-                        $product->color = '';
-                        $product->price = $data->price;
-                        $product->init_price = $data->price;
-                        $product->condition = 1;
-                        $product->direct_url = $data->url;
-                        $product->external_sale = 1;
-                        $product->status = 'active';
-                        $product->save();
+                if ($category_id != 0) {
+                    $brand = Brand::model()->find('LOWER(name) = "' . strtolower($data->brand) . '"');
+                    if (!$brand) {
+                        $brand = new Brand();
+                        $brand->name = $data->brand;
+                        $brand->save();
                     }
+                    $brand_id = $brand->id;
+                    
+                    if (!Product::model()->exists("direct_url = '" . $data->url . "'")) {
+                        if (file_exists($data->picture_path)) {
+                            //$arr = explode('\\', $data->picture_path);
+                            $arr = explode('/', $data->picture_path);
+                            $f_name = end($arr);
+                            $crop_mode = 0;
+                            $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
+                            ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode);
+                            //unlink($data->picture_path);
+                            
+                            $product = new Product();
+                            $product->user_id = 185;
+                            $product->category_id = $category_id;
+                            $product->brand_id = $brand_id;
+                            $product->title = $data->name;
+                            $product->description = '';
+                            $product->image1 = $image;
+                            $product->color = '';
+                            $product->price = $data->price;
+                            $product->init_price = $data->price;
+                            $product->condition = 1;
+                            $product->direct_url = $data->url;
+                            $product->external_sale = 1;
+                            $product->status = 'active';
+                            $product->save();
+                        }
+                    }
+                    //self::model()->deleteByPk($data->id);
+                    
                 }
-                self::model()->deleteByPk($data->id);
+                
             }
         }
         return true;

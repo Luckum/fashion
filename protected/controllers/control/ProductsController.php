@@ -613,5 +613,13 @@ class ProductsController extends AdminController
         }
         $this->redirect(array('index'));
     }
+    
+    public function actionClear()
+    {
+        if (Product::clearImages()) {
+            Yii::app()->user->setFlash('importSuccess', Yii::t('base', 'Clearing done'));
+        }
+        $this->redirect(array('index'));
+    }
 }
 
