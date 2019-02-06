@@ -108,7 +108,7 @@ class ScrpProduct extends CActiveRecord
                             $product->description = '';
                             $product->image1 = $image;
                             $product->color = '';
-                            $product->price = $data->price;
+                            $product->price = $data->sale_price;
                             $product->init_price = $data->price;
                             $product->condition = 1;
                             $product->direct_url = $data->url;
