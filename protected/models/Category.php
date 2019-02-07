@@ -527,4 +527,14 @@ class Category extends CActiveRecord
         }
         return false;
     }
+    
+    public static function getParentByCategory($cat_id)
+    {
+        $cat = self::model()->findByPk($cat_id);
+        if (!empty($cat->parent_id)) {
+            return $cat->parent_id;
+        } else {
+            return $cat->id;
+        }
+    }
 }

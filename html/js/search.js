@@ -232,6 +232,8 @@ UserSearch.prototype.showResultTab = function(response) {
                        '</a>'                                   +
                        '</li>';
                 count++;
+                
+                window.location.href = link.toLowerCase();
             }
 
             tmp += '</ul></td>';
@@ -260,10 +262,10 @@ UserSearch.prototype.showResultTab = function(response) {
 
     // Добавляем таблицу на страницу и
     // указываем в заголовке результат поиска.
-    this._container
+    /*this._container
         .html(html)
         .find('caption > span')
-        .text(count);
+        .text(count);*/
 
     // Если ничего не найдено, сообщаем об этом.
     var tab = $('#search-result-tab');

@@ -20,18 +20,16 @@
                         ?>
                     </li>
                     <?php if($model->category->parent != NULL): ?>
-                    <li><?= "<a href='/$parent->name-".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
+                        <li><?= "<a href='/$parent->name-" . strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
                     <?php endif; ?>
                 </ul>
-                <h2 class="uk-margin-left uk-margin-right product-title"><?= '<a href="/brands/'.strtolower($brandName).'">'.$brandName.'</a>' ?></h2>
-                <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
             </div>
         </div>
         <div class="uk-block" style="margin-top: -20px;">
             <div class="uk-grid">
                 <div
                     class="uk-width-1-1 uk-width-large-1-10 uk-width-medium-1-10 uk-text-right uk-text-left-small uk-margin-bottom">
-                    <a href="#" onclick="goBack()">&lt; <?=Yii::t('base', 'back')?></a>
+                    <a href="javascript:void(0);" onclick="goBack()">&lt; <?=Yii::t('base', 'back')?></a>
                 </div>
                 <?php
                 $baseUrl = Yii:: app()->request->getBaseUrl(true);
@@ -90,15 +88,11 @@
                     </div>
                 </div>
                 <div class="uk-width-1-1 uk-width-large-3-10 uk-width-medium-3-10">
-                    <div class="product-description uk-padding-top-xxlarge">
+                    <h2 class="uk-margin-right product-title"><?= '<a href="/brands/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
+                    <br>
+                    <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
+                    <div class="product-description uk-padding-top-large">
                         <div class="product-detail">
-                            <?php if(!$model->external_sale): ?>
-                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> size_chart) ? $model->custom_size : $model -> size_chart -> size?></div>
-                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
-                            <?php else: ?>
-                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Size')?>: </b> <?=empty($model -> custom_size) ? Yii :: t('base', 'No size') : $model -> custom_size?></div>
-                                <div class="uk-margin-bottom-mini"><b><?=Yii::t('base', 'Colour')?>: </b> <?= CHtml::encode($model->color) ?></div>
-                            <?php endif; ?>
                             <?php if($model->isVisible): ?>
                                 <?php if($model->price == $model->init_price): ?>
                                     <div class="uk-h3-lg">&euro;<?= $model->price ?></div>
@@ -124,10 +118,24 @@
                                 </div>
                             <?php endif; ?>
                         <?php else: ?>
-                            <div class="uk-margin-large-top">
+                            <?php 
+                                $url = $model->direct_url;
+                                $partner = Product::getExternalSiteName($url);
+                                $partner_site_name = $partner['name'];
+                                $partner_site_url = $partner['url'];
+                            ?>
+                            <div class="uk-margin-large-top" style="display: inline-block;">
                                 <a href="<?=$model->direct_url?>" target="_blank" style="width:97px;" class="uk-button open-bag">
                                     <b><?= Yii::t('base', 'BUY') ?></b>
                                 </a>
+                            </div>
+                            <div class="partner-name" style="display: inline-block; vertical-align: bottom; margin-left: 25px;">
+                                <div class="partner-img">
+                                    <img src="/images/external_link.jpg">
+                                </div>
+                                <div class="partner-lnk">
+                                    <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
+                                </div>
                             </div>
                         <?php endif; ?>
                         <div class="uk-flex uk-flex-middle uk-margin-large-top">
@@ -157,110 +165,6 @@
                                         class="uk-icon-flag uk-margin-small-right"></i><?= Yii::t('base', 'Report item') ?>
                                 </a>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="product-accordion">
-                        <div class="uk-accordion" data-uk-accordion="{showfirst: true}">
-                            <div class="uk-accordion-title pd20"><?=Yii::t('base', 'Description')?></div>
-                            <div class="uk-accordion-content">
-                                <span class="word-break">
-                                    <?php echo nl2br(CHtml::encode($model->description)); ?>
-                                </span>
-                                <?php if(!$model->external_sale): ?>
-                                    <div class="uk-flex">
-                                        <div class="uk-margin-right mt9">
-                                            <b><?=Yii::t('base', 'condition')?>:</b>
-                                            <br/><?= $model->getConditionsName() ?>
-                                        </div>
-                                        <div class="mt9 uk-margin-right">
-                                            <b><?=Yii::t('base', 'id')?>:</b>
-                                            <br/><?= $model->id ?>
-                                        </div>
-                                        <?php
-                                            if (!empty($attributes)):
-                                                $i = 2;
-                                                $ar = array();
-                                                foreach ($attributes as $attribute):
-                                                    if($i%4 == 0) {
-                                                        echo '</div><div class="uk-flex">';
-                                                    }
-                                                    echo '<div class="mt9 uk-margin-right">';
-                                                    echo '<b>'.strtolower($attribute['attributeName']->name).':</b>';
-                                                    echo '<br/>'.$attribute['definedValue'];
-                                                    echo '</div>';
-                                                    $i++;
-                                                endforeach;
-                                        ?>
-                                        <?php
-                                            endif;
-                                         ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            <?php if(!$model->external_sale): ?>
-                                <div class="uk-accordion-title pd20"><?=Yii::t('base', 'Seller information')?></div>
-                                <div class="uk-accordion-content">
-                                    <div>
-                                        <b><?=CHtml::encode($model->user->username)?></b>
-                                        <span style="padding-left: 15px;"><?=CHtml::encode($model->user->country->name)?></span>
-                                    </div>
-                                    <div>
-                                    <?= $model->user->sellerProfile->getTypeName() ?> <?=Yii::t('base', 'seller')?>
-                                        <?= $model->user->getSoldCount() ?> <?=Yii::t('base', 'items sold')?>
-                                    </div>
-                                    <div class="uk-margin-large-top uk-margin-large-bottom">
-                                        <span class="uk-display-inline-block uk-margin-small-right"><?=Yii::t('base', 'Feedback')?>:</span>
-                                        <input type="hidden" class="rating" data-filled="uk-icon-star"
-                                               data-empty="uk-icon-star-o" data-fractions="2">
-                                    </div>
-                                    <div>
-                                        <?php $profileLink = ($model->user->id == Yii::app()->member->id) ? '/my-account' : '/profile-'.$model->user->id; ?>
-                                        <a href="<?= $this->createAbsoluteUrl($profileLink) ?>"
-                                           class="uk-base-link"><?=Yii::t('base', 'view full profile')?></a></div>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="comments-wrapper uk-margin-large-top">
-                        <div class="comments uk-margin-large-top">
-                            <div class="comments-title uk-flex uk-flex-space-between">
-                                <span><b><?=Yii::t('base', 'comments')?></b></span>
-                            </div>
-                            <div id="comments">
-                                <?php if (count($model->comments)) : ?>
-                                    <?php $i = 0; ?>
-                                    <?php foreach ($model->comments as $comment) : ?>
-                                        <?php if ($i >= 10) break; ?>
-                                        <?php if ($comment->comment_status != 'banned'): ?>
-                                            <?php $this->renderPartial('_comment', array('comment' => $comment, false, true)); ?>
-                                            <?php
-                                            if($comment->response && $comment->response_status != 'banned'){
-                                                $this->renderPartial('_response', array('comment' => $comment, false, true));
-                                            }
-                                            ?>
-                                        <?php endif; ?>
-                                        <?php $i++; ?>
-                                    <?php endforeach; ?>
-                                <?php else : ?>
-                                    <span id="no_comments">
-                                        <i><?= Yii::t('base', 'No comments') ?></i>
-                                        <br/><br/>
-                                    </span>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <br/>
-                        <?php if ($isCanAddCommentsAndMakeOffers): ?>
-                            <form action="#">
-                                <div class="uk-form-row">
-                                    <p class="new-comment-title"><?php echo Yii::t('base', 'Add a new comment'); ?></p>
-                                    <textarea id="comment" name="comment" class="comment-textarea"
-                                              onfocus="this.select()"></textarea>
-                                </div>
-                                <div class="uk-form-row uk-text-right">
-                                    <button id="add-new-comment" type="button" class="uk-button"><?=Yii::t('base', 'submit')?></button>
-                                </div>
-                            </form>
                         <?php endif; ?>
                     </div>
                 </div>

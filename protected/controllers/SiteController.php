@@ -5,41 +5,41 @@ class SiteController extends Controller
     public $title;
     public $meta_description;
     public $meta_keywords;
-	/**
-	 * Declares class-based actions.
-	 */
-	public function actions()
-	{
-		return array(
-			// captcha action renders the CAPTCHA image displayed on the contact page
-			'captcha'=>array(
-				'class'=>'CCaptchaAction',
-				'backColor'=>0xFFFFFF,
-			),
-			// page action renders "static" pages stored under 'protected/views/site/pages'
-			// They can be accessed via: index.php?r=site/page&view=FileName
-//			'page'=>array(
-//				'class'=>'CViewAction',
-//			),
-		);
-	}
+    /**
+     * Declares class-based actions.
+     */
+    public function actions()
+    {
+        return array(
+            // captcha action renders the CAPTCHA image displayed on the contact page
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'backColor'=>0xFFFFFF,
+            ),
+            // page action renders "static" pages stored under 'protected/views/site/pages'
+            // They can be accessed via: index.php?r=site/page&view=FileName
+//          'page'=>array(
+//              'class'=>'CViewAction',
+//          ),
+        );
+    }
 
-	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
-	 */
-	public function actionIndex()
-	{
-		// renders the view file 'protected/views/site/index.php'
-		$this->render('index');
-	}
+    /**
+     * This is the default 'index' action that is invoked
+     * when an action is not explicitly requested by users.
+     */
+    public function actionIndex()
+    {
+        // renders the view file 'protected/views/site/index.php'
+        $this->render('index');
+    }
 
-	/**
-	 * This is the action to handle external exceptions.
-	 */
-	public function actionError()
-	{
-		if ($error = Yii::app()->errorHandler->error) {
+    /**
+     * This is the action to handle external exceptions.
+     */
+    public function actionError()
+    {
+        if ($error = Yii::app()->errorHandler->error) {
             /**
              * Редирект на главную, если страница не найдена или внутренняя ошибка сервера.
              */
@@ -53,64 +53,64 @@ class SiteController extends Controller
             else
                 $this->render('error', $error);
         }
-	}
+    }
 
-	/**
-	 * Displays the contact page
-	 */
-	public function actionContact()
-	{
+    /**
+     * Displays the contact page
+     */
+    public function actionContact()
+    {
         throw new CHttpException(410, 'Gone');
-	}
+    }
 
-	/**
-	 * Displays the login page
-	 */
-	public function actionLogin()
-	{
-		$model=new LoginForm;
+    /**
+     * Displays the login page
+     */
+    public function actionLogin()
+    {
+        $model=new LoginForm;
 
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+        // if it is ajax validation request
+        if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
 
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
-		}
-		// display the login form
-		$this->render('login',array('model'=>$model));
-	}
+        // collect user input data
+        if(isset($_POST['LoginForm']))
+        {
+            $model->attributes=$_POST['LoginForm'];
+            // validate user input and redirect to the previous page if valid
+            if($model->validate() && $model->login())
+                $this->redirect(Yii::app()->user->returnUrl);
+        }
+        // display the login form
+        $this->render('login',array('model'=>$model));
+    }
 
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
-	}
+    /**
+     * Logs out the current user and redirect to homepage.
+     */
+    public function actionLogout()
+    {
+        Yii::app()->user->logout();
+        $this->redirect(Yii::app()->homeUrl);
+    }
 
-	/**
-	 * Поиск по сайту.
-	 * @throws CHttpException.
-	 */
+    /**
+     * Поиск по сайту.
+     * @throws CHttpException.
+     */
     public function actionAjaxSearch()
     {
-		// Только POST Ajax-запрос.
+        // Только POST Ajax-запрос.
         if (!Yii::app()->request->isAjaxRequest ||
             !Yii::app()->request->isPostRequest) {
             throw new CHttpException(403, 'Forbidden');
         }
 
-		// Проверяем строку поиска на корректность.
+        // Проверяем строку поиска на корректность.
         if (empty($query = Yii::app()->request->getPost('query')) ||
             preg_match('/["\'%]/', $query)) {
             throw new CHttpException(400, 'Bad Request');
@@ -157,7 +157,7 @@ class SiteController extends Controller
         // Переводим текст запроса в нижний регистр.
         $query = strtolower($query);
         // Меняем условие поиска, если строка поиска меньше двух символов.
-        $query = strlen($query) < 2 ? $query . '%' : '%' . $query . '%';
+        $query = strlen($query) < 2 ? $query . '%' : $query;
         // Экранируем строку запроса.
         $query = Yii::app()->db->quoteValue($query);
 
@@ -165,7 +165,7 @@ class SiteController extends Controller
         // которые соответствуют языковым настройкам сайта.
         $lang = Yii::app()->getLanguage();
 
-		// Получаем данные.
+        // Получаем данные.
         $data = Yii::app()
                 ->db
                 ->createCommand("CALL `search`({$query}, '{$lang}')")
@@ -196,7 +196,7 @@ class SiteController extends Controller
             }
         }
 
-		// Подготавливаем данные к отправке пользователю.
+        // Подготавливаем данные к отправке пользователю.
         $data = array(
             'data' => array(
                 'p' => $p,
@@ -221,7 +221,7 @@ class SiteController extends Controller
      * SOCIAL SHARE REDIRECT_URL.
      */
     public function actionShare()
-	{
+    {
         $content = '
         <script>
             var slf = window.self;
@@ -230,28 +230,28 @@ class SiteController extends Controller
         </script>
         ';
         die($content);
-	}
+    }
 
-	/**
-	 * Отображение статической страницы.
-	 * @param string $page Имя страницы.
-	 * @throws CHttpException.
-	 */
+    /**
+     * Отображение статической страницы.
+     * @param string $page Имя страницы.
+     * @throws CHttpException.
+     */
     public function actionStatic($page)
     {
-		// Получаем данные для статической страницы.
+        // Получаем данные для статической страницы.
         $data = Page :: model() -> getStaticPageData($page,  Yii :: app() -> getLanguage());
         if (!count($data)) {
             throw new CHttpException(404, 'Not Found');
         }
 
-		$this->title = $data['title'];
+        $this->title = $data['title'];
 
-		// Мета тэги.
+        // Мета тэги.
         $this -> meta_description = $data['seo_description'];
         //$this -> meta_keywords    = $data['seo_keywords'];
 
-		// Отображаем вьюху.
+        // Отображаем вьюху.
 
         if($page == 'about')
         {
@@ -262,12 +262,12 @@ class SiteController extends Controller
         
 
         $this -> render('static', array(
-			'title'   => $data['title'],
+            'title'   => $data['title'],
             'content' => $data['content']
         ));
     }
 
-	/**
+    /**
      * Поиск по сайту (мобильная версия).
      */
     public function actionMobileSearch()

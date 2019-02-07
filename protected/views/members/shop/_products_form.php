@@ -210,8 +210,45 @@
 <!--END PAGINATION AND VIEW-->
 
 <!--GRID ITEMS-->
-<div class="block-category">
 
+<?php if (Category::getParentByCategory($model->id) != Category::getIdByAlias('featured')): ?>
+    <?php $menu = UtilsHelper::getCategoryMenu(); ?>
+    <?php $brands = Brand::getBrandsSorted(); ?>
+    <div style="display: inline-block;">
+        <ul class="uk-nav uk-nav-parent-icon">
+            <li class="uk-parent">
+                CATEGORIES
+                <ul class="uk-nav-sub" data-uk-nav>
+                    <?php foreach ($menu as $menu_item): ?>
+                        <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
+                            <li class="uk-parent" aria-expanded="false">
+                                <?php if (count($menu_item['items'])): ?>
+                                    <a href="#"><?= $menu_item['name'] ?></a>
+                                    <ul class="uk-nav-sub">
+                                        <?php foreach ($menu_item['items'] as $child): ?>
+                                            <li><a href="<?= $child['url'] ?>"><?= $child['name'] ?></a></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php else: ?>
+                                    <a href="<?= $menu_item['url'] ?>"><?= $menu_item['name'] ?></a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+            <li class="uk-parent">
+                DESIGNERS
+                <ul class="uk-nav-sub">
+                    <?php foreach ($brands as $brand): ?>
+                        <li><a href="/brands/<?= $brand->url ?>"><?= $brand->name ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+<?php endif; ?>
+<div class="block-category" <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'style="display: inline-block; vertical-align: top; width: 90%; margin-left: 1%;"' : '' ?>>
     <?php
     $count = count($products);
     $countInRow = 0;
@@ -235,7 +272,7 @@
                 $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id']));
                 $target = "_self";
                 $partner_site_name = $partner_site_url = '';
-                if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
+                if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured') && $products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
                     $url = $products[$i]['direct_url'];
                     $target = "_blank";
                     $partner = Product::getExternalSiteName($url);
@@ -310,7 +347,7 @@
                         <img src="/images/external_link.jpg">
                     </div>
                     <div class="partner-lnk">
-                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
+                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
                     </div>
                 </div>
             <?php endif; ?>

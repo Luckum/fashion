@@ -106,18 +106,17 @@
                     <span class="price-new" style="margin-right: 25px;">SOLD</span>
                 <?php } ?>
 
-                <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?=empty($products[$i] -> size_chart) ? Yii :: t('base', 'No size') : $products[$i] -> size_chart -> size?></span>
             </div>
-<!--            <?php if (!empty($partner_site_name)): ?>
-                <div class="uk-margin-large-left partner-name" style="margin-left: 90px !important;">
+            <?php if (!empty($partner_site_name)): ?>
+                <div class="uk-margin-large-left partner-name">
                     <div class="partner-img">
                         <img src="/images/external_link.jpg">
                     </div>
                     <div class="partner-lnk">
-                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
+                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
                     </div>
                 </div>
-            <?php endif; ?>-->
+            <?php endif; ?>
 
             <?php
             $countInRow++;

@@ -192,4 +192,9 @@ class Brand extends CActiveRecord
         return $title;
         //return ucwords(strtolower($title));
     }
+    
+    public static function getBrandsSorted()
+    {
+        return self::model()->findAll(['select' => 'DISTINCT(name), url', 'order' => 'name']);
+    }
 }

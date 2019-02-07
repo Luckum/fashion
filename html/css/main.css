@@ -342,6 +342,7 @@ div#seller-type input[type="radio"]:checked + label > span,
 .product-image-wrapper img
 {
     margin-bottom: 25px;
+    width: 50%;
 }
 
 .mt9
@@ -925,4 +926,14 @@ br.nl
 }
 .partner-name .partner-lnk a:hover {
 	color: #999;
+}
+.uk-nav-parent-icon > .uk-parent > a::after,
+.uk-nav-parent-icon > .uk-parent.uk-open > a::after {
+	content: "";
+}
+.uk-nav-parent-icon .uk-nav-sub a:hover {
+	text-decoration: underline;
+}
+.uk-breadcrumb > li:last-child::after {
+	content: "";
 }

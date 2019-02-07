@@ -128,7 +128,7 @@ class ShopController extends MemberController
             $this->title = "Shop | " . Yii::t('base', 'shop designer fashion') . " | N2315";
         }
         
-        $order = 't.our_selection DESC';
+        $order = 't.added_date DESC';
 
         if (isset($_POST['filter'])) {
             $_GET['page'] = 1;
@@ -162,7 +162,7 @@ class ShopController extends MemberController
             $order = ShopConst::SORT_PRICE_ASC;
         } elseif (isset($sortValue) && $sortValue == ShopConst::SORT_PRICE_FROM_HIGH) {
             $order = ShopConst::SORT_PRICE_DESC;
-        } else {
+        } elseif (isset($sortValue) && $sortValue == 'selection') {
             $order = ShopConst::SORT_OUR_SELECTION;
         }
 
