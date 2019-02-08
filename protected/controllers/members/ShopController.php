@@ -227,7 +227,7 @@ class ShopController extends MemberController
         $request = Yii::app()->request;
         $query = $request->getUrl();
 
-        $sort = '';
+        $sort = ShopConst::SORT_DATE_DESC;
         $where = "status = '".Product::PRODUCT_STATUS_ACTIVE."'";
 
         if (isset($_GET[ShopConst::SORT])) {

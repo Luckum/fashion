@@ -8,10 +8,9 @@
                 ShopConst::SORT_DATE => strtolower(Yii::t('base', 'New')),
                 ShopConst::SORT_PRICE_FROM_LOW => Yii::t('base', 'price low - high'),
                 ShopConst::SORT_PRICE_FROM_HIGH => Yii::t('base', 'price high - low'),
-                ShopConst::SORT_SALE => 'on sale'
+                ShopConst::SORT_SALE => 'sale'
             ),
             array(
-                'empty' => 'our selection',
                 'class' => 'js-select',
                 'style' => 'width: 108px;')
         );

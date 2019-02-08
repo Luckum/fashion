@@ -214,11 +214,11 @@
 <?php if (Category::getParentByCategory($model->id) != Category::getIdByAlias('featured')): ?>
     <?php $menu = UtilsHelper::getCategoryMenu(); ?>
     <?php $brands = Brand::getBrandsSorted(); ?>
-    <div style="display: inline-block;">
+    <div style="display: inline-block; width: 15%;">
         <ul class="uk-nav uk-nav-parent-icon">
             <li class="uk-parent">
-                CATEGORIES
-                <ul class="uk-nav-sub" data-uk-nav>
+                <b>CATEGORIES</b>
+                <ul class="uk-nav-sub" data-uk-nav style="padding-left: 0;">
                     <?php foreach ($menu as $menu_item): ?>
                         <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
                             <li class="uk-parent" aria-expanded="false">
@@ -237,9 +237,9 @@
                     <?php endforeach; ?>
                 </ul>
             </li>
-            <li class="uk-parent">
-                DESIGNERS
-                <ul class="uk-nav-sub">
+            <li class="uk-parent" style="padding-top: 10px;">
+                <b>DESIGNERS</b>
+                <ul class="uk-nav-sub" style="padding-left: 0;">
                     <?php foreach ($brands as $brand): ?>
                         <li><a href="/brands/<?= $brand->url ?>"><?= $brand->name ?></a></li>
                     <?php endforeach; ?>
@@ -248,7 +248,7 @@
         </ul>
     </div>
 <?php endif; ?>
-<div class="block-category" <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'style="display: inline-block; vertical-align: top; width: 90%; margin-left: 1%;"' : '' ?>>
+<div class="block-category" <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'style="display: inline-block; vertical-align: top; width: 80%; float: right;"' : '' ?>>
     <?php
     $count = count($products);
     $countInRow = 0;
@@ -307,11 +307,11 @@
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
                             'itemprop' => "image",
-                            'style' => 'width: calc(14 * (100% / 18));',
+                            'style' => Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'width: calc(17 * (100% / 18));' : 'width: calc(14 * (100% / 18));',
                         )
                     )?>
                 </div>
-                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: 50px;">
+                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? '2.7778%' : '11.1111%' ?>;">
                     <?php echo Brand::getFormatedTitle($products[$i]['brand_name']); ?>
                 </div>
             </a>
@@ -343,11 +343,11 @@
             </div>
             <?php if (!empty($partner_site_name)): ?>
                 <div class="uk-margin-large-left partner-name" style="margin-left: 90px !important;">
-                    <div class="partner-img">
-                        <img src="/images/external_link.jpg">
-                    </div>
                     <div class="partner-lnk">
-                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
+                        <span>Shop on </span><a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
+                        <div class="partner-img">
+                            <img src="/images/external_link.jpg">
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>

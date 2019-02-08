@@ -4,7 +4,7 @@
         <span class="uk-margin-right-mini uk-display-inline-block"><?php echo Yii::t('base', 'sort by'); ?>:</span>
         <?php
         echo CHtml::dropDownList('sort', (isset($_GET['sort'])) ? $_GET['sort'] : 'date_added',
-            array('date_added' => 'new', 'asc' => 'price low - high', 'desc' => 'price high - low', 'sale' => 'sale', 'selection' => 'our selection'),
+            array('date_added' => 'new', 'asc' => 'price low - high', 'desc' => 'price high - low', 'sale' => 'sale'),
             array(
                 'class' => 'js-select',
                 'style' => 'width: 108px;')

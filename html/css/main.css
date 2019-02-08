@@ -908,13 +908,13 @@ br.nl
 .partner-name {
 	padding-top: 7px;
 }
-.partner-name .partner-img,
 .partner-name .partner-lnk
 {
 	float: left;
 }
-.partner-name .partner-lnk {
-	padding-left: 5px;
+.partner-name .partner-img {
+	float: right;
+	margin-left: 5px;
 }
 .partner-name .partner-img img {
 	width: 11px;
@@ -933,6 +933,9 @@ br.nl
 }
 .uk-nav-parent-icon .uk-nav-sub a:hover {
 	text-decoration: underline;
+}
+.uk-nav-parent-icon .uk-nav-sub a {
+	text-transform: capitalize;
 }
 .uk-breadcrumb > li:last-child::after {
 	content: "";

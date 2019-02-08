@@ -97,10 +97,10 @@
                                 <?php if($model->price == $model->init_price): ?>
                                     <div class="uk-h3-lg">&euro;<?= $model->price ?></div>
                                 <?php else: ?>
-                                    <div class="uk-h3-lg price"><span style="opacity:0.5;margin-right:10px;text-decoration: line-through;">&euro;<?= $model->init_price ?></span> <span class="uk-h3-lg price price-new">&euro;<?=$model->price?></span></div>
+                                    <div class="uk-h3-lg price"><span style="opacity:0.5;margin-right:10px;text-decoration: line-through;">&euro;<?= $model->init_price ?></span> <span class="uk-h3-lg price price-new" style="color: red !important;">&euro;<?=$model->price?></span></div>
                                 <?php endif; ?>
                             <?php else: ?>
-                            <div class="uk-h3-lg price"><span style="opacity:0.5;margin-right:10px;">&euro;<?= $model->price ?></span> <span class="uk-h3-lg price price-new">SOLD</span></div>
+                                <div class="uk-h3-lg price"><span style="opacity:0.5;margin-right:10px;">&euro;<?= $model->price ?></span> <span class="uk-h3-lg price price-new">SOLD</span></div>
                             <?php endif; ?>
                         </div>
                         <?php if(!$model->external_sale): ?>
@@ -125,8 +125,8 @@
                                 $partner_site_url = $partner['url'];
                             ?>
                             <div class="uk-margin-large-top" style="display: inline-block;">
-                                <a href="<?=$model->direct_url?>" target="_blank" style="width:97px;" class="uk-button open-bag">
-                                    <b><?= Yii::t('base', 'BUY') ?></b>
+                                <a href="<?=$model->direct_url?>" target="_blank" style="width:160px;" class="uk-button open-bag">
+                                    <b>Shop on <?= $partner_site_name ?></b>
                                 </a>
                             </div>
                             <div class="partner-name" style="display: inline-block; vertical-align: bottom; margin-left: 25px;">
@@ -134,7 +134,7 @@
                                     <img src="/images/external_link.jpg">
                                 </div>
                                 <div class="partner-lnk">
-                                    <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
+                                    from <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
                                 </div>
                             </div>
                         <?php endif; ?>

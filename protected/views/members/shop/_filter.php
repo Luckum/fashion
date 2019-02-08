@@ -109,11 +109,11 @@
             </div>
             <?php if (!empty($partner_site_name)): ?>
                 <div class="uk-margin-large-left partner-name">
-                    <div class="partner-img">
-                        <img src="/images/external_link.jpg">
-                    </div>
                     <div class="partner-lnk">
-                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>"><?= 'from ' . $partner_site_name ?></a>
+                        <span>Shop on </span><a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
+                    </div>
+                    <div class="partner-img" style="float: left;">
+                        <img src="/images/external_link.jpg">
                     </div>
                 </div>
             <?php endif; ?>
