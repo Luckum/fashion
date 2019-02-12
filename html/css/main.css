@@ -940,3 +940,9 @@ br.nl
 .uk-breadcrumb > li:last-child::after {
 	content: "";
 }
+#side-menu ul .non-enbl-sb-open {
+	display: none;
+}
+#side-menu ul .enbl-sb-open {
+	display: block;
+}

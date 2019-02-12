@@ -46,7 +46,7 @@
 <?php if (!isset($_GET['sort'])): ?>
 <script>
     jQuery(document).ready(function($) {
-        $('#sort').val('').trigger('change');
+        //$('#sort').val('').trigger('change');
     });
 </script>
 <?php endif; ?>

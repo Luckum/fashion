@@ -2882,7 +2882,7 @@
         init: function() {
 
             var $this = this;
-
+            
             this.on("click.uikit.nav", this.options.toggle, function(e) {
                 e.preventDefault();
                 var ele = UI.$(this);
@@ -2893,13 +2893,10 @@
                 var $ele   = UI.$(this),
                     parent = $ele.parent(),
                     active = parent.hasClass("uk-active");
-
                 $ele.wrap('<div style="overflow:hidden;height:0;position:relative;"></div>');
                 parent.data("list-container", $ele.parent()[active ? 'removeClass':'addClass']('uk-hidden'));
-
                 // Init ARIA
                 parent.attr('aria-expanded', parent.hasClass("uk-open"));
-
                 if (active) $this.open(parent, true);
             });
 

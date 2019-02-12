@@ -214,34 +214,52 @@
 <?php if (Category::getParentByCategory($model->id) != Category::getIdByAlias('featured')): ?>
     <?php $menu = UtilsHelper::getCategoryMenu(); ?>
     <?php $brands = Brand::getBrandsSorted(); ?>
-    <div style="display: inline-block; width: 15%;">
-        <ul class="uk-nav uk-nav-parent-icon">
-            <li class="uk-parent">
-                <b>CATEGORIES</b>
-                <ul class="uk-nav-sub" data-uk-nav style="padding-left: 0;">
-                    <?php foreach ($menu as $menu_item): ?>
-                        <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
-                            <li class="uk-parent" aria-expanded="false">
-                                <?php if (count($menu_item['items'])): ?>
-                                    <a href="#"><?= $menu_item['name'] ?></a>
-                                    <ul class="uk-nav-sub">
-                                        <?php foreach ($menu_item['items'] as $child): ?>
-                                            <li><a href="<?= $child['url'] ?>"><?= $child['name'] ?></a></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php else: ?>
-                                    <a href="<?= $menu_item['url'] ?>"><?= $menu_item['name'] ?></a>
-                                <?php endif; ?>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-            </li>
-            <li class="uk-parent" style="padding-top: 10px;">
-                <b>DESIGNERS</b>
-                <ul class="uk-nav-sub" style="padding-left: 0;">
+    <div style="display: inline-block; width: 15%;" id="side-menu">
+        <ul style="list-style: none; padding-left: 0;">
+            <li><span><b>CATEGORIES</b></span></li>
+            <?php
+                $root = false;
+                $child_url = '';
+                foreach ($menu as $menu_item) {
+                    if (Yii::app()->request->requestUri == $menu_item['url']) {
+                        $root = true;
+                        break;
+                    } else {
+                        foreach ($menu_item['items'] as $child) {
+                            if (Yii::app()->request->requestUri == $child['url']) {
+                                $child_url = $menu_item['url'];
+                                break;
+                            }
+                        }
+                    }
+                }
+            ?>
+            <?php foreach ($menu as $menu_item): ?>
+                <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
+                    <?php if (count($menu_item['items'])): ?>
+                        <li style="text-transform: capitalize; padding-top: 5px;">
+                            <a href='#'><span><?= $menu_item['name'] ?></span></a>
+                            <ul style="list-style: none; padding-left: 20px;" <?= $root ? 'class="non-enbl-sb-open"' : ($menu_item['url'] == $child_url ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
+                                <?php foreach ($menu_item['items'] as $child): ?>
+                                    <li style="padding-top: 5px;">
+                                        <a href='<?= $child['url'] ?>' <?= Yii::app()->request->requestUri == $child['url'] ? 'style="text-decoration: underline;"' : '' ?>><span><?= $child['name'] ?></span></a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li style="text-transform: capitalize; padding-top: 5px;">
+                            <a href='<?= $menu_item['url'] ?>'><span><?= $menu_item['name'] ?></span></a>
+                        </li>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <li style="padding-top: 20px;"><span><b>DESIGNERS</b></span>
+                <ul style="list-style: none; padding-left: 0;" class="design">
                     <?php foreach ($brands as $brand): ?>
-                        <li><a href="/brands/<?= $brand->url ?>"><?= $brand->name ?></a></li>
+                        <li style="padding-top: 5px;">
+                            <a href="/brands/<?= $brand->url ?>"><span><?= $brand->name ?></span></a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </li>
@@ -327,7 +345,7 @@
                 ?>
                 <?php if($products[$i]['status'] != Product::PRODUCT_STATUS_SOLD) { ?>
                 <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">
-                    &euro;<?php echo $old_price;; ?>
+                    &euro;<?php echo $old_price; ?>
                 </span>
                 <?php if (!$equal): ?>
                     <span class="price-new" style="color:red !important;">
@@ -342,12 +360,9 @@
                 <?php endif; ?>
             </div>
             <?php if (!empty($partner_site_name)): ?>
-                <div class="uk-margin-large-left partner-name" style="margin-left: 90px !important;">
+                <div class="partner-name" style="margin-left: 2.7778%;">
                     <div class="partner-lnk">
-                        <span>Shop on </span><a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
-                        <div class="partner-img">
-                            <img src="/images/external_link.jpg">
-                        </div>
+                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -488,6 +503,22 @@
             var link_url = '/filter/br/'+$(this).data('brand-id')+'/ct/'+$(this).data('category-id');
             $('#filter-text').text(link_text);
             $('a#filter-link').attr('href',link_url);
+        });
+        
+        $('#side-menu > ul > li > a').click(function () {
+            var checkElement = $(this).next();
+            if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+                checkElement.slideUp('normal');
+            }
+            if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+                $('#side-menu ul ul:visible:not(.design)').slideUp('normal');
+                checkElement.slideDown('normal');
+            }
+            if ($(this).closest('li').find('ul').children().length == 0) {
+                return true;
+            } else {
+                return false;    
+            }        
         });
     });
 
