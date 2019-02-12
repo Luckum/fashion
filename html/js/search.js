@@ -202,18 +202,18 @@ UserSearch.prototype.showResultTab = function(response) {
             tmp = '<td class="wb"><ul>';
 
             for (i = 0; i < response[key].length; i++) {
-                if (hcat=='Brands'){
-                    var regex = /\S[b]\w+.\w+/g;
+                if (hcat=='Brands') {
+                    var regex = /\S[b]\w+.*\w+/g;
                     m=regex.exec(response[key][i]['link']);
-                    
                         var link = $('<div/>')
                             .text(m)
                             .html();
-                }else{
-                // Защита от XSS-атак.
-                var link = $('<div/>')
-                    .text(response[key][i]['link'])
-                    .html();}
+                } else {
+                    // Защита от XSS-атак.
+                    var link = $('<div/>')
+                        .text(response[key][i]['link'])
+                        .html();
+                }
                 var text = $('<div/>')
                     .text(response[key][i]['name'])
                     .html();

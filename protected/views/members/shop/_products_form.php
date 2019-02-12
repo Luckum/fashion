@@ -290,12 +290,14 @@
                 $url = $this->createAbsoluteUrl(Product::getProductUrl($products[$i]['id']));
                 $target = "_self";
                 $partner_site_name = $partner_site_url = '';
-                if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured') && $products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
+                if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
                     $url = $products[$i]['direct_url'];
                     $target = "_blank";
-                    $partner = Product::getExternalSiteName($url);
-                    $partner_site_name = $partner['name'];
-                    $partner_site_url = $partner['url'];
+                    if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured')) {
+                        $partner = Product::getExternalSiteName($url);
+                        $partner_site_name = $partner['name'];
+                        $partner_site_url = $partner['url'];
+                    }
                 }
             ?>
             <a href="<?php echo $url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>">

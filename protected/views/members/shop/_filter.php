@@ -108,12 +108,9 @@
 
             </div>
             <?php if (!empty($partner_site_name)): ?>
-                <div class="uk-margin-large-left partner-name">
+                <div class="partner-name">
                     <div class="partner-lnk">
-                        <span>Shop on </span><a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>"><?= $partner_site_name ?></a>
-                    </div>
-                    <div class="partner-img" style="float: left;">
-                        <img src="/images/external_link.jpg">
+                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>
                     </div>
                 </div>
             <?php endif; ?>
