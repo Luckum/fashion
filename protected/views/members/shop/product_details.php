@@ -87,7 +87,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="uk-width-1-1 uk-width-large-3-10 uk-width-medium-3-10">
+                <div class="uk-width-1-1 uk-width-large-3-10 uk-width-medium-3-10 outer-product-info">
                     <h2 class="uk-margin-right product-title"><?= '<a href="/brands/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
                     <br>
                     <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
@@ -130,7 +130,9 @@
                                 </a>
                             </div>
                         <?php endif; ?>
-                        <div class="uk-flex uk-flex-middle uk-margin-large-top">
+                    </div>
+                    <div class="product-information">
+                        <div>
                             <span class="uk-margin-small-right"><?=Yii::t('base', 'share')?>:</span>
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
@@ -142,22 +144,6 @@
                                             class="uk-icon-twitter"></i></a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="product-information uk-flex uk-flex-middle uk-flex-space-around uk-margin-large-top">
-                        <?php if(!$model->external_sale): ?>
-                            <div>
-                                <a href="#shipping-info"
-                                   data-uk-modal="{center:true}"><?= Yii::t('base', 'Shipping info') ?></a>
-                            </div>
-                            <div>
-                                <a href="#size_chart" data-uk-modal="{center:true}"><?= Yii::t('base', 'Size chart') ?></a>
-                            </div>
-                            <div class="review">
-                                <a href="#report-product" data-uk-modal="{center:true}"><i
-                                        class="uk-icon-flag uk-margin-small-right"></i><?= Yii::t('base', 'Report item') ?>
-                                </a>
-                            </div>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>
