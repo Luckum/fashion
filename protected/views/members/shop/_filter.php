@@ -110,7 +110,8 @@
             <?php if (!empty($partner_site_name)): ?>
                 <div class="partner-name">
                     <div class="partner-lnk">
-                        <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>
+<!--                        <a href="<?= $partner_site_url; ?>" <?= $modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>-->
+                        <a href="<?= $url; ?>" <?= $modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <span><?= $partner_site_name ?></span></a>
                     </div>
                 </div>
             <?php endif; ?>
