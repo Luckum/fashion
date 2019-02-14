@@ -327,11 +327,11 @@
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
                             'itemprop' => "image",
-                            'style' => Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'width: calc(17 * (100% / 18));' : 'width: calc(14 * (100% / 18));',
+                            'style' => Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'width: calc(16 * (100% / 18));' : 'width: calc(14 * (100% / 18));',
                         )
                     )?>
                 </div>
-                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? '2.7778%' : '11.1111%' ?>;">
+                <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? '5.5556%' : '11.1111%' ?>;">
                     <?php echo Brand::getFormatedTitle($products[$i]['brand_name']); ?>
                 </div>
             </a>
@@ -362,7 +362,7 @@
                 <?php endif; ?>
             </div>
             <?php if (!empty($partner_site_name)): ?>
-                <div class="partner-name" style="margin-left: 2.7778%;">
+                <div class="partner-name" style="margin-left: 5.5556%;">
                     <div class="partner-lnk">
                         <a href="<?php echo $partner_site_url; ?>" <?=$modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>
                     </div>
@@ -387,7 +387,7 @@
 <!--END GRID ITEMS-->
 
 <!--PAGINATION AND VIEW-->
-<div class="pagination-block">
+<div class="pagination-block" style="clear: both; top: 50px;">
     <div class="uk-grid uk-margin-large-top">
         <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 uk-push-1-2">
             <div class="uk-grid">
