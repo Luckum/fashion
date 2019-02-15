@@ -126,7 +126,7 @@
                             ?>
                             <div class="uk-margin-large-top" style="display: inline-block;">
                                 <a href="<?=$model->direct_url?>" target="_blank" style="width:200px;" class="uk-button open-bag">
-                                    Shop on <span style="text-transform: capitalize;"><?= $partner_site_name ?></span>
+                                    Shop on <span><?= ucfirst($partner_site_name) ?></span>
                                 </a>
                             </div>
                         <?php endif; ?>

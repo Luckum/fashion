@@ -924,9 +924,6 @@ br.nl
 .partner-name .partner-lnk a {
 	color: #999;
 }
-.partner-name .partner-lnk a span {
-	text-transform: capitalize;
-}
 .partner-name .partner-lnk a:hover {
 	color: #999;
 }
