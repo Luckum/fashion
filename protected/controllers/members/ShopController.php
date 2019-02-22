@@ -2,7 +2,7 @@
 
 class ShopController extends MemberController
 {
-    public $pageSize = 99;
+    public $pageSize = 129;
 
     public $publicActions = array(
         'showCategory',
@@ -70,7 +70,7 @@ class ShopController extends MemberController
         );
     }
 
-    public function actionShowCategory($category = "", $subcategory = "")
+    public function actionShowCategory($category = "", $subcategory = "", $brand ="")
     {
         if (Yii::app()->request->getQuery('page')) {
             Yii::app()->clientScript->registerMetaTag('noindex,follow', 'robots');

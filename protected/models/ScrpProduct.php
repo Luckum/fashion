@@ -90,7 +90,8 @@ class ScrpProduct extends CActiveRecord
                     }
                     $brand_id = $brand->id;
                     
-                    if (!Product::model()->exists("direct_url = '" . $data->url . "'")) {
+                    $product = Product::model()->find("direct_url = '" . $data->url . "'");
+                    if (!$product) {
                         if (file_exists($data->picture_path)) {
                             //$arr = explode('\\', $data->picture_path);
                             $arr = explode('/', $data->picture_path);
@@ -116,6 +117,8 @@ class ScrpProduct extends CActiveRecord
                             $product->status = 'active';
                             $product->save();
                         }
+                    } else {
+                        
                     }
                     //self::model()->deleteByPk($data->id);
                     

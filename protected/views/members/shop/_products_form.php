@@ -258,7 +258,7 @@
                 <ul style="list-style: none; padding-left: 0;" class="design">
                     <?php foreach ($brands as $brand): ?>
                         <li style="padding-top: 5px;">
-                            <a href="/brands/<?= $brand->url ?>"><span><?= $brand->name ?></span></a>
+                            <a href="/brands/<?= $brand->url ?>" <?= Yii::app()->request->requestUri == '/brands/' . $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -365,7 +365,7 @@
                 <div class="partner-name" style="margin-left: 5.5556%;">
                     <div class="partner-lnk">
 <!--                        <a href="<?= $partner_site_url; ?>" <?= $modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <?= $partner_site_name ?></a>-->
-                            <a href="<?= $url; ?>" <?= $modalParameters; ?> class="product-url" target="<?= $target ?>">Shop on <span><?= ucfirst($partner_site_name) ?></span></a>
+                            <a href="<?= $url; ?>" <?= $modalParameters; ?> class="product-url" target="<?= $target ?>">shop on <span><?= $partner_site_name ?></span></a>
                     </div>
                 </div>
             <?php endif; ?>
