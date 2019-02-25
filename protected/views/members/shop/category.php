@@ -13,7 +13,7 @@
                             $parent = $model->getNameByLanguage();
                         }
                         ?> <h1 class="this-is-header"> <?php
-                        echo $model->getNameByLanguage()->header_text ? CHtml::encode($model->getNameByLanguage()->header_text) : CHtml::encode($parent->name);  ?></h1>
+                        echo (!empty($s_brand_title) ? $s_brand_title . '&nbsp;' : '') . ($model->getNameByLanguage()->header_text ? CHtml::encode($model->getNameByLanguage()->header_text) : CHtml::encode($parent->name))  ?></h1>
 
                     </div>
                     <!-- <div class="uk-h1"><?//php echo ($parent->name == $model->getNameByLanguage()->name) ? 'all' : CHtml::encode(strtolower($model->getNameByLanguage()->name)) ?></div> -->
@@ -36,6 +36,9 @@
                     'products' => $products,
                     'pages' => $pages,
                     'filters' => $filters,
+                    's_category' => $s_category,
+                    's_subcategory' => $s_subcategory,
+                    's_brand' => $s_brand,
                 )
             ); ?>
         </div>

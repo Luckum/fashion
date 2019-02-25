@@ -11,39 +11,39 @@ require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' .
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 $params = array(
-	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	// preloading 'log' component
-	'preload'=>array('log'),
+    'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+    // preloading 'log' component
+    'preload'=>array('log'),
 
     'sourceLanguage' => '00', // ----- use values from protected/messages/.. instead keys in all cases
     'language' => 'en',
 
-	// autoloading model and component classes
-	'import'=>array(
-		'application.models.*',
+    // autoloading model and component classes
+    'import'=>array(
+        'application.models.*',
         'application.components.auth.*',
         'application.components.controllers.*',
         'application.components.quickbooks.*',
-		'application.components.*',
+        'application.components.*',
         'application.helpers.*',
         'application.widgets.*',
         'ext.YiiMailer.YiiMailer',
         'ext.shoppingCart.*',
         'application.extensions.CAdvancedArBehavior'
-	),
+    ),
 
-	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'rootpwd',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.*','::1'),
-		),
+    'modules'=>array(
+        // uncomment the following to enable the Gii tool
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'rootpwd',
+            // If removed, Gii defaults to localhost only. Edit carefully to taste.
+            'ipFilters'=>array('127.0.0.*','::1'),
+        ),
 
-	),
-	// application components
-	'components'=>array(
+    ),
+    // application components
+    'components'=>array(
         'clientScript'=>array(
             'scriptMap'=>array(
                 'jquery.js'=>false,
@@ -57,13 +57,13 @@ $params = array(
             'class'=>'WebAdmin',
             'allowAutoLogin'=>true,
         ),
-		// uncomment the following to enable URLs in path-format
+        // uncomment the following to enable URLs in path-format
 
-		'urlManager'=>array(
+        'urlManager'=>array(
             'class'=>'UrlManager',
-			'urlFormat'=>'path',
+            'urlFormat'=>'path',
             'showScriptName'=>false,
-			'rules'=>array(
+            'rules'=>array(
                 
                 '/sell-online'=>'members/profile/sell',
 
@@ -80,10 +80,10 @@ $params = array(
                 '/blog/post/<id:\d+>' => 'members/blog/post',
 
                 '/eternal' => 'members/auth/eternal',
-				'<language:\w{2}>/eternal' => 'members/auth/eternal',
+                '<language:\w{2}>/eternal' => 'members/auth/eternal',
 
-				'/filter/*' => 'members/shop/filter',
-				'<language:\w{2}>/filter/*' => 'members/shop/filter',
+                '/filter/*' => 'members/shop/filter',
+                '<language:\w{2}>/filter/*' => 'members/shop/filter',
 
                 '/about'=>'site/static/page/about',
                 '<language:\w{2}>/about'=>'site/static/page/about',
@@ -110,11 +110,12 @@ $params = array(
 
                 '/product/<category:\w+>[-]<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
 
-                'shop/<category:\w+>[-]<subcategory:.+>'=>'members/shop/showCategory',
+                '<category:\w+>[-]<subcategory:.+>/<brand:.+>'=>'members/shop/showCategory',
+                'shop/<category:\w+>[-]<subcategory:.+>/<brand:\w+>'=>'members/shop/showCategory',
                 'shop/' => 'members/shop/showCategory',
 
-				'<language:\w{2}>shop/category/<category:.+>'=>'members/shop/showCategory',
-				'shop/category/<category:.+>'=>'members/shop/showCategory',
+                '<language:\w{2}>shop/category/<category:.+>'=>'members/shop/showCategory',
+                'shop/category/<category:.+>'=>'members/shop/showCategory',
 
                 '/parent/<category:\w+>'=>'members/shop/showCategory',
                 '<language:\w{2}>/parent/<category:\w+>'=>'members/shop/showCategory',
@@ -148,27 +149,27 @@ $params = array(
 
                 '/<language:\w{2}>/my-account/alertsUpdate/alert_id/<alert_id:\d+>' => 'members/profile/alertsUpdate',
                 '/my-account/alertsUpdate/alert_id/<alert_id:\d+>' => 'members/profile/alertsUpdate',
-			),
-		),
-		// uncomment the following to use a MySQL database
+            ),
+        ),
+        // uncomment the following to use a MySQL database
 
-		'db'=>require(dirname(__FILE__) . '/db.php'),
+        'db'=>require(dirname(__FILE__) . '/db.php'),
 
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning, info',
-				),
-			),
-		),
-		'image'=>array(
-          	'class'=>'application.extensions.image.CImageComponent',
+        'errorHandler'=>array(
+            // use 'site/error' action to display errors
+            'errorAction'=>'site/error',
+        ),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning, info',
+                ),
+            ),
+        ),
+        'image'=>array(
+            'class'=>'application.extensions.image.CImageComponent',
             // GD or ImageMagick
             'driver'=>'GD',
             // ImageMagick setup path
@@ -180,11 +181,11 @@ $params = array(
         'shoppingCart' => array(
             'class' => 'ext.shoppingCart.EShoppingCart',
         ),
-	),
+    ),
 
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>require(dirname(__FILE__) . '/params.php'),
+    // application-level parameters that can be accessed
+    // using Yii::app()->params['paramName']
+    'params'=>require(dirname(__FILE__) . '/params.php'),
 );
 
 if (defined("PAYPAL_SANDBOX") && PAYPAL_SANDBOX) {

@@ -212,44 +212,27 @@
 <!--GRID ITEMS-->
 
 <?php if (Category::getParentByCategory($model->id) != Category::getIdByAlias('featured')): ?>
-    <?php $menu = UtilsHelper::getCategoryMenu(); ?>
-    <?php $brands = Brand::getBrandsSorted(); ?>
+    <?php $menu = UtilsHelper::getCategoryMenu($s_brand); ?>
+    <?php $brands = Brand::getBrandsSorted($s_category, $s_subcategory); ?>
     <div style="display: inline-block; width: 15%;" id="side-menu">
         <ul style="list-style: none; padding-left: 0;">
             <li><span><b>CATEGORIES</b></span></li>
-            <?php
-                $root = false;
-                $child_url = '';
-                foreach ($menu as $menu_item) {
-                    if (Yii::app()->request->requestUri == $menu_item['url']) {
-                        $root = true;
-                        break;
-                    } else {
-                        foreach ($menu_item['items'] as $child) {
-                            if (Yii::app()->request->requestUri == $child['url']) {
-                                $child_url = $menu_item['url'];
-                                break;
-                            }
-                        }
-                    }
-                }
-            ?>
             <?php foreach ($menu as $menu_item): ?>
                 <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
                     <?php if (count($menu_item['items'])): ?>
                         <li style="text-transform: capitalize; padding-top: 5px;">
                             <a href='#'><span><?= $menu_item['name'] ?></span></a>
-                            <ul style="list-style: none; padding-left: 20px;" <?= $root ? 'class="non-enbl-sb-open"' : ($menu_item['url'] == $child_url ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
+                            <ul style="list-style: none; padding-left: 20px;" <?= $s_subcategory == 'all' ? 'class="non-enbl-sb-open"' : ($menu_item['name'] == $s_category ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
                                 <?php foreach ($menu_item['items'] as $child): ?>
                                     <li style="padding-top: 5px;">
-                                        <a href='<?= $child['url'] ?>' <?= Yii::app()->request->requestUri == $child['url'] ? 'style="text-decoration: underline;"' : '' ?>><span><?= $child['name'] ?></span></a>
+                                        <a href='<?= $child['url'] ?><?= !empty($s_brand) ? '/' . $s_brand : '' ?>' <?= $s_subcategory == $child['name'] ? 'style="text-decoration: underline;"' : '' ?>><span><?= $child['name'] ?></span></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
                         </li>
                     <?php else: ?>
                         <li style="text-transform: capitalize; padding-top: 5px;">
-                            <a href='<?= $menu_item['url'] ?>'><span><?= $menu_item['name'] ?></span></a>
+                            <a href='<?= $menu_item['url'] ?><?= !empty($s_brand) ? '/' . $s_brand : '' ?>'><span><?= $menu_item['name'] ?></span></a>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -258,7 +241,7 @@
                 <ul style="list-style: none; padding-left: 0;" class="design">
                     <?php foreach ($brands as $brand): ?>
                         <li style="padding-top: 5px;">
-                            <a href="/brands/<?= $brand->url ?>" <?= Yii::app()->request->requestUri == '/brands/' . $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
+                            <a href="/<?= !empty($s_subcategory) ? $s_category . '-' . $s_subcategory : 'brands' ?>/<?= $brand->url ?>" <?= $s_brand == $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>

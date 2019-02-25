@@ -72,9 +72,14 @@ class ShopController extends MemberController
 
     public function actionShowCategory($category = "", $subcategory = "", $brand ="")
     {
-        if (Yii::app()->request->getQuery('page')) {
+        /*echo $category;
+        echo '|';
+        echo $subcategory;
+        echo '|';
+        echo $brand;*/
+        /*if (Yii::app()->request->getQuery('page')) {
             Yii::app()->clientScript->registerMetaTag('noindex,follow', 'robots');
-        }
+        }*/
 
         //only save filters
         if (isset($_POST['filter']) && isset($_POST['is_save_filters'])) {
@@ -97,6 +102,7 @@ class ShopController extends MemberController
             $model = array();
         } elseif(empty($subcategory)) {
             $model = Category::model()->findByPath('brands/' . $category);
+            $brand = $category;
         } elseif($subcategory == 'all') {
             $model = Category::model()->findByPath($category . '/' . $category);
         } else {
@@ -174,6 +180,12 @@ class ShopController extends MemberController
                 list($filter_model, $where) = Filters::model()->getFilter($where);
             }
 
+            $brand_title = '';
+            if (!empty($brand)) {
+                $brand_db = Brand::model()->findByAttributes(['url' => $brand]);
+                $brand_title = $brand_db->name;
+                $where[] = 't.brand_id = ' . $brand_db->id;
+            }
             $item_count = Product::model()->getCountShopProducts($model, $where, $isTopCategory, $isTopCategory);
 
             $pages = new Pagination($item_count);
@@ -193,6 +205,10 @@ class ShopController extends MemberController
                     'products' => $products,
                     'pages' => $pages,
                     'filters' => $filter_model,
+                    's_category' => $category,
+                    's_subcategory' => $subcategory,
+                    's_brand' => $brand,
+                    's_brand_title' => $brand_title,
                 )
             );
 
@@ -200,6 +216,12 @@ class ShopController extends MemberController
         }
 
         list($filter_model, $where) = Filters::model()->getFilter($where);
+        $brand_title = '';
+        if (!empty($brand)) {
+            $brand_db = Brand::model()->findByAttributes(['url' => $brand]);
+            $brand_title = $brand_db->name;
+            $where[] = 't.brand_id = ' . $brand_db->id;
+        }
         $item_count = Product::model()->getCountShopProducts($model, $where, $isTopCategory);
 
         $pages = new Pagination($item_count);
@@ -218,6 +240,10 @@ class ShopController extends MemberController
             'products' => $products,
             'pages' => $pages,
             'filters' => $filter_model,
+            's_category' => $category,
+            's_subcategory' => $subcategory,
+            's_brand' => $brand,
+            's_brand_title' => $brand_title,
         ));
     }
 

@@ -378,7 +378,7 @@ class UtilsHelper
         return end($urlArr);
     }
 
-    public static function getCategoryMenu()
+    public static function getCategoryMenu($brand = "")
     {
         $menu = array();
         $sql = 'SELECT * FROM `category` WHERE `category`.status != "inactive" ORDER BY `category`.`menu_order` ASC ';
@@ -429,6 +429,29 @@ class UtilsHelper
             }
         }
 
+        if (!empty($brand)) {
+            $brand_db = Brand::model()->findByAttributes(['url' => $brand]);
+            if ($brand_db) {
+                foreach ($menu as $key => &$item) {
+                    if ($item['id'] != Category::getIdByAlias('featured')) {
+                        $item_invis = 0;
+                        $cnt = count($item['items']);
+                        foreach ($item['items'] as $k => &$child) {
+                            if (!Product::model()->exists('category_id = :cat AND brand_id = :brand', [':cat' => $child['id'], ':brand' => $brand_db->id])) {
+                                unset($item['items'][$k]);
+                                $item_invis ++;
+                            }
+                        }
+                        if ($cnt == $item_invis) {
+                            if (!Product::model()->exists('category_id = :cat AND brand_id = :brand', [':cat' => $item['id'], ':brand' => $brand_db->id])) {
+                                unset($menu[$key]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         return $menu;
     }
 
