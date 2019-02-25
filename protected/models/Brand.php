@@ -12,6 +12,8 @@
  */
 class Brand extends CActiveRecord
 {
+    public $generate_url = true;
+    
     /**
      * @return string the associated database table name
      */
@@ -125,10 +127,12 @@ class Brand extends CActiveRecord
     public function beforeSave()
     {
         $ret = parent::beforeSave();
-        if($ret) {
+        if ($ret) {
             if ($this->isNewRecord){
                 $this->name = ucwords(strtolower($this->name));
-                $this->generateUrl();
+                if ($this->generate_url) {
+                    $this->generateUrl();
+                }
             }
         }
 
@@ -197,4 +201,33 @@ class Brand extends CActiveRecord
     {
         return self::model()->findAll(['select' => 'DISTINCT(name), url', 'order' => 'name']);
     }
+    /*public static function getBrandsSorted($category, $subcategory)
+    {
+        $cats = [];
+        $in_cats = '';
+        if (empty($subcategory)) {
+            $model = Category::model()->findByPath('brands/' . $category);
+        } elseif ($subcategory == 'all') {
+            $model = Category::model()->findByPath($category . '/' . $category);
+            $cats = Category::model()->findAllByAttributes(['parent_id' => $model->id]);
+            $in_cats .= $model->id;
+        } else {
+            $model = Category::model()->findByPath($category . '/' . $subcategory);
+            $in_cats .= $model->id;
+        }
+        
+        if (!empty($cats)) {
+            foreach ($cats as $cat) {
+                $in_cats .= ', ' . $cat->id;
+            }
+        }
+        
+        
+        return self::model()->findAll([
+            'select' => 'DISTINCT(name), url',
+            'join' => 'LEFT JOIN product p ON t.id = p.brand_id',
+            'condition' => 'p.category_id IN (' . $in_cats . ')',
+            'order' => 'name'
+        ]);
+    }*/
 }

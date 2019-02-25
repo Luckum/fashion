@@ -8,8 +8,9 @@
  * @property string $name
  * @property string $url
  * @property string $brand
+ * @property string $brand_from_url
  * @property string $currency
- * @property float $sale_price
+ * @property string $sale_price
  * @property string $price
  * @property string $category_lvl1
  * @property string $category_lvl2
@@ -19,46 +20,69 @@
  * @property string $original_picture_url
  * @property string $picture_path
  * @property integer $_in_latest_scrape
+ * @property string $time_crawled
+ * @property string $product_id
  */
 class ScrpProduct extends CActiveRecord
 {
-    public function tableName()
-    {
-        return 'scrp_product';
-    }
-    
-    public function rules()
-    {
-        return array(
-            array('id, name, url, brand, currency, sale_price, price, category_lvl1, category_lvl2, category_lvl3, category_lvl4, source_site, original_picture_url, picture_path, _in_latest_scrape', 'safe'),
-        );
-    }
-    
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'Id',
-            'name' => 'Name',
-            'url' => 'Url',
-            'brand' => 'Brand',
-            'currency' => 'Currency',
-            'sale_price' => 'Sale_price',
-            'price' => 'Price',
-            'category_lvl1' => 'Category lvl1',
-            'category_lvl2' => 'Category lvl2',
-            'category_lvl3' => 'Category lvl3',
-            'category_lvl4' => 'Category lvl4',
-            'source_site' => 'Source_site',
-            'original_picture_url' => 'Original picture url',
-            'picture_path' => 'Picture path',
-            '_in_latest_scrape' => 'In latest scrape'
-        );
-    }
-    
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'scrp_product';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('id, name, url, brand, brand_from_url, currency, sale_price, price, category_lvl1, category_lvl2, category_lvl3, category_lvl4, source_site, original_picture_url, picture_path, _in_latest_scrape, time_crawled, product_id', 'safe'),
+		);
+	}
+
+	
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'name' => 'Name',
+			'url' => 'Url',
+			'brand' => 'Brand',
+			'brand_from_url' => 'Brand From Url',
+			'currency' => 'Currency',
+			'sale_price' => 'Sale Price',
+			'price' => 'Price',
+			'category_lvl1' => 'Category Lvl1',
+			'category_lvl2' => 'Category Lvl2',
+			'category_lvl3' => 'Category Lvl3',
+			'category_lvl4' => 'Category Lvl4',
+			'source_site' => 'Source Site',
+			'original_picture_url' => 'Original Picture Url',
+			'picture_path' => 'Picture Path',
+			'_in_latest_scrape' => 'In Latest Scrape',
+			'time_crawled' => 'Time Crawled',
+			'product_id' => 'Product',
+		);
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return ScrpProduct the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
     
     public static function setDataToProduct()
     {
@@ -66,6 +90,7 @@ class ScrpProduct extends CActiveRecord
         ini_set('memory_limit', '512M');
         $feat_cat_id = Category::getIdByAlias('featured');
         $datas = self::model()->findAll();
+        //$datas = self::model()->findAllByPk(1);
         if ($datas) {
             foreach ($datas as $k => $data) {
                 $category_id = 0;
@@ -82,10 +107,12 @@ class ScrpProduct extends CActiveRecord
                 }
                 
                 if ($category_id != 0) {
-                    $brand = Brand::model()->find('LOWER(name) = "' . strtolower($data->brand) . '"');
+                    $brand = Brand::model()->find('LOWER(url) = "' . strtolower($data->brand_from_url) . '"');
                     if (!$brand) {
                         $brand = new Brand();
                         $brand->name = $data->brand;
+                        $brand->url = strtolower($data->brand_from_url);
+                        $brand->generate_url = false;
                         $brand->save();
                     }
                     $brand_id = $brand->id;
@@ -118,7 +145,18 @@ class ScrpProduct extends CActiveRecord
                             $product->save();
                         }
                     } else {
-                        
+                        $changed = false;
+                        if ($product->price != $data->sale_price) {
+                            $product->price = $data->sale_price;
+                            $changed = true;
+                        }
+                        if ($product->init_price != $data->price) {
+                            $product->init_price = $data->price;
+                            $changed = true;
+                        }
+                        if ($changed) {
+                            $product->save();
+                        }
                     }
                     //self::model()->deleteByPk($data->id);
                     
