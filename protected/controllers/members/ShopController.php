@@ -74,7 +74,7 @@ class ShopController extends MemberController
     {
         /*echo $category;
         echo '|';
-        echo $subcategory;
+        echo trim($subcategory);
         echo '|';
         echo $brand;*/
         /*if (Yii::app()->request->getQuery('page')) {
@@ -206,7 +206,7 @@ class ShopController extends MemberController
                     'pages' => $pages,
                     'filters' => $filter_model,
                     's_category' => $category,
-                    's_subcategory' => $subcategory,
+                    's_subcategory' => trim($subcategory),
                     's_brand' => $brand,
                     's_brand_title' => $brand_title,
                 )

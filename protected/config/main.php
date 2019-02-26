@@ -111,7 +111,7 @@ $params = array(
                 '/product/<category:\w+>[-]<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
 
                 '<category:\w+>[-]<subcategory:.+>/<brand:.+>'=>'members/shop/showCategory',
-                'shop/<category:\w+>[-]<subcategory:.+>/<brand:\w+>'=>'members/shop/showCategory',
+                'shop/<category:\w+>[-]<subcategory:.+>'=>'members/shop/showCategory',
                 'shop/' => 'members/shop/showCategory',
 
                 '<language:\w{2}>shop/category/<category:.+>'=>'members/shop/showCategory',
