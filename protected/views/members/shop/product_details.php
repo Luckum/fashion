@@ -11,16 +11,16 @@
                         <?php
                             if($model->category->parent == NULL) {
                                 $parent = $model->category->getNameByLanguage();
-                                echo "<a href='/$parent->name-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
+                                echo "<a href='/" . strtolower($parent->name) . "-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
                             } else {
                                 $parent = $model->category->parent->getNameByLanguage();
-                                echo "<a href='/$parent->name-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
+                                echo "<a href='/" . strtolower($parent->name) . "-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
                             }
                             
                         ?>
                     </li>
                     <?php if($model->category->parent != NULL): ?>
-                        <li><?= "<a href='/$parent->name-" . strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
+                        <li><?= "<a href='/" . strtolower($parent->name) . "-" . strtolower(str_replace(' ', '-', CHtml::encode($model->category->getNameByLanguage()->name)))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
                     <?php endif; ?>
                 </ul>
             </div>
