@@ -32,6 +32,8 @@
  * @property integer $status
  * @property integer $alerts_sent
  * @property string $custom_size
+ * @property integer $screpped
+ * @property integer $to_delete
  *
  * The followings are the available model relations:
  * @property Bid[] $bs
@@ -101,7 +103,7 @@ class Product extends CActiveRecord implements IECartPosition
             array('parentCategory', 'required', 'on' => 'sell', 'message' => '*required'),
             array('acceptTerms', 'termsAccept', 'on' => 'sell'),
             array('parentCategory', 'parentCat', 'on' => 'sell'),
-            array('user_id, category_id, brand_id, our_selection, condition, featured, featured_order, external_sale, is_url', 'numerical', 'integerOnly' => true),
+            array('user_id, category_id, brand_id, our_selection, condition, featured, featured_order, external_sale, is_url, screpped, to_delete', 'numerical', 'integerOnly' => true),
             array('title, custom_size, image1, image2, image3, image4, image5, size_type', 'length', 'max' => 255),
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'length', 'max' => 255),
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'url'),

@@ -90,17 +90,19 @@ class ScrpProduct extends CActiveRecord
         ini_set('memory_limit', '512M');
         $feat_cat_id = Category::getIdByAlias('featured');
         $datas = self::model()->findAll();
+        
         //$datas = self::model()->findAllByPk(1);
         if ($datas) {
+            Product::model()->updateAll(['to_delete' => 1], 'screpped = 1');
             foreach ($datas as $k => $data) {
                 $category_id = 0;
                 for ($i = 4; $i > 0 ; $i --) {
                     $category_level = 'category_lvl' . $i;
                     $category = Category::model()->find("LOWER(alias) = '" . strtolower($data->$category_level) . "' AND (parent_id != " . $feat_cat_id . " OR parent_id is null)");
                     if ($category) {
-                        if (strtolower($category->alias) == 'accessories') {
+                        /*if (strtolower($category->alias) == 'accessories') {
                             $category = Category::model()->find("LOWER(alias) = 'other' AND parent_id = " . $category->id);
-                        }
+                        }*/
                         $category_id = $category->id;
                         break;
                     }
@@ -126,7 +128,7 @@ class ScrpProduct extends CActiveRecord
                             $crop_mode = 0;
                             $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
                             ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode);
-                            //unlink($data->picture_path);
+                            unlink($data->picture_path);
                             
                             $product = new Product();
                             $product->user_id = 185;
@@ -142,27 +144,25 @@ class ScrpProduct extends CActiveRecord
                             $product->direct_url = $data->url;
                             $product->external_sale = 1;
                             $product->status = 'active';
+                            $product->screpped = 1;
+                            $product->to_delete = 0;
                             $product->save();
                         }
                     } else {
-                        $changed = false;
                         if ($product->price != $data->sale_price) {
                             $product->price = $data->sale_price;
-                            $changed = true;
                         }
                         if ($product->init_price != $data->price) {
                             $product->init_price = $data->price;
-                            $changed = true;
                         }
-                        if ($changed) {
-                            $product->save();
-                        }
+                        $product->to_delete = 0;
+                        $product->save();
                     }
-                    //self::model()->deleteByPk($data->id);
-                    
+                    self::model()->deleteByPk($data->id);
                 }
-                
             }
+            Product::model()->deleteAll('to_delete = 1 AND screpped = 1');
+            Product::clearImages();
         }
         return true;
     }

@@ -446,7 +446,7 @@ class ImageHelper
         $base_path = Yii::getPathOfAlias('webroot');
         $save_max_path = $base_path . ShopConst::IMAGE_MAX_DIR . $name;
         $save_medium_path = $base_path . ShopConst::IMAGE_MEDIUM_DIR . $name;
-        $save_thumbnail_path = $base_path . ShopConst::IMAGE_THUMBNAIL_DIR . $name;
+        //$save_thumbnail_path = $base_path . ShopConst::IMAGE_THUMBNAIL_DIR . $name;
 
         // --------- sizes
         //
@@ -473,7 +473,8 @@ class ImageHelper
             }
             
             self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true, false, $crop_mode);
-            self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true, true);
+            unlink($save_max_path);
+            //self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());
         }

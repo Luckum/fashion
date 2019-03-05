@@ -34,7 +34,7 @@
                 <?php
                 $baseUrl = Yii:: app()->request->getBaseUrl(true);
                 $medium_dir = $baseUrl . ShopConst::IMAGE_MEDIUM_DIR;
-                $big_dir = $baseUrl . ShopConst::IMAGE_MAX_DIR;
+                $big_dir = $baseUrl . ShopConst::IMAGE_MEDIUM_DIR;
                 ?>
                 <div id="photo-zoom-wrapper" class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 photo-zoom-in">
                     <div class="product-image-wrapper wishlist-wrapper">
