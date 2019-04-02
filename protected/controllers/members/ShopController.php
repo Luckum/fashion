@@ -82,6 +82,7 @@ class ShopController extends MemberController
             Yii::app()->clientScript->registerMetaTag('noindex,follow', 'robots');
         }*/
 
+        $isTopCategory = false;
         //only save filters
         if (isset($_POST['filter']) && isset($_POST['is_save_filters'])) {
             Filters::model()->setFilter($_POST['filter'], array());
@@ -103,6 +104,9 @@ class ShopController extends MemberController
             $model = array();
         } elseif(empty($subcategory)) {
             $model = Category::model()->findByPath($category . '/' . $category);
+            if ($model) {
+                $isTopCategory = true;
+            }
             if (!$model) {
                 $model = Category::model()->findByPath('designers/' . $category);
                 $brand = $category;
@@ -152,8 +156,6 @@ class ShopController extends MemberController
         $where = array('and');
         $limit = $this->pageSize;
         $offset = ($page - 1) * $this->pageSize;
-
-        $isTopCategory =  (!empty($subcategory) && $subcategory == 'all');
 
         $sessionSortId = $category . $subcategory . 'sort';
 
