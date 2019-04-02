@@ -390,7 +390,7 @@ class Category extends CActiveRecord
         $model = null;
 
         if (count($categories) == 2) {
-        	if ($categories[0] == 'brands') {
+        	if ($categories[0] == 'designers') {
                 $brandName = html_entity_decode($categories[1], ENT_QUOTES);
                 $brandNameWithSpaces = preg_replace('/-/', ' ', $categories[1]);
                 $brandNameWithSpaces1 = html_entity_decode($brandNameWithSpaces, ENT_QUOTES);

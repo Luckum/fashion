@@ -222,10 +222,10 @@
                     <?php if (count($menu_item['items'])): ?>
                         <li style="text-transform: capitalize; padding-top: 5px;">
                             <a href='#'><span><?= $menu_item['name'] ?></span></a>
-                            <ul style="list-style: none; padding-left: 20px;" <?= $s_subcategory == 'all' ? 'class="non-enbl-sb-open"' : (strtolower($menu_item['name']) == $s_category ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
+                            <ul style="list-style: none; padding-left: 20px;" <?= empty($s_subcategory) ? 'class="non-enbl-sb-open"' : (strtolower($menu_item['name']) == $s_category ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
                                 <?php foreach ($menu_item['items'] as $child): ?>
                                     <li style="padding-top: 5px;">
-                                        <a href='<?= $child['url'] ?><?= !empty($s_brand) ? '/' . $s_brand : '' ?>' <?= trim($s_subcategory) == str_replace(' ', '-', strtolower($child['name'])) || trim($s_subcategory) == strtolower($child['name']) ? 'style="text-decoration: underline;"' : '' ?>><span><?= $child['name'] ?></span></a>
+                                        <a href='<?= !empty($s_brand) ? '/designers/' . $s_brand . $child['url'] : $child['url'] ?>' <?= trim($s_subcategory) == str_replace(' ', '-', strtolower($child['name'])) || trim($s_subcategory) == strtolower($child['name']) ? 'style="text-decoration: underline;"' : '' ?>><span><?= $child['name'] ?></span></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -241,7 +241,7 @@
                 <ul style="list-style: none; padding-left: 0;" class="design">
                     <?php foreach ($brands as $brand): ?>
                         <li style="padding-top: 5px;">
-                            <a href="/<?= !empty($s_subcategory) ? $s_category . '-' . str_replace(' ', '-', trim($s_subcategory)) : 'brands' ?>/<?= $brand->url ?>" <?= $s_brand == $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
+                            <a href="/<?= !empty($s_subcategory) ? $s_category . '/' . str_replace(' ', '-', trim($s_subcategory)) . '/designers' : 'designers' ?>/<?= $brand->url ?>" <?= $s_brand == $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>

@@ -155,7 +155,7 @@ class SiteController extends Controller
         }
 
         // Переводим текст запроса в нижний регистр.
-        $query = strtolower($query);
+        $query = strtolower(trim($query));
         // Меняем условие поиска, если строка поиска меньше двух символов.
         $query = strlen($query) < 2 ? $query . '%' : $query;
         // Экранируем строку запроса.

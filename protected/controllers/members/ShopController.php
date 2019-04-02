@@ -77,6 +77,7 @@ class ShopController extends MemberController
         echo trim($subcategory);
         echo '|';
         echo $brand;*/
+        //die();
         /*if (Yii::app()->request->getQuery('page')) {
             Yii::app()->clientScript->registerMetaTag('noindex,follow', 'robots');
         }*/
@@ -101,10 +102,16 @@ class ShopController extends MemberController
         if (empty($category) && empty($subcategory)) {
             $model = array();
         } elseif(empty($subcategory)) {
-            $model = Category::model()->findByPath('brands/' . $category);
-            $brand = $category;
-        } elseif($subcategory == 'all') {
             $model = Category::model()->findByPath($category . '/' . $category);
+            if (!$model) {
+                $model = Category::model()->findByPath('designers/' . $category);
+                $brand = $category;
+            }
+            if (!$model) {
+                $url = explode('/', trim($category, '/'));
+                $model = Category::model()->findByPath($url[1] . '/' . $url[2]);
+                $brand = $url[0];
+            }
         } else {
             $model = Category::model()->findByPath($category . '/' . $subcategory);
         }

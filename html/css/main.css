@@ -867,6 +867,7 @@ br.nl
 	.padding-left-0 {
 		padding-left: 20px !important;
 	}
+	
 }
 #dropdown-nav {
 	top: 410px;
@@ -972,4 +973,10 @@ br.nl
 }
 .product-information div ul {
 	display: inline-block;
+}
+@media (max-width: 1200px) {
+	.product-information {
+		position: relative !important;
+		bottom: -25px !important;
+	}
 }

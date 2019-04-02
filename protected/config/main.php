@@ -104,14 +104,32 @@ $params = array(
 
                 '<language:\w{2}>/profile-<id:\d+>'=>'members/profile/showProfile',
 
-                'brands/<category:.+>'=>'members/shop/showCategory',
+                'designers/<category:.+>'=>'members/shop/showCategory',
+                'designers/<brand:.+>/<category:.+>/<subcategory:.+>'=>'members/shop/showCategory',
 
-                'shop/<category:\w+>[-]<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
+                'shop/<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
 
-                '/product/<category:\w+>[-]<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
+                '/product/<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
 
-                '<category:\w+>[-]<subcategory:.+>/<brand:.+>'=>'members/shop/showCategory',
-                'shop/<category:\w+>[-]<subcategory:.+>'=>'members/shop/showCategory',
+                '/control'=>'control/index/index',
+                '/control/<controller:\w+>'=>'control/<controller>/index',
+                '/control/<controller:\w+>/<action:\w+>/<id:\d+>'=>'control/<controller>/<action>',
+                '/control/<controller:\w+>/<action:\w+>'=>'control/<controller>/<action>',
+                
+                '/members/<controller:\w+>'=>'members/<controller>/index',
+                '/members/<controller:\w+>/<action:\w+>/<id:\d+>'=>'members/<controller>/<action>',
+                '/members/<controller:\w+>/<action:\w+>'=>'members/<controller>/<action>',
+                
+                '/site/<action:\w+>' => 'site/<action>',
+                
+                '<category:\w+>/<subcategory:.+>/designers/<brand:.+>'=>'members/shop/showCategory',
+                '<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
+                '<category:\w+>'=>'members/shop/showCategory',
+                '<category:\w+>/<subcategory:.+>'=>'members/shop/showCategory',
+                
+                
+                
+                'shop/<category:\w+>/<subcategory:.+>'=>'members/shop/showCategory',
                 'shop/' => 'members/shop/showCategory',
 
                 '<language:\w{2}>shop/category/<category:.+>'=>'members/shop/showCategory',

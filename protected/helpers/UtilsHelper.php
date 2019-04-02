@@ -394,7 +394,7 @@ class UtilsHelper
                 $menu[$counter]['name'] = $item['alias'];
                 $menu[$counter]['selected'] = false;
                 //$menu[$counter]['url'] = '/shop/' . strtolower($item['alias']) . '-all';
-                $menu[$counter]['url'] = '/' . strtolower($item['alias']) . '-all';
+                $menu[$counter]['url'] = '/' . strtolower($item['alias']);
 
                 if ($item['alias'] == $selectedName) {
                     $menu[$counter]['selected'] = true;
@@ -412,7 +412,7 @@ class UtilsHelper
 //                        $child_data['url'] =
 //                            '/shop/' . strtolower($item['alias']) . '-' . strtolower($childAliasWithoutSpaces);
                         $child_data['url'] =
-                              '/' . strtolower($item['alias']) . '-' . strtolower($childAliasWithoutSpaces);
+                              '/' . strtolower($item['alias']) . '/' . strtolower($childAliasWithoutSpaces);
                         $child_data['selected'] = false;
 
                         if ($selectedChildName) {
