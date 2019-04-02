@@ -196,17 +196,17 @@ UserSearch.prototype.showResultTab = function(response) {
 
         icon = headers.pop();
         hcat = headers.pop();
-
+        
         if (response[key].length) {
 
             tmp = '<td class="wb"><ul>';
 
             for (i = 0; i < response[key].length; i++) {
                 if (hcat=='Brands') {
-                    var regex = /\S[b]\w+.*\w+/g;
-                    m=regex.exec(response[key][i]['link']);
+                    //var regex = /\S[b]\w+.*\w+/g;
+                    //m=regex.exec(response[key][i]['link']);
                         var link = $('<div/>')
-                            .text(m)
+                            .text(response[key][i]['link'])
                             .html();
                 } else {
                     // Защита от XSS-атак.
