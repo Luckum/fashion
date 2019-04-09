@@ -114,7 +114,7 @@ $(window).on('load', function() {
     /**
      * Сообщение только для стран евросоюза.
      */
-    var country;
+    /*var country;
     if (typeof geoplugin_countryCode != 'undefined') {
         $.cookie(
             'USR_CNT',
@@ -145,7 +145,7 @@ $(window).on('load', function() {
                 $(this).parent().remove();
             });
         }
-    }
+    }*/
 });
 
 /* IE Origin Fix */

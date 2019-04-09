@@ -267,7 +267,6 @@ if (YII_DEBUG) {
 
 <?php if (empty($_COOKIE['USR_CNT'])): ?>
 <!--Геолокация-->
-<script src="http://www.geoplugin.net/javascript.gp"></script>
 <?php endif; ?>
 
 <!--main.js-->
