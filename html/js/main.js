@@ -146,6 +146,16 @@ $(window).on('load', function() {
             });
         }
     }*/
+    
+    if (!$.cookie('eu-notif')) {
+        // Показываем сообщение.
+        $('.eu-notif').show();
+        $('.eu-notif-btn').on('click', function() {
+            // Удаляем сообщение при нажатии на кнопку ОК.
+            $.cookie('eu-notif', 'true', {'expires' : 365});
+            $(this).parent().remove();
+        });
+    }
 });
 
 /* IE Origin Fix */

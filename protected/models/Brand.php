@@ -47,6 +47,7 @@ class Brand extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'products'   => array(self::HAS_MANY, 'Product', 'brand_id'),
+            'brand_variants' => array(self::HAS_MANY, 'BrandVariant', 'brand_id'),
             'size_chart' => array(self::HAS_ONE, 'SizeChart', 'size_type', 'through' => 'products')
         );
     }
@@ -83,9 +84,13 @@ class Brand extends CActiveRecord
 
         $criteria->compare('id',$this->id);
         $criteria->compare('LOWER(name)', strtolower($this->name), true);
-
+        $criteria->limit = '25';
+        
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'pagination' => array(
+                'pageSize' => 20
+            )
         ));
     }
 
@@ -100,8 +105,15 @@ class Brand extends CActiveRecord
         return parent::model($className);
     }
 
-    public static function getAllBrands() {
-        $brands = self::model()->findAll();
+    public static function getAllBrands($sort = false) {
+        if ($sort) {
+            $criteria = new CDbCriteria;
+            $criteria->order = 'name ASC';
+            $brands = self::model()->findAll($criteria);
+        } else {
+            $brands = self::model()->findAll();
+        }
+        
 
         $array = array();
 
@@ -169,7 +181,7 @@ class Brand extends CActiveRecord
         $model = self::model()->find('LOWER(name)=:name', array(
                 ':name' => strtolower($itemLink),
         ));
-        return '/brands/'.$model->url;
+        return '/designers/'.$model->url;
 //       $base = Yii::app()->createAbsoluteUrl('shop/brands');
 //       $itemLink = trim($itemLink);
 //       $itemLink = preg_replace('/\s/', '-', $itemLink);

@@ -50,11 +50,33 @@ class BrandsController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Brand']))
-		{
-			$model->attributes=$_POST['Brand'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+        if (isset($_POST['Brand'])) {
+			$model->attributes = $_POST['Brand'];
+			if ($model->save()) {
+                if (!empty($_POST['variant'])) {
+                    $variant_id = $_POST['variant'];
+                    Product::model()->updateAll(['brand_id' => $model->id], 'brand_id = ' . $variant_id);
+                    $brand = Brand::model()->findByPk($variant_id);
+                    Brand::model()->deleteAll('id = ' . $variant_id);
+                    $variant = new BrandVariant();
+                    $variant->name = $brand->name;
+                    $variant->url = $brand->url;
+                    $variant->brand_id = $model->id;
+                    $variant->save();
+                }
+                if (!empty($_POST['variant_to'])) {
+                    $brand_id = $_POST['variant_to'];
+                    Product::model()->updateAll(['brand_id' => $brand_id], 'brand_id = ' . $model->id);
+                    $brand = Brand::model()->findByPk($model->id);
+                    Brand::model()->deleteAll('id = ' . $model->id);
+                    $variant = new BrandVariant();
+                    $variant->name = $brand->name;
+                    $variant->url = $brand->url;
+                    $variant->brand_id = $brand_id;
+                    $variant->save();
+                    $this->redirect(array('update', 'id' => $brand_id));
+                }
+            }
 		}
 
 		$this->render('update',array(
@@ -82,7 +104,7 @@ class BrandsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$model=new Brand('search');
+        $model=new Brand('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Brand']))
 			$model->attributes=$_GET['Brand'];
