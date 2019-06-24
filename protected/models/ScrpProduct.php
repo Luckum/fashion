@@ -136,15 +136,14 @@ class ScrpProduct extends CActiveRecord
                     
                     $product = Product::model()->find("direct_url = '" . $data->url . "'");
                     if (!$product) {
-                        //if (file_exists($data->picture_path)) {
+                        if (file_exists($data->picture_path)) {
                             //$arr = explode('\\', $data->picture_path);
-                            /*$arr = explode('/', $data->picture_path);
+                            $arr = explode('/', $data->picture_path);
                             $f_name = end($arr);
                             $crop_mode = 0;
                             $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
                             ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode);
-                            unlink($data->picture_path);*/
-                            $image = '';
+                            unlink($data->picture_path);
                             
                             $product = new Product();
                             $product->user_id = 185;
@@ -163,7 +162,7 @@ class ScrpProduct extends CActiveRecord
                             $product->screpped = 1;
                             $product->to_delete = 0;
                             $product->save();
-                        //}
+                        }
                     } else {
                         if ($product->price != $data->sale_price) {
                             $product->price = $data->sale_price;
@@ -178,7 +177,7 @@ class ScrpProduct extends CActiveRecord
                 }
             }
             Product::model()->deleteAll('to_delete = 1 AND screpped = 1');
-            //Product::clearImages();
+            Product::clearImages();
         }
         return true;
     }

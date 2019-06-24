@@ -115,6 +115,7 @@ $params = array(
                 '/control/<controller:\w+>'=>'control/<controller>/index',
                 '/control/<controller:\w+>/<action:\w+>/<id:\d+>'=>'control/<controller>/<action>',
                 '/control/<controller:\w+>/<action:\w+>'=>'control/<controller>/<action>',
+                '/control/settings/<controller:\w+>/<action:\w+>'=>'control/settings/<controller>/<action>',
                 
                 '/members/<controller:\w+>'=>'members/<controller>/index',
                 '/members/<controller:\w+>/<action:\w+>/<id:\d+>'=>'members/<controller>/<action>',
