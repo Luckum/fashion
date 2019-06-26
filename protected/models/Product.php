@@ -33,7 +33,9 @@
  * @property integer $alerts_sent
  * @property string $custom_size
  * @property integer $screpped
+ * @property integer $imported
  * @property integer $to_delete
+ * @property string $imported_from
  *
  * The followings are the available model relations:
  * @property Bid[] $bs
@@ -103,12 +105,13 @@ class Product extends CActiveRecord implements IECartPosition
             array('parentCategory', 'required', 'on' => 'sell', 'message' => '*required'),
             array('acceptTerms', 'termsAccept', 'on' => 'sell'),
             array('parentCategory', 'parentCat', 'on' => 'sell'),
-            array('user_id, category_id, brand_id, our_selection, condition, featured, featured_order, external_sale, is_url, screpped, to_delete', 'numerical', 'integerOnly' => true),
+            array('user_id, category_id, brand_id, our_selection, condition, featured, featured_order, external_sale, is_url, screpped, to_delete, imported', 'numerical', 'integerOnly' => true),
             array('title, custom_size, image1, image2, image3, image4, image5, size_type', 'length', 'max' => 255),
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'length', 'max' => 255),
             array('image_url1, image_url2, image_url3, image_url4, image_url5', 'url'),
             array('price, init_price', 'length', 'max' => 9),
             array('color', 'length', 'max' => 20, 'allowEmpty' => true),
+            array('imported_from', 'length', 'max' => 50, 'allowEmpty' => true),
             array('description', 'length', 'max' => 1000, 'allowEmpty' => true),
             //array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg', 'allowEmpty' => true),
             array('status', 'in', 'range' => array(self::PRODUCT_STATUS_ACTIVE, self::PRODUCT_STATUS_DEACTIVE, self::PRODUCT_STATUS_PENDING, self::PRODUCT_STATUS_DECLINED, self::PRODUCT_STATUS_SOLD)),
@@ -957,7 +960,8 @@ class Product extends CActiveRecord implements IECartPosition
         ini_set('memory_limit', '512M');
         
         $excluded = ['.', '..', 'blocks', 'lg', 'medium', 'thumbnail', 'images'];
-        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR;
+        //$path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR;
+        $path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
         $files = scandir($path);
         if (count($files) > 2) {
             foreach ($files as $file) {
@@ -970,7 +974,8 @@ class Product extends CActiveRecord implements IECartPosition
             }
         }
         
-        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR;
+        //$path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR;
+        $path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MEDIUM_DIR;
         $files = scandir($path);
         if (count($files) > 2) {
             foreach ($files as $file) {
@@ -983,7 +988,8 @@ class Product extends CActiveRecord implements IECartPosition
             }
         }
         
-        $path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_THUMBNAIL_DIR;
+        //$path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_THUMBNAIL_DIR;
+        $path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_THUMBNAIL_DIR;
         $files = scandir($path);
         if (count($files) > 2) {
             foreach ($files as $file) {

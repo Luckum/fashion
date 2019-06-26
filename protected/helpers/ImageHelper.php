@@ -106,7 +106,7 @@ abstract class ImageWrapperAbstract
         $this->get_source_image($this->file_path);
         
         $mode = 0;
-
+        
         if (!$is_thumb) {
             if (round($this->output_width) < Yii::app()->params['image_settings']['min_medium_width']) {
                 $this->output_width = Yii::app()->params['image_settings']['min_medium_width'];
@@ -443,7 +443,8 @@ class ImageHelper
 
         // --------- paths
         //
-        $base_path = Yii::getPathOfAlias('webroot');
+        //$base_path = Yii::getPathOfAlias('webroot');
+        $base_path = Yii::getPathOfAlias('application') . '/../html';
         $save_max_path = $base_path . ShopConst::IMAGE_MAX_DIR . $name;
         $save_medium_path = $base_path . ShopConst::IMAGE_MEDIUM_DIR . $name;
         //$save_thumbnail_path = $base_path . ShopConst::IMAGE_THUMBNAIL_DIR . $name;

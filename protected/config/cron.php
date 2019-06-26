@@ -10,6 +10,7 @@ return array(
     'import'=>array(
         'application.components.*',
         'application.models.*',
+        'application.helpers.*',
         'ext.shoppingCart.*',
         'application.helpers.LogHelper',
         'application.helpers.EmailHelper',
@@ -38,4 +39,5 @@ return array(
         // Your DB connection
         'db'=>require(dirname(__FILE__) . '/db.php'),
     ),
+    'params'=>require(dirname(__FILE__) . '/params.php'),
 );
