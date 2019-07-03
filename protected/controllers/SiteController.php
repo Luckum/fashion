@@ -104,14 +104,79 @@ class SiteController extends Controller
      */
     public function actionAjaxSearch()
     {
-        // Только POST Ajax-запрос.
         if (!Yii::app()->request->isAjaxRequest ||
             !Yii::app()->request->isPostRequest) {
             throw new CHttpException(403, 'Forbidden');
         }
+        
+        $data['brand'] = $data['product'] = $data['category'] = [];
+        
+        $query = strtolower(Yii::app()->request->getPost('phrase'));
+        
+        if (strlen($query) > 2) {
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id, title';
+            $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+            $criteria->condition = "LOWER(title) LIKE '%$query%'";
+            $criteria->limit = '4';
+            $products = Product::model()->findAll($criteria);
+            
+            if ($products) {
+                foreach ($products as $product) {
+                    $parent = Category::model()->findByPk($product->category->parent_id);
+                    $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
+                    $p_title = str_replace(['"', ",", "'"], "", $product->title);
+                    $data['product'][] = [
+                        'title' => trim($product->title),
+                        'link' => strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id))
+                    ];
+                }
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = '*';
+            $criteria->condition = "LOWER(name) LIKE '%$query%'";
+            $criteria->limit = '4';
+            $brands = Brand::model()->findAll($criteria);
+            
+            if ($brands) {
+                foreach ($brands as $brand) {
+                    $data['brand'][] = [
+                        'title' => $brand->name,
+                        'link' => '/designers/' . $brand->url
+                    ];
+                }
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = 'parent_id, alias';
+            $criteria->condition = "LOWER(alias) LIKE '%$query%'";
+            $criteria->limit = '4';
+            $categories = Category::model()->findAll($criteria);
+            
+            if ($categories) {
+                foreach ($categories as $category) {
+                    $parent = Category::model()->findByPk($category->parent_id);
+                    $data['category'][] = [
+                        'title' => $category->alias . ($parent ? ' (' . $parent->alias . ')' : ''),
+                        'link' => $parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias))
+                    ];
+                }
+            }
+        }
+        
+        
+        /*$data = [
+            ['name' => 'test'],
+            ['name' => 'test2'],
+            ['name' => 'test3']
+        ];*/
+        
+        die(CJSON::encode($data));
+        
 
         // Проверяем строку поиска на корректность.
-        if (empty($query = Yii::app()->request->getPost('query')) ||
+        /*if (empty($query = Yii::app()->request->getPost('query')) ||
             preg_match('/["\'%]/', $query)) {
             throw new CHttpException(400, 'Bad Request');
         }
@@ -178,7 +243,7 @@ class SiteController extends Controller
          * c - категория
          * u - пользователь
          */
-        $p = $b = $c = $u = array();
+        /*$p = $b = $c = $u = array();
         foreach ($data as $item) {
             switch ($item['type']) {
                 case 'p' :
@@ -214,7 +279,7 @@ class SiteController extends Controller
         // Возвращаем результат поиска пользователю.
         die(CJSON::encode(
             $data
-        ));
+        ));*/
     }
 
     /**

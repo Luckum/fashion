@@ -467,7 +467,14 @@ class ImageHelper
         try {
             //self::cCompress($file, $save_max_path, $max_width, $max_height, $quality, true);
             if ($is_url) {
-                copy($is_url, $save_max_path);
+                $context = stream_context_create([
+                    'http' => [
+                        'header' => [
+                            'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'
+                        ]
+                    ]
+                ]);
+                copy($is_url, $save_max_path, $context);
                 
             } else {
                 self::saveWithoutCompress($file, $save_max_path, true);

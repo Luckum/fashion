@@ -66,6 +66,8 @@ class Product extends CActiveRecord implements IECartPosition
     public $brand_search;
     public $size_search;
     public $user_search;
+    public $alias;
+    public $parent_id;
 
     /**
      * Статусы продукта.

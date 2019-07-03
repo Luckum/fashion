@@ -63,6 +63,7 @@ if (YII_DEBUG) {
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css<?php echo $noCacheParameter; ?>">
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui-min.css">
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/js/EasyAutocomplete-1.3.5/easy-autocomplete.css">
 
     <!-- jQuery lib must be higher than title, because EFancyBox include it scripts under last js script,
          which is situated above title  -->
@@ -100,13 +101,10 @@ if (YII_DEBUG) {
     <!--SEARCH MODAL-->
     <div id="search-dlg">
         <?=CHtml::imageButton(Yii::app()->request->baseUrl . '/images/dialog-close.png', array('class' => 'lnMod-cls-btn'))?>
-        <span><?= Yii::t('base', 'Search by brand, category, product or user') ?>:</span>
+        <span><?= Yii::t('base', 'Search by designer, category or product') ?>:</span>
         <div id="search-box">
             <input type="text" id="search-text" name="search-text" class="search-input-normal" maxlength="50"/>
-            <span><?= Yii::t('base', 'type and then press Enter') ?></span>
         </div>
-        <!--Результат поиска-->
-        <div id="js-search-result" class="scrollbar-inner"></div>
     </div>
     <!--END SEARCH MODAL-->
     
@@ -264,6 +262,76 @@ if (YII_DEBUG) {
 <script src="<?=Yii::app()->request->baseUrl?>/js/common.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery-ui.min.js"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/eternalSession.js<?php echo $noCacheParameter; ?>"></script>
+<script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script>
+
+<script>
+    var options = {
+        list: {
+            maxNumberOfElements: 12,
+            match: {
+                enabled: true
+            }
+        },
+        
+        categories: [
+            {
+                listLocation: "product",
+                header: "products",
+                maxNumberOfElements: 4,
+            },
+            {
+                listLocation: "brand",
+                header: "brands",
+                maxNumberOfElements: 4,
+            },
+            {
+                listLocation: "category",
+                header: "categories",
+                maxNumberOfElements: 4,
+            } 
+        ],
+
+        
+        url: function(phrase) {
+            return "/site/ajaxSearch";
+        },
+
+        getValue: function(element) {
+            return element.title;
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+        
+        minCharNumber: 3,
+
+        preparePostData: function(data) {
+            data.phrase = $("#search-text").val();
+            return data;
+        },
+        
+        template: {
+            type: "links",
+            fields: {
+                link: "link"
+            }
+        },
+
+        requestDelay: 400
+    };
+
+    $("#search-text").easyAutocomplete(options);
+    $("#search-text").on('keypress', function(e) {
+        if (e.keyCode == 13 && $(this).val().length > 2) {
+            window.location.href = '/search/results?q=' + $(this).val().split(' ').join('+');
+        }
+    });
+</script>
 
 <?php if (empty($_COOKIE['USR_CNT'])): ?>
 <!--Геолокация-->

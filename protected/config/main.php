@@ -75,6 +75,7 @@ $params = array(
                 '/page/<page:[\w-_]+>' => 'site/static/page/<page>',
 
                 '/mobile-search' => 'site/mobileSearch',
+                '/search/results' => 'members/search/results',
 
                 '/blog' => 'members/blog/index',
                 '/blog/post/<id:\d+>' => 'members/blog/post',
@@ -117,13 +118,14 @@ $params = array(
                 '/control/<controller:\w+>/<action:\w+>'=>'control/<controller>/<action>',
                 '/control/settings/<controller:\w+>/<action:\w+>'=>'control/settings/<controller>/<action>',
                 
-                '/members/<controller:\w+>'=>'members/<controller>/index',
-                '/members/<controller:\w+>/<action:\w+>/<id:\d+>'=>'members/<controller>/<action>',
-                '/members/<controller:\w+>/<action:\w+>'=>'members/<controller>/<action>',
+                '/members/<controller:[\w\-]+>'=>'members/<controller>/index',
+                '/members/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'=>'members/<controller>/<action>',
+                '/members/<controller:[\w\-]+>/<action:[\w\-]+>'=>'members/<controller>/<action>',
                 
-                '/site/<action:\w+>' => 'site/<action>',
+                '/site/<action:[\w\-]+>' => 'site/<action>',
                 
                 '<category:\w+>/<subcategory:.+>/designers/<brand:.+>'=>'members/shop/showCategory',
+                '<category:\w+>/<id:.+>'=>'members/shop/productDetails',
                 '<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
                 '<category:\w+>'=>'members/shop/showCategory',
                 '<category:\w+>/<subcategory:.+>'=>'members/shop/showCategory',

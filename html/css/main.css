@@ -1,4 +1,4 @@
-﻿/* Оверлей */
+/* Оверлей */
 
 div#lean_overlay {
     position: fixed;
@@ -16,11 +16,11 @@ div#lean_overlay {
 div#search-dlg {
     width: 1000px;
     display: none;
-    overflow-y: auto !important;
+/*    overflow-y: auto !important;*/
 }
 
 div#search-dlg > span {
-    vertical-align: 100%;
+/*    vertical-align: 100%;*/
 }
 
 div#search-dlg div#search-box {
@@ -33,7 +33,7 @@ input#search-text {
     height: 100%;
     width: 600px;
     color: #000;
-    font-size: 80px;
+    font-size: 30px;
     font-weight: bold;
     border: none;
     border-radius: 0;

@@ -11,16 +11,16 @@
                         <?php
                             if($model->category->parent == NULL) {
                                 $parent = $model->category->getNameByLanguage();
-                                echo "<a href='/" . strtolower($parent->name) . "-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
+                                echo "<a href='/" . strtolower($parent->name) . "'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
                             } else {
                                 $parent = $model->category->parent->getNameByLanguage();
-                                echo "<a href='/" . strtolower($parent->name) . "-all'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
+                                echo "<a href='/" . strtolower($parent->name) . "'>".strtolower($parent->header_text ? CHtml::encode($parent->header_text) : CHtml::encode($parent->name))."</a>";
                             }
                             
                         ?>
                     </li>
                     <?php if($model->category->parent != NULL): ?>
-                        <li><?= "<a href='/" . strtolower($parent->name) . "-" . strtolower(str_replace(' ', '-', CHtml::encode($model->category->getNameByLanguage()->name)))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
+                        <li><?= "<a href='/" . strtolower($parent->name) . "/" . strtolower(str_replace(' ', '-', CHtml::encode($model->category->getNameByLanguage()->name)))."'>".strtolower(CHtml::encode($model->category->getNameByLanguage()->name))."</a>"; ?></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-1 uk-width-large-3-10 uk-width-medium-3-10 outer-product-info">
-                    <h2 class="uk-margin-right product-title"><?= '<a href="/brands/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
+                    <h2 class="uk-margin-right product-title"><?= '<a href="/designers/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
                     <br>
                     <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
                     <div class="product-description uk-padding-top-large">
