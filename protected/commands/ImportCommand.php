@@ -264,7 +264,18 @@ class ImportCommand extends CConsoleCommand
             'Vanity Cases' => 182,
             'default' => 182,
         ],
-        'default' => 94, 
+        '85% Silk 15% Cashmere' => 94,
+        '43% Silk 35% Cashmere 22% Cotton' => 94,
+        'Heavyweight 100% Cashmere' => 94,
+        'Featherweight 85%silk 15%cashmere' => 94,
+        '85% Cotton 15% Cashmere' => 94,
+        '55% Silk 45% Cashmere' => 94,
+        'Lightweight 70% Wool 30% Cashmere' => 94,
+        '100% Featherweight Wool' => 94,
+        '70% Wool 30% Cashmere' => 94,
+        'Super Fine 100% Cashmere' => 94,
+        'Lightweight 85% Cotton 15% Cashmere' => 94,
+        '100% Cashmere' => 94,
     ];
     
     protected $ftp_server = 'aftp.linksynergy.com';
@@ -299,8 +310,8 @@ class ImportCommand extends CConsoleCommand
                 Product::model()->updateAll(['to_delete' => 1], 'imported = 1 AND imported_from = "' . $file_name . '"');
                 $this->saveData($products, $file_name);
                 Product::model()->deleteAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
-                unlink($file_name);
-                unlink($out_file_name);
+                unlink(Yii::getPathOfAlias('application') . '/data/' . $file_name);
+                unlink(Yii::getPathOfAlias('application') . '/data/' . $out_file_name);
             }
             
         }
@@ -349,12 +360,23 @@ class ImportCommand extends CConsoleCommand
     
     protected function getFromFtp($file_name)
     {
-        $ftp_server = $this->ftp_server;
+        $curl = curl_init();
+        $file = fopen(Yii::getPathOfAlias('application') . '/data/' . $file_name, 'w');
+        curl_setopt($curl, CURLOPT_URL, "ftp://" . $this->ftp_server . "/" . $file_name);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_IGNORE_CONTENT_LENGTH, 1);
+        curl_setopt($curl, CURLOPT_FILE, $file);
+        curl_setopt($curl, CURLOPT_USERPWD, $this->ftp_user_name . ":" . $this->ftp_user_pass);
+        curl_exec($curl);
+        curl_close($curl);
+        fclose($file);
+        
+        /*$ftp_server = $this->ftp_server;
         $ftp_user_name = $this->ftp_user_name;
         $ftp_user_pass = $this->ftp_user_pass;
         
         $data = file_get_contents("ftp://$ftp_user_name:$ftp_user_pass@$ftp_server/$file_name");
-        file_put_contents(Yii::getPathOfAlias('application') . '/data/' . $file_name, $data);
+        file_put_contents(Yii::getPathOfAlias('application') . '/data/' . $file_name, $data);*/
     }
     
     protected function unzipFile($file_name)
@@ -390,8 +412,6 @@ class ImportCommand extends CConsoleCommand
                     } else {
                         $category_id = $this->category_link[$product[3]];
                     }
-                } else {
-                    $category_id = $this->category_link['default'];
                 }
                 
                 if ($category_id != 0) {
@@ -425,7 +445,7 @@ class ImportCommand extends CConsoleCommand
                         $model->user_id = 185;
                         $model->category_id = $category_id;
                         $model->brand_id = $brand_id;
-                        $model->title = $product[1];
+                        $model->title = $this->getProductTitle($file_name, $product[1]);
                         $model->description = $product[8];
                         $model->image1 = $image;
                         $model->color = $product[32];
@@ -446,11 +466,26 @@ class ImportCommand extends CConsoleCommand
                         if ($model->init_price != $product[13]) {
                             $model->init_price = $product[13];
                         }
+                        $model->title = $this->getProductTitle($file_name, $product[1]);
                         $model->to_delete = 0;
                         $model->save();
                     }
                 }
+                die();
             }
         }
+    }
+    
+    protected function getProductTitle($file_name, $full_name)
+    {
+        $title = '';
+        if ($file_name == '35725_3620548_mp.txt.gz') {
+            $full_name_parts = explode('-', $full_name);
+            $title = trim($full_name_parts[1] . trim($full_name_parts[3]));
+        } else {
+            $title = $full_name;
+        }
+        
+        return $title;
     }
 }
