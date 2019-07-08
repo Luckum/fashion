@@ -8,6 +8,8 @@ class SearchController extends Controller
     
     public function actionResults($q)
     {
+        $limit = 12;
+        $offset = 0;
         $products = $brands = $categories = [];
         $message = '';
         
@@ -15,9 +17,17 @@ class SearchController extends Controller
             $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
             
             $criteria = new CDbCriteria;
-            $criteria->select = 'id, title';
-            $criteria->with = ['category' => ['select' => 'alias, parent_id']];
             $criteria->condition = 'LOWER(title) LIKE "%' . $query . '%"';
+            $products_cnt = Product::model()->count($criteria);
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id, title, external_sale, direct_url, category_id, image1, init_price, price, status';
+            $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+            $criteria->with = ['brand' => ['select' => 'name']];
+            $criteria->with = ['size_chart' => ['select' => 'size']];
+            $criteria->condition = 'LOWER(title) LIKE "%' . $query . '%"';
+            $criteria->limit = $limit;
+            $criteria->offset = $offset;
             $products = Product::model()->findAll($criteria);
             
             $criteria = new CDbCriteria;

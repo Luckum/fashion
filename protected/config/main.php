@@ -125,10 +125,10 @@ $params = array(
                 '/site/<action:[\w\-]+>' => 'site/<action>',
                 
                 '<category:\w+>/<subcategory:.+>/designers/<brand:.+>'=>'members/shop/showCategory',
-                '<category:\w+>/<id:.+>'=>'members/shop/productDetails',
                 '<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
                 '<category:\w+>'=>'members/shop/showCategory',
                 '<category:\w+>/<subcategory:.+>'=>'members/shop/showCategory',
+                '<category:\w+>/<id:.+>'=>'members/shop/productDetails',
                 
                 
                 

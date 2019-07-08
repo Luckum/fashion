@@ -8,10 +8,16 @@ $mediumPath = ShopConst::HOME_BLOCK_IMAGE_MEDIUM_DIR;
 $thumbnailPath = ShopConst::HOME_BLOCK_IMAGE_THUMBNAIL_DIR;
 ?>
 
-
-    <!--MAIN BLOCK-->
-    <div class="uk-container uk-container-center uk-padding-top-large">
-        <div class="uk-padding-top-xxlarge uk-grid main-page-blocks">
+<!--MAIN BLOCK-->
+<div class="uk-container uk-container-center uk-padding-top-large">
+    <div class="uk-padding-top-xxlarge">
+        <div style="text-align: center; margin-top: -70px;">
+            <span><?= Yii::t('base', 'Search by designer, category or product') ?>:</span>
+            <div id="search-box" class="main-search-box">
+                <input type="text" id="search-text" name="search-text" class="search-input-normal" maxlength="50"/>
+            </div>
+        </div>
+        <div class="uk-grid main-page-blocks">
             <?php foreach ($blocks as $k => $block): ?>
                 <div class="uk-width-large-1-2 <?= $k == 0 ? 'padding-right-1 padding-left-0' : 'padding-left-1' ?>">
                     <a href="<?=$block->url?>" class="uk-display-block">
@@ -26,4 +32,5 @@ $thumbnailPath = ShopConst::HOME_BLOCK_IMAGE_THUMBNAIL_DIR;
             <?php endforeach; ?>
         </div>
     </div>
-    <!--END MAIN BLOCK-->
+</div>
+<!--END MAIN BLOCK-->

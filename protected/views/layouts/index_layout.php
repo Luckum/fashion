@@ -61,11 +61,13 @@
                     </a>
                 </li>
             <?php endif; ?>
-            <li style="float: right;" class="uk-visible-large">
-                <a class="main_menu_link search-icon" href="#search">
-                    <?php echo Yii::t('base', 'Search'); ?>
-                </a>
-            </li>
+            <?php if (Yii::app()->controller->id != 'members/index' && Yii::app()->controller->action->id != 'index'): ?>
+                <li style="float: right;" class="uk-visible-large">
+                    <a class="main_menu_link search-icon" href="#search">
+                        <?php echo Yii::t('base', 'Search'); ?>
+                    </a>
+                </li>
+            <?php endif; ?>
             
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-visible-large" style="float: right;">
@@ -139,11 +141,13 @@
                 </li>
             <?php endif; ?>
             
-            <li class="uk-hidden-large">
-                <a class="main_menu_link search-icon" href="#search">
-                    <?php echo Yii::t('base', 'Search'); ?>
-                </a>
-            </li>
+            <?php if (Yii::app()->controller->id != 'members/index' && Yii::app()->controller->action->id != 'index'): ?>
+                <li class="uk-hidden-large">
+                    <a class="main_menu_link search-icon" href="#search">
+                        <?php echo Yii::t('base', 'Search'); ?>
+                    </a>
+                </li>
+            <?php endif; ?>
             
         </ul>
     </div>

@@ -276,17 +276,17 @@ if (YII_DEBUG) {
         categories: [
             {
                 listLocation: "product",
-                header: "products",
+                header: "PRODUCTS",
                 maxNumberOfElements: 4,
             },
             {
                 listLocation: "brand",
-                header: "brands",
+                header: "DESIGNERS",
                 maxNumberOfElements: 4,
             },
             {
                 listLocation: "category",
-                header: "categories",
+                header: "CATEGORIES",
                 maxNumberOfElements: 4,
             } 
         ],
