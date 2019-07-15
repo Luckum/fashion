@@ -53,6 +53,47 @@ class SearchController extends Controller
         ]);
     }
     
+    public function actionMoreResults()
+    {
+        $limit = Yii::app()->request->getPost('limit');
+        $offset = Yii::app()->request->getPost('offset');
+        $q = Yii::app()->request->getPost('query');
+        
+        $products = $brands = $categories = [];
+        $count = $products_cnt = 0;
+        
+        $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
+        $data = $this->getResults($query, $limit, $offset);
+        
+        if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+            $query_parts = explode(' ', $query);
+            $query_res = substr($query_parts[0], 0, -1);
+            $data = $this->getResults($query_res, $limit, $offset);
+            while (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+                $query_res = substr($query_res, 0, -1);
+                $data = $this->getResults($query_res, $limit, $offset);
+            }
+        }
+        
+        $products = $data['product'];
+        $products_cnt = $data['products_cnt'];
+        
+        foreach ($products as $rec) {
+            $count += count($rec);
+        }
+        
+        die (CJSON:: encode([
+            'html' => $this->renderPartial('_results', [
+                'products' => $products,
+                'q' => $q,
+                'count' => $count,
+            ], true),
+            'limit' => $limit,
+            'offset' => $offset,
+            'products_cnt' => $products_cnt,
+        ]));
+    }
+    
     protected function getResults($query, $limit, $offset)
     {
         $data['brand'] = $data['product'] = $data['category'] = [];

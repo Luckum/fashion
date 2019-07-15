@@ -37,6 +37,10 @@ div#search-dlg div#search-box {
     margin-top: 150px;
     margin-bottom: 100px;
 }
+.show-more-results-btn-cnt {
+    text-align: center;
+    margin-top: 30px;
+}
 
 input#search-text {
     height: 100%;

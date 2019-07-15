@@ -162,8 +162,15 @@
                 <?php $i ++ ?>
             <?php endforeach; ?>
         <?php endforeach; ?>
+        <div id="more-results-cnt">
+        </div>
         <?php if ($products_cnt > ($limit + $offset)): ?>
-            
+            <div class="show-more-results-btn-cnt">
+                <input type="button" id="show-more-results-btn" data-query="<?= $q ?>" data-limit="<?= $limit ?>" data-offset="<?= $offset + $limit ?>" onclick="showMoreResults(this)" value="<?= Yii::t('base', 'Show more results') ?>" class="uk-button uk-button-small" style="line-height: 26px; min-height: 26px;">
+                <div id="loading_results" class="loading_results" style="display: none;">
+                    <img src="/images/ajax.gif">
+                </div>
+            </div>
         <?php endif; ?>
     <?php endif; ?>
 </div>
@@ -219,6 +226,27 @@
             $('a#filter-link').attr('href',link_url);
         });
     });
-
+    
+    function showMoreResults(obj)
+    {
+        $('#show-more-results-btn').hide();
+        $('#loading_results').show();
+        $.ajax({
+            type: 'POST',
+            data: {limit: $(obj).attr('data-limit'), offset: $(obj).attr('data-offset'), query: $(obj).attr('data-query')},
+            url: globals.url + '/search/more-results',
+            success: function (data) {
+                var response = JSON.parse(data);
+                $("#more-results-cnt").append(response.html);
+                $("#show-more-results-btn").attr("data-limit", response.limit);
+                $("#show-more-results-btn").attr("data-offset", parseInt(response.offset) + parseInt(response.limit));
+                
+                if (parseInt(response.products_cnt) > (parseInt(response.limit) + parseInt(response.offset))) {
+                    $('#show-more-results-btn').show();
+                }
+                $('#loading_results').hide();
+            }
+        });
+    }
 </script>
 
