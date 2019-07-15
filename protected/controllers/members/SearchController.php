@@ -12,6 +12,7 @@ class SearchController extends Controller
         $offset = 0;
         $products = $brands = $categories = [];
         $message = '';
+        $count = $products_cnt = 0;
         
         if (!empty($q) && strlen($q) > 2) {
             $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
@@ -29,7 +30,12 @@ class SearchController extends Controller
             
             $products = $data['product'];
             $brands = $data['brand'];
-            $categories = $data['category']; 
+            $categories = $data['category'];
+            $products_cnt = $data['products_cnt'];
+            
+            foreach ($products as $rec) {
+                $count += count($rec);
+            }
         } else {
             $message = 'Wrong search criteria';
         }
@@ -39,19 +45,24 @@ class SearchController extends Controller
             'brands' => $brands,
             'categories' => $categories,
             'q' => $q,
-            'message' => $message
+            'message' => $message,
+            'limit' => $limit,
+            'offset' => $offset,
+            'products_cnt' => $products_cnt,
+            'count' => $count,
         ]);
     }
     
     protected function getResults($query, $limit, $offset)
     {
         $data['brand'] = $data['product'] = $data['category'] = [];
+        $data['products_cnt'] = 0;
         
         $query_parts = explode(' ', $query);
         foreach ($query_parts as $query_part) {
             $criteria = new CDbCriteria;
             $criteria->condition = 'LOWER(title) LIKE "%' . $query_part . '%"';
-            $products_cnt = Product::model()->count($criteria);
+            $data['products_cnt'] += Product::model()->count($criteria);
             
             $criteria = new CDbCriteria;
             $criteria->select = 'id, title, external_sale, direct_url, category_id, image1, init_price, price, status';
@@ -167,10 +178,10 @@ class SearchController extends Controller
                                     foreach ($rec as $k => $product_rec) {
                                         if ($product_rec->id == $product->id) {
                                             unset($data['product'][$i][$k]);
+                                            array_unshift($data['product'][$i], $product);
                                         }
                                     }
                                 }
-                                array_unshift($data['product'], $product);
                             }
                         }
                     }
