@@ -32,6 +32,11 @@ div#search-dlg div#search-box {
     display: inline-block;
     padding-bottom: 30px;
 }
+.main-search-box-cnt {
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
 
 input#search-text {
     height: 100%;

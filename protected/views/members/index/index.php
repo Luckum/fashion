@@ -11,10 +11,10 @@ $thumbnailPath = ShopConst::HOME_BLOCK_IMAGE_THUMBNAIL_DIR;
 <!--MAIN BLOCK-->
 <div class="uk-container uk-container-center uk-padding-top-large">
     <div class="uk-padding-top-xxlarge">
-        <div style="text-align: center; margin-top: -70px;">
+        <div class="main-search-box-cnt">
             <span><?= Yii::t('base', 'Search by designer, category or product') ?>:</span>
             <div id="search-box" class="main-search-box">
-                <input type="text" id="search-text" name="search-text" class="search-input-normal" maxlength="50"/>
+                <input autofocus type="text" id="search-text" name="search-text" class="search-input-normal" maxlength="50"/>
             </div>
         </div>
         <div class="uk-grid main-page-blocks">

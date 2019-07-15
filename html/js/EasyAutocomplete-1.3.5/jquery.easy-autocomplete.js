@@ -1187,8 +1187,25 @@ var EasyAutocomplete = (function(scope) {
  			}
 
 			function highlightPhrase(string, phrase) {
-				var escapedPhrase = escapeRegExp(phrase);
-				return (string + "").replace(new RegExp("(" + escapedPhrase + ")", "gi") , "<b>$1</b>");
+				/*var escapedPhrase = escapeRegExp(phrase);
+				return (string + "").replace(new RegExp("(" + escapedPhrase + ")", "gi") , "<b>$1</b>");*/
+                
+                var escapedPhrase = escapeRegExp(phrase);
+                var phrase_parts = escapedPhrase.split(' ');
+                var string_parts = string.split(' ');
+                var f_string = new Array;
+                for (var k = 0; k < string_parts.length; k ++) {
+                    f_string[k] = string_parts[k];
+                    for (var i = 0; i < phrase_parts.length; i ++) {
+                        var tmp_str = (string_parts[k] + "").replace(new RegExp("(" + phrase_parts[i] + ")", "gi") , "<strong>$1</strong>");
+                        if (string_parts[k].length != tmp_str.length) {
+                            f_string[k] = tmp_str;
+                        }
+                        
+                    }
+                }
+                
+                return f_string.join(' ');
 			}
 
 

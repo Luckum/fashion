@@ -262,22 +262,20 @@ if (YII_DEBUG) {
 <script src="<?=Yii::app()->request->baseUrl?>/js/common.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery-ui.min.js"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/eternalSession.js<?php echo $noCacheParameter; ?>"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script>
+<script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
 
 <script>
     var options = {
         list: {
-            maxNumberOfElements: 12,
-            match: {
-                enabled: true
-            }
+            maxNumberOfElements: 18
+            
         },
         
         categories: [
             {
                 listLocation: "product",
                 header: "PRODUCTS",
-                maxNumberOfElements: 4,
+                maxNumberOfElements: 6,
             },
             {
                 listLocation: "brand",

@@ -114,57 +114,18 @@ class SiteController extends Controller
         $query = strtolower(Yii::app()->request->getPost('phrase'));
         
         if (strlen($query) > 2) {
-            $criteria = new CDbCriteria;
-            $criteria->select = 'id, title';
-            $criteria->with = ['category' => ['select' => 'alias, parent_id']];
-            $criteria->condition = "LOWER(title) LIKE '%$query%'";
-            $criteria->limit = '4';
-            $products = Product::model()->findAll($criteria);
-            
-            if ($products) {
-                foreach ($products as $product) {
-                    $parent = Category::model()->findByPk($product->category->parent_id);
-                    $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
-                    $p_title = str_replace(['"', ",", "'"], "", $product->title);
-                    $data['product'][] = [
-                        'title' => trim($product->title),
-                        'link' => strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id))
-                    ];
-                }
-            }
-            
-            $criteria = new CDbCriteria;
-            $criteria->select = '*';
-            $criteria->condition = "LOWER(name) LIKE '%$query%'";
-            $criteria->limit = '4';
-            $brands = Brand::model()->findAll($criteria);
-            
-            if ($brands) {
-                foreach ($brands as $brand) {
-                    $data['brand'][] = [
-                        'title' => $brand->name,
-                        'link' => '/designers/' . $brand->url
-                    ];
-                }
-            }
-            
-            $criteria = new CDbCriteria;
-            $criteria->select = 'parent_id, alias';
-            $criteria->condition = "LOWER(alias) LIKE '%$query%'";
-            $criteria->limit = '4';
-            $categories = Category::model()->findAll($criteria);
-            
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $parent = Category::model()->findByPk($category->parent_id);
-                    $data['category'][] = [
-                        'title' => $category->alias . ($parent ? ' (' . $parent->alias . ')' : ''),
-                        'link' => $parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias))
-                    ];
-                }
-            }
+            $data = $this->getResults($query);
         }
         
+        if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+            $query_parts = explode(' ', $query);
+            $query_res = substr($query_parts[0], 0, -1);
+            $data = $this->getResults($query_res);
+            while (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+                $query_res = substr($query_res, 0, -1);
+                $data = $this->getResults($query_res);
+            }
+        }
         
         /*$data = [
             ['name' => 'test'],
@@ -470,5 +431,182 @@ class SiteController extends Controller
         die(CJSON::encode(
             $res
         ));
+    }
+    
+    protected function getResults($query)
+    {
+        $data['brand'] = $data['product'] = $data['category'] = [];
+        
+        $query_parts = explode(' ', $query);
+        foreach ($query_parts as $query_part) {
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id, title';
+            $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+            $criteria->condition = "LOWER(title) LIKE '%$query_part%'";
+            if (count($query_parts) == 1) {
+                $criteria->limit = '6';
+            } else if (count($query_parts) == 2) {
+                $criteria->limit = '3';
+            } else {
+                $criteria->limit = '2';
+            }
+            
+            $products = Product::model()->findAll($criteria);
+            
+            if ($products) {
+                foreach ($products as $product) {
+                    $parent = Category::model()->findByPk($product->category->parent_id);
+                    $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
+                    $p_title = str_replace(['"', ",", "'"], "", $product->title);
+                    $res_title = trim($product->title);
+                    $res_link = strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id));
+                    if (!in_array(['title' => $res_title, 'link' => $res_link], $data['product'])) {
+                        $data['product'][] = [
+                            'title' => $res_title,
+                            'link' => $res_link
+                        ];
+                    }
+                }
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = '*';
+            $criteria->condition = "LOWER(name) LIKE '%$query_part%'";
+            $criteria->limit = '4';
+            $brands = Brand::model()->findAll($criteria);
+            
+            if ($brands) {
+                foreach ($brands as $brand) {
+                    $data['brand'][] = [
+                        'title' => $brand->name,
+                        'link' => '/designers/' . $brand->url
+                    ];
+                }
+            }
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = 'parent_id, alias';
+            $criteria->condition = "LOWER(alias) LIKE '%$query_part%'";
+            $criteria->limit = '4';
+            $categories = Category::model()->findAll($criteria);
+            
+            if ($categories) {
+                foreach ($categories as $category) {
+                    $parent = Category::model()->findByPk($category->parent_id);
+                    $data['category'][] = [
+                        'title' => $category->alias . ($parent ? ' (' . $parent->alias . ')' : ''),
+                        'link' => $parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias))
+                    ];
+                }
+            }
+        }
+        
+        if (count($query_parts) > 1) {
+            $query_all = '';
+            $brands_for = [];
+            foreach ($query_parts as $k => $query_part) {
+                $query_all .= ' ' . $query_part;
+                $query_all = trim($query_all);
+                
+                $criteria = new CDbCriteria;
+                $criteria->select = '*';
+                $criteria->condition = "LOWER(name) LIKE '%$query_all%'";
+                $criteria->limit = '4';
+                $brands_ad = Brand::model()->findAll($criteria);
+                if (!$brands_ad) {
+                    break;
+                } else {
+                    $brands_for = $brands_ad;
+                }
+            }
+            for ($i = 0; $i < $k; $i ++) {
+                array_shift($query_parts);
+            }
+            $query_all = '';
+            foreach ($query_parts as $query_part) {
+                $query_all .= ' ' . $query_part;
+                $query_all = trim($query_all);
+                
+                $criteria = new CDbCriteria;
+                $criteria->select = 'id, parent_id, alias';
+                $criteria->condition = "LOWER(alias) LIKE '%$query_all%'";
+                $criteria->limit = '4';
+                $categories_ad = Category::model()->findAll($criteria);
+                
+                if ($categories_ad) {
+                    foreach ($categories_ad as $category) {
+                        foreach ($brands_for as $brand) {
+                            if (Product::model()->exists("category_id = " . $category->id . " AND brand_id = " . $brand->id)) {
+                                $parent = Category::model()->findByPk($category->parent_id);
+                            
+                                array_unshift($data['category'], [
+                                    'title' => $brand->name . ' ' . $category->alias . ($parent ? ' (' . $parent->alias . ')' : ''),
+                                    'link' => ($parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias))) . '/designers/' . $brand->url
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            $query_parts = explode(' ', $query);
+            $query_all = '';
+            $brands_for = [];
+            foreach ($query_parts as $k => $query_part) {
+                $query_all .= ' ' . $query_part;
+                $query_all = trim($query_all);
+                
+                $criteria = new CDbCriteria;
+                $criteria->select = '*';
+                $criteria->condition = "LOWER(name) LIKE '%$query_all%'";
+                $criteria->limit = '4';
+                $brands_ad = Brand::model()->findAll($criteria);
+                if (!$brands_ad) {
+                    break;
+                } else {
+                    $brands_for = $brands_ad;
+                }
+            }
+            for ($i = 0; $i < $k; $i ++) {
+                array_shift($query_parts);
+            }
+            $query_all = '';
+            foreach ($query_parts as $query_part) {
+                $query_all .= ' ' . $query_part;
+                $query_all = trim($query_all);
+                
+                $criteria = new CDbCriteria;
+                $criteria->select = 'id, title, brand_id';
+                $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+                $criteria->condition = "LOWER(title) LIKE '%$query_all%'";
+                $criteria->limit = '4';
+                $products_ad = Product::model()->findAll($criteria);
+                
+                if ($products_ad) {
+                    foreach ($products_ad as $product) {
+                        foreach ($brands_for as $brand) {
+                            if ($product->brand_id == $brand->id) {
+                                $parent = Category::model()->findByPk($product->category->parent_id);
+                                $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
+                                $p_title = str_replace(['"', ",", "'"], "", $product->title);
+                                $res_title = trim($product->title);
+                                $res_link = strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id));
+                                
+                                if (($key = array_search(['title' => $res_title, 'link' => $res_link], $data['product'])) !== false) {
+                                    unset($data['product'][$key]);
+                                }
+                                
+                                array_unshift($data['product'], [
+                                    'title' => $brand->name . ' ' . $res_title,
+                                    'link' => $res_link
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $data;
     }
 }
