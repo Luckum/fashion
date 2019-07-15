@@ -245,6 +245,17 @@
                     $('#show-more-results-btn').show();
                 }
                 $('#loading_results').hide();
+                
+                var isMobile;
+                try {
+                    document.createEvent('TouchEvent');
+                    isMobile = true;
+                } catch (e) {
+                    isMobile = false;
+                }
+                var isSafari = navigator.userAgent.indexOf('Safari')  != -1 &&
+                               navigator.userAgent.indexOf('Chrome')  == -1 &&
+                               navigator.userAgent.indexOf('Android') == -1;
                 $('img[data-plugin="lazy-load"]')
                     .lazyload({
                         'threshold' : 200,
