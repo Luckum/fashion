@@ -245,6 +245,19 @@
                     $('#show-more-results-btn').show();
                 }
                 $('#loading_results').hide();
+                $('img[data-plugin="lazy-load"]')
+                    .lazyload({
+                        'threshold' : 200,
+                        'effect'    : 'fadeIn'
+                    })
+                    .on('load', function() {
+                        $(this)
+                            .closest('.thumbnail.pf')
+                            .css('visibility', 'visible');
+                        if (isSafari && !isMobile) {
+                            $('body').height($('#products').height() + 'px');
+                        }
+                    });
             }
         });
     }
