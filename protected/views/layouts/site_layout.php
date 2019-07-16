@@ -320,7 +320,8 @@ if (YII_DEBUG) {
             }
         },
 
-        requestDelay: 400
+        requestDelay: 400,
+        highlightPhrase: false
     };
 
     $("#search-text").easyAutocomplete(options);

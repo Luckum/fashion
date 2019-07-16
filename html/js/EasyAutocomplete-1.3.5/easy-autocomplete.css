@@ -275,7 +275,8 @@
   border-width: 0 1px 1px;
 }
 .easy-autocomplete-container ul li.selected {
-  background: none repeat scroll 0 0 #ebebeb;
+/*  background: none repeat scroll 0 0 #ebebeb;*/
+  background: none repeat scroll 0 0 #fff;
   cursor: pointer;
 }
 .easy-autocomplete-container ul li.selected div {
