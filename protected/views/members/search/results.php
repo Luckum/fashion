@@ -1,6 +1,6 @@
 <div class="uk-block uk-margin-large-top">
     <div class="uk-container uk-container-center">
-        <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Search results for') . ' ' . "'$q'" ?></div>
+        <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Showing results for') . ' ' . "'$q'" ?></div>
     </div>
 </div>
 <hr style="border-top: 2px solid #000;">

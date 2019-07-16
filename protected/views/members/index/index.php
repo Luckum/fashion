@@ -34,3 +34,9 @@ $thumbnailPath = ShopConst::HOME_BLOCK_IMAGE_THUMBNAIL_DIR;
     </div>
 </div>
 <!--END MAIN BLOCK-->
+
+<script>
+    $(document).ready(function() {
+        $('#search-text').focus();
+    });
+</script>
