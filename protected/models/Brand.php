@@ -213,19 +213,21 @@ class Brand extends CActiveRecord
     {
         return self::model()->findAll(['select' => 'DISTINCT(name), url', 'order' => 'url']);
     }*/
-    public static function getBrandsSorted($category, $subcategory)
+    public static function getBrandsSorted($category = "", $subcategory = "")
     {
         $cats = [];
         $in_cats = $join = $where = '';
-        if (empty($subcategory)) {
-            $model = Category::model()->findByPath('brands/' . $category);
-        } elseif ($subcategory == 'all') {
-            $model = Category::model()->findByPath($category . '/' . $category);
-            $cats = Category::model()->findAllByAttributes(['parent_id' => $model->id]);
-            $in_cats .= $model->id;
-        } else {
-            $model = Category::model()->findByPath($category . '/' . $subcategory);
-            $in_cats .= $model->id;
+        if (!empty($category)) {
+            if (empty($subcategory)) {
+                $model = Category::model()->findByPath('brands/' . $category);
+            } elseif ($subcategory == 'all') {
+                $model = Category::model()->findByPath($category . '/' . $category);
+                $cats = Category::model()->findAllByAttributes(['parent_id' => $model->id]);
+                $in_cats .= $model->id;
+            } else {
+                $model = Category::model()->findByPath($category . '/' . $subcategory);
+                $in_cats .= $model->id;
+            }
         }
         
         if (!empty($cats)) {

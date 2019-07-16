@@ -444,9 +444,9 @@ class SiteController extends Controller
             $criteria->with = ['category' => ['select' => 'alias, parent_id']];
             $criteria->condition = "LOWER(title) LIKE '%$query_part%'";
             if (count($query_parts) == 1) {
-                $criteria->limit = '6';
+                $criteria->limit = '8';
             } else if (count($query_parts) == 2) {
-                $criteria->limit = '3';
+                $criteria->limit = '4';
             } else {
                 $criteria->limit = '2';
             }

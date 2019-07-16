@@ -267,7 +267,7 @@ if (YII_DEBUG) {
 <script>
     var options = {
         list: {
-            maxNumberOfElements: 18
+            maxNumberOfElements: 20
             
         },
         
@@ -275,7 +275,7 @@ if (YII_DEBUG) {
             {
                 listLocation: "product",
                 header: "PRODUCTS",
-                maxNumberOfElements: 6,
+                maxNumberOfElements: 8,
             },
             {
                 listLocation: "brand",

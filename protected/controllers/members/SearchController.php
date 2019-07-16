@@ -8,9 +8,10 @@ class SearchController extends Controller
     
     public function actionResults($q)
     {
-        $limit = 15;
+        $limit = 129;
         $offset = 0;
-        $products = $brands = $categories = [];
+        //$products = $brands = $categories = [];
+        $products = [];
         $message = '';
         $count = $products_cnt = 0;
         
@@ -18,19 +19,21 @@ class SearchController extends Controller
             $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
             $data = $this->getResults($query, $limit, $offset);
             
-            if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+            //if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+            if (!count($data['product'])) {
                 $query_parts = explode(' ', $query);
                 $query_res = substr($query_parts[0], 0, -1);
                 $data = $this->getResults($query_res, $limit, $offset);
-                while (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+                //while (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+                while (!count($data['product'])) {
                     $query_res = substr($query_res, 0, -1);
                     $data = $this->getResults($query_res, $limit, $offset);
                 }
             }
             
             $products = $data['product'];
-            $brands = $data['brand'];
-            $categories = $data['category'];
+            //$brands = $data['brand'];
+            //$categories = $data['category'];
             $products_cnt = $data['products_cnt'];
             
             foreach ($products as $rec) {
@@ -42,8 +45,8 @@ class SearchController extends Controller
         
         return $this->render('results', [
             'products' => $products,
-            'brands' => $brands,
-            'categories' => $categories,
+            //'brands' => $brands,
+            //'categories' => $categories,
             'q' => $q,
             'message' => $message,
             'limit' => $limit,
@@ -96,7 +99,8 @@ class SearchController extends Controller
     
     protected function getResults($query, $limit, $offset)
     {
-        $data['brand'] = $data['product'] = $data['category'] = [];
+        //$data['brand'] = $data['product'] = $data['category'] = [];
+        $data['product'] = [];
         $data['products_cnt'] = 0;
         
         $query_parts = explode(' ', $query);
@@ -117,7 +121,7 @@ class SearchController extends Controller
                 $data['product'][] = $products;
             }
             
-            $criteria = new CDbCriteria;
+            /*$criteria = new CDbCriteria;
             $criteria->select = '*';
             $criteria->condition = 'LOWER(name) LIKE "%' . $query_part . '%"';
             $brands = Brand::model()->findAll($criteria);
@@ -131,11 +135,11 @@ class SearchController extends Controller
             $categories = Category::model()->findAll($criteria);
             if ($categories) {
                 $data['category'][] = $categories;
-            }
+            }*/
         }
         
         if (count($query_parts) > 1) {
-            $query_all = '';
+            /*$query_all = '';
             $brands_for = [];
             foreach ($query_parts as $k => $query_part) {
                 $query_all .= ' ' . $query_part;
@@ -180,7 +184,7 @@ class SearchController extends Controller
                 }
             }
             
-            $query_parts = explode(' ', $query);
+            $query_parts = explode(' ', $query);*/
             $query_all = '';
             $brands_for = [];
             foreach ($query_parts as $k => $query_part) {

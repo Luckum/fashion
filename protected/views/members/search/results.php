@@ -1,178 +1,151 @@
-<div class="uk-block uk-margin-large-top">
-    <div class="uk-container uk-container-center">
-        <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Showing results for') . ' ' . "'$q'" ?></div>
+<div class="uk-container uk-container-center" style="max-width: 95%;">
+    <div class="uk-block uk-margin-large-top">
+        <div class="uk-container uk-container-center">
+            <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Showing results for') . ' ' . "'$q'" ?></div>
+        </div>
     </div>
-</div>
-<hr style="border-top: 2px solid #000;">
-<div class="uk-block uk-text-line-height">
-    <!--<div class="uk-grid uk-grid-width-large-1-3">
-        <div>
-            <ul style="list-style: none; font-size: 16px;">
-                <li style="text-transform: uppercase; margin-bottom: 15px;">Products</li>
-                <?php foreach ($products as $product): ?>
-                    <?php
-                        $parent = Category::model()->findByPk($product->category->parent_id);
-                        $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
-                    ?>
-                    <li><a href="<?= strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($product->title) . '-' . $product->id)) ?>"><?= $product->title ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div>
-            <ul style="list-style: none; font-size: 16px;">
-                <li style="text-transform: uppercase; margin-bottom: 15px;">Designers</li>
-                <?php foreach ($brands as $brand): ?>
-                    <li><a href="<?= '/designers/' . $brand->url ?>"><?= $brand->name ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div>
-            <ul style="list-style: none; font-size: 16px;">
-                <li style="text-transform: uppercase; margin-bottom: 15px;">Categories</li>
-                <?php foreach ($categories as $category): ?>
-                    <?php $parent = Category::model()->findByPk($category->parent_id); ?>
-                    <li><a href="<?= $parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias)) ?>"><?= $category->alias . ($parent ? ' (' . $parent->alias . ')' : '') ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>-->
-    
-    <?php if (count($brands)): ?>
-        <ul style="list-style: none; font-size: 16px;">
-            <li style="text-transform: uppercase; margin-bottom: 15px;">Designers</li>
-            <?php foreach ($brands as $rec): ?>
-                <?php if (is_array($rec) && count($rec)): ?>
-                    <?php foreach ($rec as $brand): ?>
-                        <li><a href="<?= '/designers/' . $brand->url ?>"><?= $brand->name ?></a></li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
-    
-    <?php if (count($categories)): ?>
-        <ul style="list-style: none; font-size: 16px;">
-            <li style="text-transform: uppercase; margin-bottom: 15px;">Categories</li>
-            <?php foreach ($categories as $category): ?>
-                <?php if (isset($category['title'])): ?>
-                    <li><a href="<?= $category['link'] ?>"><?= $category['title'] ?></a></li>
-                <?php else: ?>
-                    <?php foreach ($category as $rec): ?>
-                        <?php $parent = Category::model()->findByPk($rec->parent_id); ?>
-                        <li><a href="<?= $parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $rec->alias)) : strtolower(str_replace(' ', '-', '/' . $rec->alias)) ?>"><?= $rec->alias . ($parent ? ' (' . $parent->alias . ')' : '') ?></a></li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
-    
-    <?php if ($count): ?>
-        <ul style="list-style: none; font-size: 16px;">
-            <li style="text-transform: uppercase; margin-bottom: 15px;">Products</li>
-        </ul>
-        
-        <?php $i = 0; ?>
-        <?php $countInRow = 0 ?>
-        <?php foreach ($products as $k => $product) : ?>
-            <?php foreach ($product as $rec): ?>
-                <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
-                <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
-                    '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'
-                    : 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
-                    
-                    <?php 
-                        $url = $this->createAbsoluteUrl(Product::getProductUrl($rec->id));
-                        $target = "_self";
-                        $partner_site_name = $partner_site_url = '';
-                        if ($rec->external_sale && !(empty($rec->direct_url))) {
-                            $url = $rec->direct_url;
-                            $target = "_blank";
-                            if (Category::getParentByCategory($rec->category_id) != Category::getIdByAlias('featured')) {
-                                $partner = Product::getExternalSiteName($url);
-                                $partner_site_name = $partner['name'];
-                                $partner_site_url = $partner['url'];
-                            }
-                        }
-                    ?>
-                    <a href="<?php echo $url; ?>" class="uk-display-block product-url" target="<?= $target ?>">
-                        <div class="thumbnail-image" style="text-align:center;">
-                            <?php
-                                $base     = Yii::app()->request->getBaseUrl(true);
-                                if (!empty($rec->image1)) {
-                                    $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
-                                    $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
-                                }
-                                
-                                $no_img   = $base . '/images/prod-no-img.png';
-                            ?>
-                                
-                            <?= CHtml::image(
-                                !empty($rec->image1) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
-                                ($rec->title) ? CHtml::encode($rec->title) : CHtml::encode(Category::model()->getAliasById($rec->category_id)),
-                                array(
-                                    'data-plugin'   => 'lazy-load',
-                                    'data-original' => $img_url,
-                                    'itemprop' => "image",
-                                    'style' => 'width: calc(16 * (100% / 18));',
-                                )
-                            )?>
-                        </div>
-                        <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: 5.5556%;">
-                            <?php echo Brand::getFormatedTitle($rec->brand->name); ?>
-                        </div>
-                    </a>
-                    
-                    <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
-                        <?php echo Product::getFormatedTitle(CHtml::encode($rec->title)); ?>
-                    </div>
-                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
-                        <?php
-                            $old_price = $rec->init_price;
-                            $new_price = $rec->price;
-                            $equal = $old_price === $new_price;
-                        ?>
-                        <?php if ($rec->status != Product::PRODUCT_STATUS_SOLD) { ?>
-                            <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">&euro;<?php echo $old_price; ?></span>
-                            <?php if (!$equal): ?>
-                                <span class="price-new" style="color:red !important;">&euro;<?php echo $new_price; ?></span>
-                            <?php endif; ?>
-                        <?php } else { ?>
-                            <span class="price-new" style="margin-right: 25px;">SOLD</span>
-                        <?php } ?>
-                        <?php if ($rec->external_sale == 0): ?>
-                            <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?php echo $rec->size_chart->size; ?></span>
+    <?php $menu = UtilsHelper::getCategoryMenu(); ?>
+    <?php $brands = Brand::getBrandsSorted(); ?>
+    <div style="display: inline-block; width: 15%;" id="side-menu">
+        <ul style="list-style: none; padding-left: 0;">
+            <li><span><b>CATEGORIES</b></span></li>
+                <?php foreach ($menu as $menu_item): ?>
+                    <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
+                        <?php if (count($menu_item['items'])): ?>
+                            <li style="text-transform: capitalize; padding-top: 5px;">
+                                <a href='#'><span><?= $menu_item['name'] ?></span></a>
+                                <ul style="list-style: none; padding-left: 20px;" class="non-enbl-sb-open">
+                                    <?php foreach ($menu_item['items'] as $child): ?>
+                                        <li style="padding-top: 5px;">
+                                            <a href='<?= $child['url'] ?>'><span><?= $child['name'] ?></span></a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                        <?php else: ?>
+                            <li style="text-transform: capitalize; padding-top: 5px;">
+                                <a href='<?= $menu_item['url'] ?>'><span><?= $menu_item['name'] ?></span></a>
+                            </li>
                         <?php endif; ?>
-                    </div>
-                    <?php if (!empty($partner_site_name)): ?>
-                        <div class="partner-name" style="margin-left: 5.5556%;">
-                            <div class="partner-lnk">
-                                <a href="<?= $url; ?>" class="product-url" target="<?= $target ?>">shop on <span><?= $partner_site_name ?></span></a>
-                            </div>
-                        </div>
                     <?php endif; ?>
-                <?php
-                    $countInRow ++;
+                <?php endforeach; ?>
+            </li>
+            <li style="padding-top: 20px;"><span><b>DESIGNERS</b></span>
+                <ul style="list-style: none; padding-left: 0;" class="design">
+                    <?php foreach ($brands as $brand): ?>
+                        <li style="padding-top: 5px;">
+                            <a href="/designers/<?= $brand->url ?>"><span><?= $brand->name ?></span></a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="block-category" style="display: inline-block; vertical-align: top; width: 80%; float: right;">
+        <?php if ($count): ?>
+            <?php $i = 0; ?>
+            <?php $countInRow = 0 ?>
+            <?php foreach ($products as $k => $product) : ?>
+                <?php foreach ($product as $rec): ?>
+                    <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
+                    <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
+                        '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'
+                        : 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
+                        
+                        <?php 
+                            $url = $this->createAbsoluteUrl(Product::getProductUrl($rec->id));
+                            $target = "_self";
+                            $partner_site_name = $partner_site_url = '';
+                            if ($rec->external_sale && !(empty($rec->direct_url))) {
+                                $url = $rec->direct_url;
+                                $target = "_blank";
+                                if (Category::getParentByCategory($rec->category_id) != Category::getIdByAlias('featured')) {
+                                    $partner = Product::getExternalSiteName($url);
+                                    $partner_site_name = $partner['name'];
+                                    $partner_site_url = $partner['url'];
+                                }
+                            }
+                        ?>
+                        <a href="<?php echo $url; ?>" class="uk-display-block product-url" target="<?= $target ?>">
+                            <div class="thumbnail-image" style="text-align:center;">
+                                <?php
+                                    $base     = Yii::app()->request->getBaseUrl(true);
+                                    if (!empty($rec->image1)) {
+                                        $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
+                                        $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
+                                    }
+                                    
+                                    $no_img   = $base . '/images/prod-no-img.png';
+                                ?>
+                                    
+                                <?= CHtml::image(
+                                    !empty($rec->image1) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
+                                    ($rec->title) ? CHtml::encode($rec->title) : CHtml::encode(Category::model()->getAliasById($rec->category_id)),
+                                    array(
+                                        'data-plugin'   => 'lazy-load',
+                                        'data-original' => $img_url,
+                                        'itemprop' => "image",
+                                        'style' => 'width: calc(16 * (100% / 18));',
+                                    )
+                                )?>
+                            </div>
+                            <div itemprop="name" class="uk-h4 thumbnail-title uk-margin-small-top" style="margin-left: 5.5556%;">
+                                <?php echo Brand::getFormatedTitle($rec->brand->name); ?>
+                            </div>
+                        </a>
+                        
+                        <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
+                            <?php echo Product::getFormatedTitle(CHtml::encode($rec->title)); ?>
+                        </div>
+                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
+                            <?php
+                                $old_price = $rec->init_price;
+                                $new_price = $rec->price;
+                                $equal = $old_price === $new_price;
+                            ?>
+                            <?php if ($rec->status != Product::PRODUCT_STATUS_SOLD) { ?>
+                                <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">&euro;<?php echo $old_price; ?></span>
+                                <?php if (!$equal): ?>
+                                    <span class="price-new" style="color:red !important;">&euro;<?php echo $new_price; ?></span>
+                                <?php endif; ?>
+                            <?php } else { ?>
+                                <span class="price-new" style="margin-right: 25px;">SOLD</span>
+                            <?php } ?>
+                            <?php if ($rec->external_sale == 0): ?>
+                                <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?php echo $rec->size_chart->size; ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <?php if (!empty($partner_site_name)): ?>
+                            <div class="partner-name" style="margin-left: 5.5556%;">
+                                <div class="partner-lnk">
+                                    <a href="<?= $url; ?>" class="product-url" target="<?= $target ?>">shop on <span><?= $partner_site_name ?></span></a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php
+                        $countInRow ++;
 
-                if ($countInRow == 3 || $i == ($count - 1)) {
-                    echo '</div></div>';
-                    $countInRow = 0;
-                } else {
-                    echo '</div>';
-                } ?>
-                <?php $i ++ ?>
+                    if ($countInRow == 3 || $i == ($count - 1)) {
+                        echo '</div></div>';
+                        $countInRow = 0;
+                    } else {
+                        echo '</div>';
+                    } ?>
+                    <?php $i ++ ?>
+                <?php endforeach; ?>
             <?php endforeach; ?>
-        <?php endforeach; ?>
-        <div id="more-results-cnt">
-        </div>
-        <?php if ($products_cnt > ($limit + $offset)): ?>
-            <div class="show-more-results-btn-cnt">
-                <input type="button" id="show-more-results-btn" data-query="<?= $q ?>" data-limit="<?= $limit ?>" data-offset="<?= $offset + $limit ?>" onclick="showMoreResults(this)" value="<?= Yii::t('base', 'Show more results') ?>" class="uk-button uk-button-small" style="line-height: 26px; min-height: 26px;">
-                <div id="loading_results" class="loading_results" style="display: none;">
-                    <img src="/images/ajax.gif">
-                </div>
+            <div id="more-results-cnt">
             </div>
+            <?php if ($products_cnt > ($limit + $offset)): ?>
+                <div class="show-more-results-btn-cnt">
+                    <input type="button" id="show-more-results-btn" data-query="<?= $q ?>" data-limit="<?= $limit ?>" data-offset="<?= $offset + $limit ?>" onclick="showMoreResults(this)" value="<?= Yii::t('base', 'Show more results') ?>" class="uk-button uk-button-small" style="line-height: 26px; min-height: 26px;">
+                    <div id="loading_results" class="loading_results" style="display: none;">
+                        <img src="/images/ajax.gif">
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
-    <?php endif; ?>
+    </div>
 </div>
 
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.lazyload.min.js"></script>
@@ -224,6 +197,21 @@
             var link_url = '/filter/br/'+$(this).data('brand-id')+'/ct/'+$(this).data('category-id');
             $('#filter-text').text(link_text);
             $('a#filter-link').attr('href',link_url);
+        });
+        $('#side-menu > ul > li > a').click(function () {
+            var checkElement = $(this).next();
+            if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+                checkElement.slideUp('normal');
+            }
+            if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+                $('#side-menu ul ul:visible:not(.design)').slideUp('normal');
+                checkElement.slideDown('normal');
+            }
+            if ($(this).closest('li').find('ul').children().length == 0) {
+                return true;
+            } else {
+                return false;    
+            }        
         });
     });
     
