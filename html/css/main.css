@@ -34,7 +34,7 @@ div#search-dlg div#search-box {
 }
 .main-search-box-cnt {
     text-align: center;
-    margin-top: 150px;
+    margin-top: 110px;
     margin-bottom: 100px;
 }
 .show-more-results-btn-cnt {
@@ -788,6 +788,23 @@ br.nl
     width: auto !important;
 }
 
+@media (max-width: 640px) {
+    .easy-autocomplete {
+        width: 100% !important;
+    }
+    input#search-text {
+        width: 100%;
+    }
+}
+@media (max-width: 1023px) {
+    div#search-dlg {
+        left: 0 !important;
+        margin-left: 0 !important;
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}
 @media (max-width: 600px) {
     .post-item .post_description p {
         text-indent: 0px !important;
