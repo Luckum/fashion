@@ -68,7 +68,8 @@ class SearchController extends Controller
         $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
         $data = $this->getResults($query, $limit, $offset);
         
-        if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+        //if (!count($data['product']) && !count($data['category']) && !count($data['brand'])) {
+        if (!count($data['product'])) {
             $query_parts = explode(' ', $query);
             $query_res = substr($query_parts[0], 0, -1);
             $data = $this->getResults($query_res, $limit, $offset);
@@ -104,7 +105,35 @@ class SearchController extends Controller
         $data['products_cnt'] = 0;
         
         $query_parts = explode(' ', $query);
+        $query_all = '';
         foreach ($query_parts as $query_part) {
+            $query_all .= ' ' . $query_part;
+            $query_all = trim($query_all);
+            
+            $criteria = new CDbCriteria;
+            $criteria->select = '*';
+            $criteria->condition = 'LOWER(name) = "' . $query_all . '"';
+            $brand = Brand::model()->find($criteria);
+            if ($brand) {
+                $criteria = new CDbCriteria;
+                $criteria->condition = 'brand_id = ' . $brand->id;
+                $data['products_cnt'] += Product::model()->count($criteria);
+            
+                $criteria = new CDbCriteria;
+                $criteria->select = 'id, title, external_sale, direct_url, category_id, image1, init_price, price, status';
+                $criteria->with = ['category' => ['select' => 'alias, parent_id'], 'brand' => ['select' => 'name'], 'size_chart' => ['select' => 'size']];
+                $criteria->condition = 'brand_id = ' . $brand->id;
+                $criteria->order = 'title ASC';
+                $criteria->limit = $limit;
+                $criteria->offset = $offset;
+                $products = Product::model()->findAll($criteria);
+                if ($products) {
+                    $data['product'][] = $products;
+                    $limit -= count($products);
+                }
+            }
+            
+            
             $criteria = new CDbCriteria;
             $criteria->condition = 'LOWER(title) LIKE "%' . $query_part . '%"';
             $data['products_cnt'] += Product::model()->count($criteria);
@@ -121,15 +150,9 @@ class SearchController extends Controller
                 $data['product'][] = $products;
             }
             
-            /*$criteria = new CDbCriteria;
-            $criteria->select = '*';
-            $criteria->condition = 'LOWER(name) LIKE "%' . $query_part . '%"';
-            $brands = Brand::model()->findAll($criteria);
-            if ($brands) {
-                $data['brand'][] = $brands;
-            }
             
-            $criteria = new CDbCriteria;
+            
+            /*$criteria = new CDbCriteria;
             $criteria->select = 'parent_id, alias';
             $criteria->condition = 'LOWER(alias) LIKE "%' . $query_part . '%"';
             $categories = Category::model()->findAll($criteria);
@@ -235,5 +258,69 @@ class SearchController extends Controller
         }
         
         return $data;
+    }
+    
+    public function actionGetProduct()
+    {
+        $query = trim(strtolower(str_replace('+', ' ', strip_tags(Yii::app()->request->getPost('query')))));
+        
+        $criteria = new CDbCriteria;
+        $criteria->select = 'id, title';
+        $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+        $criteria->condition = "LOWER(title) = '$query'";
+        
+        $product = Product::model()->find($criteria);
+        if ($product) {
+            $parent = Category::model()->findByPk($product->category->parent_id);
+            $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
+            $p_title = str_replace(['"', ",", "'"], "", $product->title);
+            $res_link = strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id));
+            die (CJSON::encode([
+                'link' => $res_link
+            ]));
+        } else {
+            $query_parts = explode(' ', $query);
+            if (count($query_parts) > 1) {
+                $query_all = '';
+                foreach ($query_parts as $k => $query_part) {
+                    $query_all .= ' ' . $query_part;
+                    $query_all = trim($query_all);
+                    
+                    $criteria = new CDbCriteria;
+                    $criteria->select = '*';
+                    $criteria->condition = "LOWER(name) = '$query_all'";
+                    $brand_ad = Brand::model()->find($criteria);
+                    if ($brand_ad) {
+                        break;
+                    }
+                }
+                if ($brand_ad) {
+                    for ($i = 0; $i <= $k; $i ++) {
+                        array_shift($query_parts);
+                    }
+                    $query = implode(' ', $query_parts);
+                    
+                    $criteria = new CDbCriteria;
+                    $criteria->select = 'id, title';
+                    $criteria->with = ['category' => ['select' => 'alias, parent_id']];
+                    $criteria->condition = "LOWER(title) = '$query'";
+                    
+                    $product = Product::model()->find($criteria);
+                    if ($product) {
+                        $parent = Category::model()->findByPk($product->category->parent_id);
+                        $cat_name = $parent ? $parent->alias . '/' . $product->category->alias : $product->category->alias;
+                        $p_title = str_replace(['"', ",", "'"], "", $product->title);
+                        $res_link = strtolower(str_replace(' ', '-', '/' . $cat_name . '/' . trim($p_title) . '-' . $product->id));
+                        die (CJSON::encode([
+                            'link' => $res_link
+                        ]));
+                    }
+                }
+            }
+        }
+        
+        die (CJSON::encode([
+            'link' => '/search/results?q=' . Yii::app()->request->getPost('query')
+        ]));
     }
 }

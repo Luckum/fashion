@@ -471,7 +471,6 @@ class ImportCommand extends CConsoleCommand
                         $model->save();
                     }
                 }
-                die();
             }
         }
     }

@@ -75,10 +75,10 @@ input#search-text.search-input-normal {
     border-bottom: solid 1px #000;
 }
 
-input#search-text.search-input-error {
+/*input#search-text.search-input-error {
     background: pink;
     border-bottom: solid 1px maroon;
-}
+}*/
 
 div#search-dlg div#js-search-result {
     max-height: 400px;

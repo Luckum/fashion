@@ -103,7 +103,7 @@ UserSearch.prototype.start = function() {
 
     // Строка поиска не должна быть пустой.
     if (!search._textfield.val().length) {
-        search._textfield.prop('class', 'search-input-error');
+        //search._textfield.prop('class', 'search-input-error');
         return false;
     }
 
@@ -155,7 +155,7 @@ UserSearch.prototype.start = function() {
         }).fail(function() {
             // Произошла ошибка.
             search._container.html('<p>Something wrong! Maybe incorrect search string?</p>');
-            search._textfield.prop('class', 'search-input-error');
+            //search._textfield.prop('class', 'search-input-error');
         }).always(function() {
             // Разблокировка текстового поля поиска.
             search._textfield

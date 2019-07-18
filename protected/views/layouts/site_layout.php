@@ -244,7 +244,6 @@ if (YII_DEBUG) {
     };
 </script>
 
-<!--Поиск-->
 <script src="<?=Yii::app()->request->baseUrl ?>/js/search.js"></script>
 <!--jquery.cookie-->
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.cookie.js"></script>
@@ -327,7 +326,16 @@ if (YII_DEBUG) {
     $("#search-text").easyAutocomplete(options);
     $("#search-text").on('keypress', function(e) {
         if (e.keyCode == 13 && $(this).val().length > 2) {
-            window.location.href = '/search/results?q=' + $(this).val().split(' ').join('+');
+            $.ajax({
+                type: 'POST',
+                data: {query: $.trim($(this).val()).split(' ').join('+')},
+                url: globals.url + '/search/get-product',
+                success: function (data) {
+                    var response = JSON.parse(data);
+                    
+                    window.location.href = response.link;
+                }
+            });
         }
     });
 </script>

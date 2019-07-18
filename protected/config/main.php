@@ -77,6 +77,7 @@ $params = array(
                 '/mobile-search' => 'site/mobileSearch',
                 '/search/results' => 'members/search/results',
                 '/search/more-results' => 'members/search/moreResults',
+                '/search/get-product' => 'members/search/getProduct',
 
                 '/blog' => 'members/blog/index',
                 '/blog/post/<id:\d+>' => 'members/blog/post',
