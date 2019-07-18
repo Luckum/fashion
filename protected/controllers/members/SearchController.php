@@ -106,6 +106,30 @@ class SearchController extends Controller
         
         $query_parts = explode(' ', $query);
         $query_all = '';
+        
+        $criteria = new CDbCriteria;
+        $criteria->select = '*';
+        $criteria->condition = 'LOWER(name) = "' . $query . '"';
+        $brand = Brand::model()->find($criteria);
+        if ($brand) {
+            $criteria = new CDbCriteria;
+            $criteria->condition = 'brand_id = ' . $brand->id;
+            $data['products_cnt'] += Product::model()->count($criteria);
+        
+            $criteria = new CDbCriteria;
+            $criteria->select = 'id, title, external_sale, direct_url, category_id, image1, init_price, price, status';
+            $criteria->with = ['category' => ['select' => 'alias, parent_id'], 'brand' => ['select' => 'name'], 'size_chart' => ['select' => 'size']];
+            $criteria->condition = 'brand_id = ' . $brand->id;
+            $criteria->order = 'title ASC';
+            $criteria->limit = $limit;
+            $criteria->offset = $offset;
+            $products = Product::model()->findAll($criteria);
+            if ($products) {
+                $data['product'][] = $products;
+                $limit -= count($products);
+            }
+        }
+        
         foreach ($query_parts as $query_part) {
             $query_all .= ' ' . $query_part;
             $query_all = trim($query_all);
@@ -148,6 +172,7 @@ class SearchController extends Controller
             $products = Product::model()->findAll($criteria);
             if ($products) {
                 $data['product'][] = $products;
+                $limit -= count($products);
             }
             
             
