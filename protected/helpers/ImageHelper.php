@@ -472,6 +472,10 @@ class ImageHelper
                         'header' => [
                             'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'
                         ]
+                    ],
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false
                     ]
                 ]);
                 copy($is_url, $save_max_path, $context);

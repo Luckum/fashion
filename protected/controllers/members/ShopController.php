@@ -243,6 +243,7 @@ class ShopController extends MemberController
         }
 
         $products = Product::model()->getShopProducts($model, $where, $limit, $offset, $order, $isTopCategory);
+        $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
 
         $this->render('category', array(
             'model' => $model,
@@ -253,6 +254,8 @@ class ShopController extends MemberController
             's_subcategory' => $subcategory,
             's_brand' => $brand,
             's_brand_title' => $brand_title,
+            'brands_all' => $brands_all,
+            'alphabet' => UtilsHelper:: getAlphabet(array('#')),
         ));
     }
 

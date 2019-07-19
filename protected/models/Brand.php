@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'brand':
  * @property integer $id
  * @property string $name
+ * @property string $url
+ * @property integer $show_in_filter
  *
  * The followings are the available model relations:
  * @property Product[] $products
@@ -32,6 +34,7 @@ class Brand extends CActiveRecord
         return array(
             array('name', 'required', 'message' => '*required'),
             array('name, url', 'length', 'max'=>255),
+            array('show_in_filter', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, url', 'safe', 'on'=>'search'),
@@ -242,7 +245,7 @@ class Brand extends CActiveRecord
         } 
         
         return self::model()->findAll([
-            'select' => 'DISTINCT(name), url',
+            'select' => 'DISTINCT(name), url, show_in_filter',
             'join' => $join,
             'condition' => $where,
             'order' => 'url'

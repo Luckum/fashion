@@ -43,6 +43,7 @@ class SearchController extends Controller
             $message = 'Wrong search criteria';
         }
         
+        $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
         return $this->render('results', [
             'products' => $products,
             //'brands' => $brands,
@@ -53,6 +54,8 @@ class SearchController extends Controller
             'offset' => $offset,
             'products_cnt' => $products_cnt,
             'count' => $count,
+            'brands_all' => $brands_all,
+            'alphabet' => UtilsHelper:: getAlphabet(array('#')),
         ]);
     }
     

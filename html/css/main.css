@@ -11,6 +11,13 @@ div#lean_overlay {
     display: none;
 }
 
+.all-brands-modal .uk-modal-dialog {
+    border: 1px solid #000;
+}
+.uk-modal-dialog-large {
+    width: 90%;
+}
+
 /* Диалоговое окно поиска */
 
 div#search-dlg {
@@ -788,14 +795,6 @@ br.nl
     width: auto !important;
 }
 
-@media (max-width: 640px) {
-    .easy-autocomplete {
-        width: 100% !important;
-    }
-    input#search-text {
-        width: 100%;
-    }
-}
 @media (max-width: 1023px) {
     div#search-dlg {
         left: 0 !important;
@@ -803,6 +802,20 @@ br.nl
         width: 100%;
         padding-left: 5%;
         padding-right: 5%;
+    }
+    .easy-autocomplete {
+        width: 100% !important;
+    }
+    .main-search-box {
+        width: 100%;
+        margin-top: 20px;
+    }
+    input#search-text {
+        width: 100%;
+        font-size: 18px;
+    }
+    #search-box {
+        width: 100%;
     }
 }
 @media (max-width: 600px) {

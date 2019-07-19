@@ -39,6 +39,8 @@
                     's_category' => $s_category,
                     's_subcategory' => $s_subcategory,
                     's_brand' => $s_brand,
+                    'brands_all' => $brands_all,
+                    'alphabet' => $alphabet,
                 )
             ); ?>
         </div>
