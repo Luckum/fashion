@@ -145,6 +145,11 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="product-description">
+                        <span class="word-break">
+                            <?php echo nl2br(CHtml::encode($model->description)); ?>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

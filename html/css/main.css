@@ -17,6 +17,9 @@ div#lean_overlay {
 .uk-modal-dialog-large {
     width: 90%;
 }
+.product-description {
+    margin-top: 25px;
+}
 
 /* Диалоговое окно поиска */
 
