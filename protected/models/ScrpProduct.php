@@ -12,6 +12,7 @@
  * @property string $currency
  * @property string $sale_price
  * @property string $price
+ * @property string $description
  * @property string $category_lvl1
  * @property string $category_lvl2
  * @property string $category_lvl3
@@ -41,7 +42,7 @@ class ScrpProduct extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name, url, brand, brand_from_url, currency, sale_price, price, category_lvl1, category_lvl2, category_lvl3, category_lvl4, source_site, original_picture_url, picture_path, _in_latest_scrape, time_crawled, product_id', 'safe'),
+			array('id, name, url, brand, brand_from_url, currency, sale_price, price, category_lvl1, category_lvl2, category_lvl3, category_lvl4, source_site, original_picture_url, picture_path, _in_latest_scrape, time_crawled, product_id, description', 'safe'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class ScrpProduct extends CActiveRecord
 			'_in_latest_scrape' => 'In Latest Scrape',
 			'time_crawled' => 'Time Crawled',
 			'product_id' => 'Product',
+            'description' => 'Description',
 		);
 	}
 
@@ -150,7 +152,7 @@ class ScrpProduct extends CActiveRecord
                             $product->category_id = $category_id;
                             $product->brand_id = $brand_id;
                             $product->title = $data->name;
-                            $product->description = '';
+                            $product->description = $data->description;
                             $product->image1 = $image;
                             $product->color = '';
                             $product->price = $data->sale_price;
