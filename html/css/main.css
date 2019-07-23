@@ -21,6 +21,11 @@ div#lean_overlay {
     margin-top: 25px;
 }
 
+.thumbnail-description h2 {
+    font-size: 13px;
+    margin-bottom: 0;
+} 
+
 /* Диалоговое окно поиска */
 
 div#search-dlg {

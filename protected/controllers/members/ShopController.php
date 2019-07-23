@@ -132,15 +132,20 @@ class ShopController extends MemberController
             ));
             Yii::app()->end();
         }
-        if (isset($model->categoryNames) && count($model->categoryNames)) {
+        
+        if (!isset($model->name) && !empty($category) && !empty($brand)) {
+            $brand_db = Brand::model()->findByAttributes(['url' => $brand]);
+            $this->title = $brand_db->name . ' ' . $model->getNameByLanguage()->header_text . ' for Women | N2315';
+            $this->meta_description = $data['seo_description'];
+        } elseif (isset($model->categoryNames) && count($model->categoryNames)) {
             $data = $model->categoryNames[0];
             $this->title = $data['seo_title'];
             $this->meta_description = $data['seo_description'];
             //$this->meta_keywords = $data['seo_keywords'];
         } elseif (isset($model->name)) {
             //$this->title = $model->name . " | " . Yii::t('base', 'shop designer fashion') . " | 23-15";
-            $this->title = $model->name . " for Women | N2315";
-            $this->meta_description = "Shop our curated catalog of " . $model->name . " for Women on N2315, a new online destination for exciting designer fashion.";
+            $this->title = $model->name . " - Shop Designer Womenswear at N2315.COM";
+            $this->meta_description = "Discover new arrivals from " . $model->name . ". Shop luxury brands and emerging designers from best online shopping sites across the web.";
         } else {
             $this->title = "Shop | " . Yii::t('base', 'shop designer fashion') . " | N2315";
         }
@@ -333,9 +338,9 @@ class ShopController extends MemberController
             $isCanAddCommentsAndMakeOffers = $model->canUserAddCommentsAndMakeOffers();
             // meta тэги.
             //$this->meta_description = $model->description;
-            $this->meta_description = 'Buy ' . ucwords($model->title) . ' by '.$model->brand->name.' on N2315, a new online destination for exciting designer fashion';
+            $this->meta_description = 'Shop ' . ucwords($model->title) . ' from top fashion designer ' . $model->brand->name . '. Explore new arrivals from best clothing stores online.';
             // Заголовок.
-            $this->title = $model->brand->name . ': ' . ucwords($model->title) . ' | ' . Yii::app()->params['seo']['site_name'];
+            $this->title = $model->brand->name . ' ' . ucwords($model->title) . ' | ' . Yii::app()->params['seo']['site_name'];
             $attributes = $model->getProductAttributes($model->id);
             $attributes = array_filter($attributes, function($el) {
                 return $el['isActive'] && !empty($el['definedValue']);

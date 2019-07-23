@@ -324,7 +324,7 @@
                 </div>
             </a>
             <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
-                <?php echo Product::getFormatedTitle(CHtml::encode($products[$i]['title'])); ?>
+                <h2><?php echo Product::getFormatedTitle(CHtml::encode($products[$i]['title'])); ?></h2>
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
 
