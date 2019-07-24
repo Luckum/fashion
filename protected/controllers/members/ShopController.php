@@ -136,7 +136,7 @@ class ShopController extends MemberController
         if (!isset($model->name) && !empty($category) && !empty($brand)) {
             $brand_db = Brand::model()->findByAttributes(['url' => $brand]);
             $this->title = $brand_db->name . ' ' . $model->getNameByLanguage()->header_text . ' for Women | N2315';
-            $this->meta_description = $data['seo_description'];
+            $this->meta_description = "Shop our edit of " . $brand_db->name . " " . $model->getNameByLanguage()->header_text . ". Discover best online shopping sites in one place at N2315.COM.";
         } elseif (isset($model->categoryNames) && count($model->categoryNames)) {
             $data = $model->categoryNames[0];
             $this->title = $data['seo_title'];
