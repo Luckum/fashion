@@ -131,6 +131,11 @@
                             </div>
                         <?php endif; ?>
                     </div>
+                    <div class="product-description">
+                        <span class="word-break">
+                            <?php echo nl2br(CHtml::encode($model->description)); ?>
+                        </span>
+                    </div>
                     <div class="product-information">
                         <div>
                             <span class="uk-margin-small-right"><?=Yii::t('base', 'share')?>:</span>
@@ -144,11 +149,6 @@
                                             class="uk-icon-twitter"></i></a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="product-description">
-                        <span class="word-break">
-                            <?php echo nl2br(CHtml::encode($model->description)); ?>
-                        </span>
                     </div>
                 </div>
             </div>
