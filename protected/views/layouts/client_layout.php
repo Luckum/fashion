@@ -96,6 +96,26 @@
                 </a>
             </li>
             
+            <li class="uk-hidden-large">
+                <a class="main_menu_link search-icon" href="#search">
+                    <?php echo Yii::t('base', 'Search'); ?>
+                </a>
+            </li>
+            
+            <li id="currency-selector-mbl" data-uk-dropdown="{'bottom-justify':'#dropdown-nav'}" class="uk-hidden-large">
+                <?php $current_currency = Currency::getCurrency() ?>
+                <?php $currencies_list = Currency::getList(); ?>
+                <a href="javascript:void(0)" class="main_menu_link currency-selector"><?= $current_currency->name . '&nbsp;' . $current_currency->sign; ?></a>
+                <div class="uk-dropdown dropdown-nav" style="left: 0; width: auto;">
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <?php foreach ($currencies_list as $currency): ?>
+                            <li style="display: block;"><a style="font-size: 14px; color: #000;" href="javascript:void(0);" onclick="setCurrency('<?= $currency->id ?>')"><?= $currency->name . '&nbsp;' . $currency->sign ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </li>
+            
+            
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-hidden-large">
                     <a class="main_menu_link" id="login_mobile" href="<?php echo $top_menu['login']['url']; ?>">
@@ -110,20 +130,6 @@
                 </li>
             <?php } ?>
 
-            <?php if ($top_menu['login']['visible']) { ?>
-                <li class="uk-hidden-large">
-                    <a class="main_menu_link" id="wishlist_mobile" href="<?php echo $top_menu['login']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } else { ?>
-                <li class="uk-hidden-large">
-                    <a class="main_menu_link" href="<?php echo $top_menu['wishlist']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } ?>
-            
             <!--<li id="cart-mobile-link" class="uk-hidden-large">
                 <?php //$this->renderPartial('application.views.members.shop._cart_mobile'); ?>
             </li>-->
@@ -136,11 +142,7 @@
                 </li>
             <?php endif; ?>
             
-            <li class="uk-hidden-large">
-                <a class="main_menu_link search-icon" href="#search">
-                    <?php echo Yii::t('base', 'Search'); ?>
-                </a>
-            </li>
+            
         </ul>
     </div>
 </nav>
@@ -258,7 +260,9 @@
                 var response = JSON.parse(data);
                 $("#products").html(response.html);
                 $("#currency-selector").html(response.selector_html);
+                $("#currency-selector-mbl").html(response.selector_html);
                 $("#currency-selector").removeClass("uk-open");
+                $("#currency-selector-mbl").removeClass("uk-open");
                 var isMobile;
                 try {
                     document.createEvent('TouchEvent');
