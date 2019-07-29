@@ -41,6 +41,7 @@
                     's_brand' => $s_brand,
                     'brands_all' => $brands_all,
                     'alphabet' => $alphabet,
+                    'currency' => $currency,
                 )
             ); ?>
         </div>

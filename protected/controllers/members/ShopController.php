@@ -168,7 +168,6 @@ class ShopController extends MemberController
             $sortValue = $_GET[ShopConst::SORT];
             Yii::app()->session[$sessionSortId] = $_GET[ShopConst::SORT];
         }
-
         if (!Yii::app()->request->isAjaxRequest && isset(Yii::app()->session[$sessionSortId])) {
             $sortValue = Yii::app()->session[$sessionSortId];
             $_GET[ShopConst::SORT] = Yii::app()->session[$sessionSortId];
@@ -193,6 +192,11 @@ class ShopController extends MemberController
             } else {
                 list($filter_model, $where) = Filters::model()->getFilter($where);
             }
+            
+            
+            if (isset($_POST['currency'])) {
+                Currency::setCurrency($_POST['currency']);
+            }
 
             $brand_title = '';
             if (!empty($brand)) {
@@ -212,7 +216,30 @@ class ShopController extends MemberController
             }
 
             $products = Product::model()->getShopProducts($model, $where, $limit, $offset, $order, $isTopCategory);
+            $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
+            $currency = Currency::getCurrency();
 
+            if (isset($_POST['currency'])) {
+                die (CJSON:: encode([
+                    'html' => $this->renderPartial('_products_form', [
+                        'model' => $model,
+                        'products' => $products,
+                        'pages' => $pages,
+                        'filters' => $filter_model,
+                        's_category' => $category,
+                        's_subcategory' => trim($subcategory),
+                        's_brand' => $brand,
+                        's_brand_title' => $brand_title,
+                        'brands_all' => $brands_all,
+                        'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+                        'currency' => $currency,
+                    ], true),
+                    'selector_html' => $this->renderPartial('_currency', [
+                        
+                    ], true),
+                ]));
+            }
+            
             $this->renderPartial('_products_form',
                 array(
                     'model' => $model,
@@ -223,6 +250,9 @@ class ShopController extends MemberController
                     's_subcategory' => trim($subcategory),
                     's_brand' => $brand,
                     's_brand_title' => $brand_title,
+                    'brands_all' => $brands_all,
+                    'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+                    'currency' => $currency,
                 )
             );
 
@@ -249,7 +279,8 @@ class ShopController extends MemberController
 
         $products = Product::model()->getShopProducts($model, $where, $limit, $offset, $order, $isTopCategory);
         $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
-
+        $currency = Currency::getCurrency();
+        
         $this->render('category', array(
             'model' => $model,
             'products' => $products,
@@ -261,6 +292,7 @@ class ShopController extends MemberController
             's_brand_title' => $brand_title,
             'brands_all' => $brands_all,
             'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+            'currency' => $currency,
         ));
     }
 
@@ -346,10 +378,31 @@ class ShopController extends MemberController
                 return $el['isActive'] && !empty($el['definedValue']);
             });
 
+            if (isset($_POST['currency'])) {
+                Currency::setCurrency($_POST['currency']);
+            }
+            
+            $currency = Currency::getCurrency();
+            
+            if (isset($_POST['currency'])) {
+                die (CJSON:: encode([
+                    'html' => $this->renderPartial('_product_details_price', [
+                        'model' => $model,
+                        'attributes' => $attributes,
+                        'isCanAddCommentsAndMakeOffers' => $isCanAddCommentsAndMakeOffers,
+                        'currency' => $currency,
+                    ], true),
+                    'selector_html' => $this->renderPartial('application.views.members.shop._currency', [
+                        
+                    ], true),
+                ]));
+            }
+            
             $this->render('product_details', array(
                 'model' => $model,
                 'attributes' => $attributes,
                 'isCanAddCommentsAndMakeOffers' => $isCanAddCommentsAndMakeOffers,
+                'currency' => $currency,
             ));
         } else {
             $this->redirect('/');

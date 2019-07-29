@@ -92,15 +92,29 @@
                     <br>
                     <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
                     <div class="product-description uk-padding-top-large">
-                        <div class="product-detail">
+                        <div class="product-detail" id="products">
                             <?php if($model->isVisible): ?>
                                 <?php if($model->price == $model->init_price): ?>
-                                    <div class="uk-h3-lg">&euro;<?= $model->price ?></div>
+                                    <div class="uk-h3-lg">
+                                        <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                    </div>
                                 <?php else: ?>
-                                    <div class="uk-h3-lg price"><span style="margin-right:10px;text-decoration: line-through;">&euro;<?= $model->init_price ?></span> <span class="uk-h3-lg price price-new" style="color: red !important;">&euro;<?=$model->price?></span></div>
+                                    <div class="uk-h3-lg price">
+                                        <span style="margin-right:10px;text-decoration: line-through;">
+                                            <?= $currency->sign . number_format(sprintf("%01.2f", $model->init_price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                        </span>
+                                        <span class="uk-h3-lg price price-new" style="color: red !important;">
+                                            <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                        </span>
+                                    </div>
                                 <?php endif; ?>
                             <?php else: ?>
-                                <div class="uk-h3-lg price"><span style="margin-right:10px;">&euro;<?= $model->price ?></span> <span class="uk-h3-lg price price-new">SOLD</span></div>
+                                <div class="uk-h3-lg price">
+                                    <span style="margin-right:10px;">
+                                        <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                    </span>
+                                    <span class="uk-h3-lg price price-new">SOLD</span>
+                                </div>
                             <?php endif; ?>
                         </div>
                         <?php if(!$model->external_sale): ?>
@@ -315,6 +329,9 @@
     </div>
 </div>
 
+<div class="loader"></div>
+
+<script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.lazyload.min.js"></script>
 <script>
     $(document).ready(function () {
         /*var url = '<?= Yii:: app()->createUrl("/members/auth/login") ?>';

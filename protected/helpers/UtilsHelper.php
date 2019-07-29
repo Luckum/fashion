@@ -306,7 +306,7 @@ class UtilsHelper
         );
 
         $menu['login'] = array(
-            'name' => Yii::t('base', 'Account'),
+            'name' => Yii::t('base', 'Login'),
             'url' => '/members/auth/login',
             'visible' => Yii::app()->member->isGuest
         );

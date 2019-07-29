@@ -15,6 +15,10 @@ class SearchController extends Controller
         $message = '';
         $count = $products_cnt = 0;
         
+        if (isset($_POST['currency'])) {
+            Currency::setCurrency($_POST['currency']);
+        }
+        
         if (!empty($q) && strlen($q) > 2) {
             $query = trim(strtolower(str_replace('+', ' ', strip_tags($q))));
             $data = $this->getResults($query, $limit, $offset);
@@ -43,7 +47,26 @@ class SearchController extends Controller
             $message = 'Wrong search criteria';
         }
         
+        $currency = Currency::getCurrency();
+        if (isset($_POST['currency'])) {
+            die (CJSON:: encode([
+                'html' => $this->renderPartial('_results_currency', [
+                    'products' => $products,
+                    'q' => $q,
+                    'count' => $count,
+                    'currency' => $currency,
+                    'limit' => $limit,
+                    'offset' => $offset,
+                    'products_cnt' => $products_cnt,
+                ], true),
+                'selector_html' => $this->renderPartial('application.views.members.shop._currency', [
+                    
+                ], true),
+            ]));
+        }
+        
         $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
+        
         return $this->render('results', [
             'products' => $products,
             //'brands' => $brands,
@@ -56,6 +79,7 @@ class SearchController extends Controller
             'count' => $count,
             'brands_all' => $brands_all,
             'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+            'currency' => $currency,
         ]);
     }
     
@@ -84,6 +108,7 @@ class SearchController extends Controller
         
         $products = $data['product'];
         $products_cnt = $data['products_cnt'];
+        $currency = Currency::getCurrency();
         
         foreach ($products as $rec) {
             $count += count($rec);
@@ -94,6 +119,7 @@ class SearchController extends Controller
                 'products' => $products,
                 'q' => $q,
                 'count' => $count,
+                'currency' => $currency,
             ], true),
             'limit' => $limit,
             'offset' => $offset,

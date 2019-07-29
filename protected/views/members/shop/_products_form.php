@@ -3,195 +3,7 @@
     <div class="uk-grid uk-margin-large-top">
         <!--FILTER-->
         <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 uk-margin-bottom">
-            <?php if(((isset($model->parent)) && (isset($model->parent->external_sale) && $model->parent->external_sale != 1)) || (!isset($model->parent) && (isset($model->external_sale) && $model->external_sale == 0))): ?>
-            <div class="filter-wrapper" style="display:none" data-uk-dropdown="{mode:'click', justify:'#dropdown-nav'}">
-                <a href="#" class="uk-button uk-button-filter uk-text-right"><?php echo Yii::t('base', 'filter'); ?> <span
-                        class="filter-icon"></span></a>
-                <div class="uk-dropdown" id="filter-drop-down">
-                    <div class="uk-grid uk-dropdown-grid uk-margin-top-xlarge" id="filter">
-                        <div class="uk-width-2-10 uk-margin-large-bottom">
-                            <div class="uk-margin-bottom"><?php echo Yii::t('base', 'Category'); ?></div>
-                            <ul class="filter-list">
-                                <?php
-                                if (!empty($model)) {
-                                    if (isset($model->parent) && $model->parent) {
-                                        $objectId = (strtolower(get_class($model)) == 'category') ? $model->parent->id : null;
-                                    } else {
-                                        $objectId = (strtolower(get_class($model)) == 'category') ? $model->id : null;
-                                    }
-                                } else {
-                                    $objectId = null;
-                                }
-                                
-
-                                foreach (Category::getSubCategoryList($objectId, false) as $id => $cat) : ?>
-
-                                    <li <?php echo(($id && in_array($id, explode(',', $filters->category))) ?
-                                        'class="filter-list-active"' :
-                                        ""); ?>><!--END OPEN TAG li-->
-
-                                        <?php echo CHtml::link(
-                                            CHtml::encode($cat),
-                                            '#',
-                                            array(
-                                                'data-filter' => 'category',
-                                                'data-id' => $id,
-                                                'class' => (($id && in_array($id, explode(',', $filters->category))) ? 'checked' : "")
-                                            )
-                                        ) ?>
-
-                                    </li>
-
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <div class="uk-width-2-10 uk-margin-large-bottom">
-                            <div class="uk-margin-bottom"><?php echo Yii::t('base', 'Brand'); ?></div>
-                            <div class="scroll-pane">
-                                <ul class="filter-list">
-                                    <?php foreach (Brand::getAllBrands() as $id => $brand_name) : ?>
-
-                                        <li <?php echo(($id && in_array($id, explode(',', $filters->brand))) ?
-                                            'class="filter-list-active"' : ""); ?>><!--END OPEN TAG li-->
-
-                                            <?php echo CHtml::link(
-                                                CHtml::encode($brand_name),
-                                                '#',
-                                                array(
-                                                    'data-filter' => 'brand',
-                                                    'data-id' => $id,
-                                                    'class' => (($id && in_array($id, explode(',', $filters->brand))) ? 'checked' : "")
-                                                )
-                                            ) ?>
-                                        </li>
-
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="uk-width-2-10 uk-margin-large-bottom">
-                            <?php
-                            $size_cat = null;
-
-                            if (isset($model->size_chart_cat_id)) {
-                                $size_cat = $model->size_chart_cat_id;
-                            } elseif (isset($model->size_chart)) {
-                                $size_cat = $model->size_chart->size_chart_cat_id;
-                            }
-                            ?>
-
-                            <?php $sizes = SizeChart:: model()->getSizes($size_cat, false, $model); ?>
-                            <?php if ($sizes): ?>
-                                <div class="uk-margin-bottom"><?php echo $sizes[0]; ?> size</div>
-                                <div class="scroll-pane">
-                                    <?php foreach ($sizes[1] as $k => $v): ?>
-                                        <ul class="filter-list">
-                                            <li><span class="size-filter-group-value"><?php echo $k; ?></span></li>
-                                            <?php foreach ($v as $item): ?>
-                                                <li <?php echo(($item[0] && in_array($item[0], explode(',', $filters->size_type))) ?
-                                                    'class="filter-list-active uk-margin-left"' : 'class="uk-margin-left"'); ?>>
-                                                    <!--END OPEN TAG li-->
-
-                                                    <?php echo CHtml::link($item[1], '#', array(
-                                                        'data-filter' => 'size_type',
-                                                        'data-id' => $item[0],
-                                                        'class' => (($item[0] && in_array($item[0], explode(',', $filters->size_type))) ? 'checked' : ''),
-                                                    )) ?>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php endif; ?>
-                            
-                        </div>
-                        <div class="uk-width-2-10 uk-margin-large-bottom">
-                            <div class="uk-margin-bottom"><?php echo Yii::t('base', 'Country'); ?></div>
-                            <div class="scroll-pane">
-                                <ul class="filter-list">
-                                    <?php foreach (Country::getListIdCountry() as $id => $country) : ?>
-                                        <li<?php echo(($id && in_array($id, explode(',', $filters->country))) ?
-                                            'class="filter-list-active"' : ""); ?>><!--END OPEN TAG li-->
-
-                                            <?php echo CHtml::link(
-                                                CHtml::encode($country),
-                                                '#',
-                                                array(
-                                                    'data-filter' => 'country',
-                                                    'data-id' => $id,
-                                                    'class' => (($id && in_array($id, explode(',', $filters->country))) ? 'checked' : ""),
-                                                )
-                                            ) ?>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="uk-width-1-10 uk-margin-large-bottom">
-                            <div class="uk-margin-bottom"><?php echo Yii::t('base', 'Condition'); ?></div>
-                            <ul class="filter-list">
-                                <?php foreach (Product::getConditions() as $id => $cond) : ?>
-                                    <li <?php echo(($id && in_array($id, explode(',', $filters->condition))) ?
-                                        'class="filter-list-active"' : ""); ?>><!--END OPEN TAG li-->
-
-                                        <?php echo CHtml::link(
-                                            CHtml::encode($cond),
-                                            '#',
-                                            array(
-                                                'data-filter' => 'condition',
-                                                'data-id' => $id,
-                                                'class' => (($id && in_array($id, explode(',', $filters->condition))) ? 'checked' : ""),
-                                            )
-                                        ) ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <div class="uk-width-1-10 uk-margin-large-bottom">
-                            <div class="uk-margin-bottom"><?php echo Yii::t('base', 'Seller type'); ?></div>
-                            <ul class="filter-list">
-                                <?php
-                                $filteredTypes = array();
-                                if ($filters->seller_type != '') {
-                                    $filteredTypes = explode(',', $filters->seller_type);
-                                }
-                                foreach (SellerProfile::getConditions() as $id => $cond) : ?>
-                                    <li <?php echo((in_array($id, $filteredTypes)) ?
-                                        'class="filter-list-active"' : ""); ?>><!--END OPEN TAG li-->
-
-                                        <?php echo CHtml::link(
-                                            $cond,
-                                            '#',
-                                            array(
-                                                'data-filter' => 'seller_type',
-                                                'data-id' => $id,
-                                                'class' => ((in_array($id, $filteredTypes)) ? 'checked' : ""),
-                                            )
-                                        ) ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="uk-grid uk-dropdown-grid">
-                        <div class="uk-width-7-10 uk-flex uk-flex-bottom"></div>
-                        <div class="uk-width-3-10 uk-flex uk-flex-bottom">
-                            <div id="clear_filter"
-                                 class="uk-base-link uk-margin-bottom uk-margin-small-right clear_filter">
-                                <?php echo strtolower(Yii::t('base', 'Clear all')); ?>
-                            </div>
-                            <div id="save_filter"
-                                 class="uk-base-link uk-margin-bottom uk-margin-small-right save_filter">
-                                <?php echo strtolower(Yii::t('base', 'Save current filters')); ?>
-                            </div>
-                            <div id="apply_filter" class="uk-base-link uk-margin-bottom uk-margin-small-left apply_filter">
-                                <?php echo strtolower(Yii::t('base', 'Apply')); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php endif; ?>
+            
         </div>
         <!--END FILTER-->
 
@@ -335,11 +147,11 @@
                 ?>
                 <?php if($products[$i]['status'] != Product::PRODUCT_STATUS_SOLD) { ?>
                 <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">
-                    &euro;<?php echo $old_price; ?>
+                    <?= $currency->sign . number_format(sprintf("%01.2f", $old_price * $currency->currencyRate->rate), 2, '.', ''); ?>
                 </span>
                 <?php if (!$equal): ?>
                     <span class="price-new" style="color:red !important;">
-                        &euro;<?php echo $new_price; ?>
+                        <?= $currency->sign . number_format(sprintf("%01.2f", $new_price * $currency->currencyRate->rate), 2, '.', ''); ?>
                     </span>
                 <?php endif; ?>
                 <?php } else { ?>
@@ -479,6 +291,8 @@
         </script>
     </div>
 </div>
+
+<div class="loader"></div>
 
 <script>
     $(document).ready(function() {

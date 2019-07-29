@@ -61,30 +61,7 @@
                     </a>
                 </li>
             <?php endif; ?>
-            <li style="float: right;" class="uk-visible-large">
-                <a class="main_menu_link search-icon" href="#search">
-                    <?php echo Yii::t('base', 'Search'); ?>
-                </a>
-            </li>
             
-            <?php if ($top_menu['login']['visible']) { ?>
-                <li class="uk-visible-large" style="float: right;">
-                    <a class="main_menu_link" id="wishlist_main" href="<?php echo $top_menu['login']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } else { ?>
-                <li class="uk-visible-large" style="float: right;">
-                    <a class="main_menu_link" href="<?php echo $top_menu['wishlist']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } ?>
-            
-            <!--<li id="cart" class="dropdown-bag-wrapper uk-visible-large" data-uk-dropdown="{mode:'hover', pos:'bottom-right'}" style="float: right;">
-                <?php //$this->renderPartial('application.views.members.shop._cart'); ?>
-            </li>-->
-
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-visible-large" style="float: right;">
                     <a class="main_menu_link" id="login_main" href="<?php echo $top_menu['login']['url']; ?>">
@@ -98,6 +75,26 @@
                     </a>
                 </li>
             <?php } ?>
+            
+            <li id="currency-selector" data-uk-dropdown="{'bottom-justify':'#dropdown-nav','mode':'click'}" class="nav-correction uk-hidden-medium uk-hidden-small" style="float: right;">
+                <?php $current_currency = Currency::getCurrency() ?>
+                <?php $currencies_list = Currency::getList(); ?>
+                <a href="javascript:void(0)" class="main_menu_link currency-selector"><?= $current_currency->name . '&nbsp;' . $current_currency->sign; ?></a>
+                <div class="uk-dropdown dropdown-nav" style="left: 0; width: auto;">
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <?php foreach ($currencies_list as $currency): ?>
+                            <li style="display: block;"><a style="font-size: 14px; color: #000;" href="javascript:void(0);" onclick="setCurrency('<?= $currency->id ?>')"><?= $currency->name . '&nbsp;' . $currency->sign ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </li>
+            
+            
+            <li style="float: right;" class="uk-visible-large">
+                <a class="main_menu_link search-icon" href="#search">
+                    <?php echo Yii::t('base', 'Search'); ?>
+                </a>
+            </li>
             
             <?php if ($top_menu['login']['visible']) { ?>
                 <li class="uk-hidden-large">
@@ -248,6 +245,45 @@
             'border-left': border_l_r + 'px solid ' + borderColor,
             'border-right': border_l_r + 'px solid ' + borderColor,
             'visibility': 'visible'
+        });
+    }
+    
+    function setCurrency(currency_id)
+    {
+        $("body").addClass("loading");
+        $.ajax({
+            type: "POST",
+            data: {currency: currency_id},
+            success: function (data) {
+                var response = JSON.parse(data);
+                $("#products").html(response.html);
+                $("#currency-selector").html(response.selector_html);
+                $("#currency-selector").removeClass("uk-open");
+                var isMobile;
+                try {
+                    document.createEvent('TouchEvent');
+                    isMobile = true;
+                } catch (e) {
+                    isMobile = false;
+                }
+                var isSafari = navigator.userAgent.indexOf('Safari')  != -1 &&
+                               navigator.userAgent.indexOf('Chrome')  == -1 &&
+                               navigator.userAgent.indexOf('Android') == -1;
+                $('img[data-plugin="lazy-load"]')
+                    .lazyload({
+                        'threshold' : 200,
+                        'effect'    : 'fadeIn'
+                    })
+                    .on('load', function() {
+                        $(this)
+                            .closest('.thumbnail.pf')
+                            .css('visibility', 'visible');
+                        if (isSafari && !isMobile) {
+                            $('body').height($('#products').height() + 'px');
+                        }
+                    });
+                $("body").removeClass("loading");
+            }
         });
     }
 </script>

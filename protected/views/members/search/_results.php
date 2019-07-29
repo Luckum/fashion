@@ -59,9 +59,13 @@
                     $equal = $old_price === $new_price;
                 ?>
                 <?php if ($rec->status != Product::PRODUCT_STATUS_SOLD) { ?>
-                    <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">&euro;<?php echo $old_price; ?></span>
+                    <span itemprop="price" class="<?php echo !$equal ? 'price price-old' : 'price' ?>">
+                        <?= $currency->sign . number_format(sprintf("%01.2f", $old_price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                    </span>
                     <?php if (!$equal): ?>
-                        <span class="price-new" style="color:red !important;">&euro;<?php echo $new_price; ?></span>
+                        <span class="price-new" style="color:red !important;">
+                            <?= $currency->sign . number_format(sprintf("%01.2f", $new_price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                        </span>
                     <?php endif; ?>
                 <?php } else { ?>
                     <span class="price-new" style="margin-right: 25px;">SOLD</span>

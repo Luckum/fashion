@@ -73,15 +73,17 @@ jQuery(document).ready(function($) {
     });
 
     $('li.nav-correction > a').on('mouseover', function() {
-        $(this).trigger('click', ['fire_event']);
+        if (!$(this).hasClass('currency-selector')) {
+            $(this).trigger('click', ['fire_event']);
+        }
     }).on('click', function(e, extra) {
-        if (typeof extra == 'undefined' /* Исправление поведения меню */) {
+        /*if (typeof extra == 'undefined') {
             $(this)
                 .parent()
                 .find('.uk-dropdown')
                 .remove();
             location.href = $(this).prop('href');
-        }
+        }*/
     });
 
     $(document).on("mouseover", '#navbar-collapse .navbar-main li.category_menu', function () {
