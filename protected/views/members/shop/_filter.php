@@ -95,11 +95,11 @@
 
                 <?php if($products[$i]['status'] != Product::PRODUCT_STATUS_SOLD) { ?>
                     <span class="<?php echo !$equal ? 'price price-old' : 'price' ?>">
-                    &euro;<?php echo $old_price;; ?>
+                    <?= $currency->sign . number_format(sprintf("%01.2f", $old_price * $currency->currencyRate->rate), 2, '.', ''); ?>
                 </span>
                     <?php if (!$equal): ?>
                         <span class="price-new" style="color:red !important;">
-                        &euro;<?php echo $new_price; ?>
+                        <?= $currency->sign . number_format(sprintf("%01.2f", $new_price * $currency->currencyRate->rate), 2, '.', ''); ?>
                     </span>
                     <?php endif; ?>
                 <?php } else { ?>
@@ -177,6 +177,10 @@
         </div>
     </div>
 </div>
+
+<div class="loader"></div>
+
+<script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.lazyload.min.js"></script>
 
 <script type="text/javascript">
 

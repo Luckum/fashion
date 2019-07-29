@@ -345,6 +345,24 @@ class ShopController extends MemberController
         $pages->pageSize = $pageSize;
         Yii::app()->clientScript->registerMetaTag('noindex','robots');
         if ($request->isAjaxRequest) {
+            if (isset($_POST['currency'])) {
+                Currency::setCurrency($_POST['currency']);
+            }
+            
+            $currency = Currency::getCurrency();
+            if (isset($_POST['currency'])) {
+                die (CJSON:: encode([
+                    'html' => $this->renderPartial('_filter', [
+                        'products' => $products,
+                        'pages' => $pages,
+                        'currency' => $currency,
+                    ], true),
+                    'selector_html' => $this->renderPartial('_currency', [
+                        
+                    ], true),
+                ]));
+            }
+            
             $this->renderPartial('_filter', array(
                 'products' => $products,
                 'pages' => $pages
@@ -352,10 +370,13 @@ class ShopController extends MemberController
 
             Yii::app()->end();
         }
+        
+        $currency = Currency::getCurrency();
 
         $this->render('filter', array(
             'products' => $products,
-            'pages' => $pages
+            'pages' => $pages,
+            'currency' => $currency
         ));
     }
 

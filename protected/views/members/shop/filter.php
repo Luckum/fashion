@@ -13,7 +13,8 @@
             <?php $this->renderPartial('_filter',
                 array(
                     'products' => $products,
-                    'pages' => $pages
+                    'pages' => $pages,
+                    'currency' => $currency
                 )
             ); ?>
         </div>
