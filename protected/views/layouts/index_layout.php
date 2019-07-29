@@ -91,20 +91,6 @@
                 </li>
             <?php } ?>
 
-            <?php if ($top_menu['login']['visible']) { ?>
-                <li class="uk-hidden-large">
-                    <a class="main_menu_link" id="wishlist_mobile" href="<?php echo $top_menu['login']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } else { ?>
-                <li class="uk-hidden-large">
-                    <a class="main_menu_link" href="<?php echo $top_menu['wishlist']['url']; ?>">
-                        <span><?php echo $top_menu['wishlist']['name'] ?></span>
-                    </a>
-                </li>
-            <?php } ?>
-            
             <!--<li id="cart-mobile-link" class="uk-hidden-large">
                 <?php //$this->renderPartial('application.views.members.shop._cart_mobile'); ?>
             </li>-->
