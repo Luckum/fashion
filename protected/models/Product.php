@@ -871,8 +871,10 @@ class Product extends CActiveRecord implements IECartPosition
         $newid = $changeHyphens . $lastSymb . $model['id'];
         $link = strtolower('/shop/' . $parentCategory . '-' . $category . '/' . $brand . '/' . $newid);
 
+        return strtolower('/' . $parentCategory . '/' . $category . '/' . $newid);
+        
         //return $link;
-        return strtolower('/'.$newid);
+        //return strtolower('/'.$newid);
     }
 
     public function getIsVisible()

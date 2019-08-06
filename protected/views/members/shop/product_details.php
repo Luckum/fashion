@@ -156,7 +156,7 @@
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
                                 <li><a href="#"
-                                       onclick="Share.pinterest('<?=$p_link?>', '<?= $this->createAbsoluteUrl('/images/upload/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
+                                       onclick="Share.pinterest('<?=$p_link?>', '<?= $this->createAbsoluteUrl('/images/upload/medium/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
                                             class="uk-icon-pinterest"></i></a></li>
                                 <li><a href="#"
                                        onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', 'n2315.com')"><i

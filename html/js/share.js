@@ -29,7 +29,7 @@ var Share = {
     },
 
     'pinterest' : function (link, image, description) {
-        var url = 'https://pinterest.com/pin/create/button/?'
+        var url = 'https://www.pinterest.com/pin/create/button/?'
             + 'url='          + encodeURIComponent(link)
             + '&media='       + encodeURIComponent(image)
             + '&description=' + encodeURIComponent(description);
