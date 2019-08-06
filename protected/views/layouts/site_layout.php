@@ -165,16 +165,16 @@ if (YII_DEBUG) {
                         </li>
                         <li>
                             <?php echo CHtml::link(
-                                '<i class="uk-icon-facebook"></i>',
-                                Yii::app()->params['misc']['facebook_url'],
+                                '<i class="uk-icon-pinterest"></i>',
+                                Yii::app()->params['misc']['pinterest_url'],
                                 array('class' => 'footer-social')); ?>
                         </li>
-                        <li>
-                            <?php echo CHtml::link(
+<!--                        <li>
+                            <?php /*echo CHtml::link(
                                 '<i class="uk-icon-twitter"></i>',
                                 Yii::app()->params['misc']['twitter_url'],
-                                array('class' => 'footer-social')); ?>
-                        </li>
+                                array('class' => 'footer-social'));*/ ?>
+                        </li>-->
                         <li>
                             <?php echo CHtml::link(
                                 '<i class="uk-icon-instagram"></i>',

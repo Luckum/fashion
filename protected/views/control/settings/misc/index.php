@@ -24,13 +24,8 @@
     </div>
 
     <div class="row">
-        <?=CHtml :: label(Yii :: t('base', 'Facebook ID'), 'facebook_id')?>
-        <?=CHtml :: textField('facebook_id', $data['facebook_id'], array('onfocus' => 'this.select()'))?>
-    </div>
-
-    <div class="row">
-        <?=CHtml :: label(Yii :: t('base', 'Facebook URL'), 'facebook_url')?>
-        <?=CHtml :: textField('facebook_url', $data['facebook_url'], array('onfocus' => 'this.select()'))?>
+        <?=CHtml :: label(Yii :: t('base', 'Pinterest URL'), 'pinterest_url')?>
+        <?=CHtml :: textField('pinterest_url', $data['pinterest_url'], array('onfocus' => 'this.select()'))?>
     </div>
 
     <div class="row">

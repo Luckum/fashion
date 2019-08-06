@@ -91,7 +91,7 @@
                     <h2 class="uk-margin-right product-title"><?= '<a href="/designers/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
                     <br>
                     <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
-                    <div class="product-description uk-padding-top-large">
+                    <div class="product-description">
                         <div class="product-detail" id="products">
                             <?php if($model->isVisible): ?>
                                 <?php if($model->price == $model->init_price): ?>
@@ -156,8 +156,8 @@
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
                                 <li><a href="#"
-                                       onclick="Share.facebook('<?=$p_link?>', 'n2315.COM', '<?= $this->createAbsoluteUrl('/images/upload/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
-                                            class="uk-icon-facebook"></i></a></li>
+                                       onclick="Share.pinterest('<?=$p_link?>', '<?= $this->createAbsoluteUrl('/images/upload/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
+                                            class="uk-icon-pinterest"></i></a></li>
                                 <li><a href="#"
                                        onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', 'n2315.com')"><i
                                             class="uk-icon-twitter"></i></a></li>

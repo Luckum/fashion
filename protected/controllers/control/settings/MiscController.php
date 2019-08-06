@@ -13,10 +13,9 @@
                 $params = array(
                     'blog_url'          => $_POST['blog_url'],
                     'adminEmail'        => $_POST['adminEmail'],
-                    'facebook_url'      => $_POST['facebook_url'],
+                    'pinterest_url'      => $_POST['pinterest_url'],
                     'twitter_url'       => $_POST['twitter_url'],
                     'instagram_url'     => $_POST['instagram_url'],
-                    'facebook_id'       => $_POST['facebook_id'],
                     'quickBooks_IsDemo' => (bool)$_POST['quickBooks_IsDemo'],
                     'business_deactive' => (bool)$_POST['business_deactive']
                 );
