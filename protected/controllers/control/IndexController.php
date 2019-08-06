@@ -47,11 +47,9 @@ class IndexController extends AdminController
         $users->unsetAttributes();
 
         if (isset($_POST['from_date'], $_POST['to_date'])) {
-            // ѕользователь указал временной диапазон.
             $from = $_POST['from_date'];
             $to   = $_POST['to_date'];
         } else {
-            // ƒиапазон по умолчанию (за последние 24 часа).
             $from = date('Y-m-d H:i:s', strtotime('-1 day'));
             $to   = date('Y-m-d') . ' 23:59:59.999';
         }
