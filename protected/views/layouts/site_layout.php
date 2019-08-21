@@ -44,6 +44,7 @@ if (YII_DEBUG) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="<?=CHtml::encode($description)?>">
+    <meta name="p:domain_verify" content="974be073ba2c43edbc2aff13c6adc6f2"/>
     <!-- meta property="og:image" content="<?=Yii::app()->createAbsoluteUrl('/images/logo-black-fb.png')?>" -->
     <?php 
     $link = explode('/',$_SERVER['REQUEST_URI']);
@@ -262,6 +263,7 @@ if (YII_DEBUG) {
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery-ui.min.js"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/eternalSession.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
+
 
 <script>
     var options = {

@@ -14,6 +14,7 @@ return array(
         'ext.shoppingCart.*',
         'application.helpers.LogHelper',
         'application.helpers.EmailHelper',
+        'application.extensions.sftp.*',
     ),
     // We'll log cron messages to the separate files
     'components'=>array(
@@ -34,6 +35,14 @@ return array(
         ),
         'mailer' => array(
             'class' => 'application.extensions.mailer.EMailer',
+        ),
+        
+        'sftp' => array(
+            'class' => 'SftpComponent',
+            'host' => '127.0.0.1',
+            'port' => 22,
+            'username' => 'test',
+            'password' => 'test.1',
         ),
 
         // Your DB connection

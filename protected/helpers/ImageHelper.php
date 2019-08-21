@@ -445,6 +445,7 @@ class ImageHelper
         //
         //$base_path = Yii::getPathOfAlias('webroot');
         $base_path = Yii::getPathOfAlias('application') . '/../html';
+        //$base_path = '/var/www/html';
         $save_max_path = $base_path . ShopConst::IMAGE_MAX_DIR . $name;
         $save_medium_path = $base_path . ShopConst::IMAGE_MEDIUM_DIR . $name;
         //$save_thumbnail_path = $base_path . ShopConst::IMAGE_THUMBNAIL_DIR . $name;
