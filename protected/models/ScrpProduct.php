@@ -144,26 +144,26 @@ class ScrpProduct extends CActiveRecord
                             $f_name = end($arr);
                             $crop_mode = 0;
                             $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
-                            ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode);
+                            if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode)) {
+                                $product = new Product();
+                                $product->user_id = 185;
+                                $product->category_id = $category_id;
+                                $product->brand_id = $brand_id;
+                                $product->title = $data->name;
+                                $product->description = $data->description;
+                                $product->image1 = $image;
+                                $product->color = '';
+                                $product->price = $data->sale_price;
+                                $product->init_price = $data->price;
+                                $product->condition = 1;
+                                $product->direct_url = $data->url;
+                                $product->external_sale = 1;
+                                $product->status = 'active';
+                                $product->screpped = 1;
+                                $product->to_delete = 0;
+                                $product->save();
+                            }
                             unlink($data->picture_path);
-                            
-                            $product = new Product();
-                            $product->user_id = 185;
-                            $product->category_id = $category_id;
-                            $product->brand_id = $brand_id;
-                            $product->title = $data->name;
-                            $product->description = $data->description;
-                            $product->image1 = $image;
-                            $product->color = '';
-                            $product->price = $data->sale_price;
-                            $product->init_price = $data->price;
-                            $product->condition = 1;
-                            $product->direct_url = $data->url;
-                            $product->external_sale = 1;
-                            $product->status = 'active';
-                            $product->screpped = 1;
-                            $product->to_delete = 0;
-                            $product->save();
                         }
                     } else {
                         if ($product->price != $data->sale_price) {

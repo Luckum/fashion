@@ -9,6 +9,13 @@ class ImportCjCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing Accessories > Sunglasses' => 149,
         'Apparel & Accessories > Shoes' => 135,
         'Apparel & Accessories > Clothing > Dresses' => 153,
+        'Apparel & Accessories > Clothing > Outerwear' => 94,
+        'Apparel & Accessories > Clothing > Pants' => 177,
+        'Apparel & Accessories > Clothing > Shorts' => 178,
+        'Apparel & Accessories > Clothing > Skirts' => 179,
+        'Apparel & Accessories > Handbags, Wallets & Cases > Handbags' => 188,
+        'Apparel & Accessories > Clothing > One-Pieces' => 94,
+        'Apparel & Accessories > Clothing > Swimwear' => 129,
     ];
     
     protected $ftp_server = 'datatransfer.cj.com';
@@ -16,6 +23,7 @@ class ImportCjCommand extends CConsoleCommand
     protected $ftp_user_pass = 'c2~8eE97';
     protected $file_names = [
         'SVMoscow-GOOGLE_PRODUCT_FEED_EUROPE_ENG_EUR_-shopping.xml.zip',
+        'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip',
     ];
     
     public function run($args)
@@ -27,7 +35,6 @@ class ImportCjCommand extends CConsoleCommand
         foreach ($this->file_names as $file_name) {
             $this->getFromFtp($file_name);
             $out_file_name = $this->unzipFile($file_name);
-            $out_file_name = 'SVMoscow-GOOGLE_PRODUCT_FEED_EUROPE_ENG_EUR_-shopping.xml';
             
             $xml = simplexml_load_file(Yii::getPathOfAlias('application') . '/data/' . $out_file_name);
             
@@ -73,8 +80,11 @@ class ImportCjCommand extends CConsoleCommand
     
     protected function saveData($data, $file_name)
     {
+        //$cats = [];
         foreach ($data as $rec) {
             if ($rec->gender == 'female') {
+                //$cats[] = $rec->google_product_category_name;
+                
                 $category_id = 0;
                 if (isset($this->category_link["$rec->google_product_category_name"])) {
                     $category_id = $this->category_link["$rec->google_product_category_name"];
@@ -106,24 +116,26 @@ class ImportCjCommand extends CConsoleCommand
                     if (!$model) {
                         $image = $this->getImage($rec->image_link);
                         
-                        $model = new Product();
-                        $model->user_id = 185;
-                        $model->category_id = $category_id;
-                        $model->brand_id = $brand_id;
-                        $model->title = "$rec->title";
-                        $model->description = "$rec->description";
-                        $model->image1 = $image;
-                        $model->color = "$rec->color";
-                        $model->price = str_replace(' EUR', '', "$rec->sale_price");
-                        $model->init_price = str_replace(' EUR', '', "$rec->price");
-                        $model->condition = 1;
-                        $model->direct_url = $this->getDirectUrl($rec->link);
-                        $model->external_sale = 1;
-                        $model->status = 'active';
-                        $model->imported = 1;
-                        $model->to_delete = 0;
-                        $model->imported_from = $file_name;
-                        $model->save();
+                        if ($image) {
+                            $model = new Product();
+                            $model->user_id = 185;
+                            $model->category_id = $category_id;
+                            $model->brand_id = $brand_id;
+                            $model->title = "$rec->title";
+                            $model->description = "$rec->description";
+                            $model->image1 = $image;
+                            $model->color = "$rec->color";
+                            $model->price = isset($rec->sale_price) ? str_replace(' EUR', '', "$rec->sale_price") : str_replace(' EUR', '', "$rec->price");
+                            $model->init_price = str_replace(' EUR', '', "$rec->price");
+                            $model->condition = 1;
+                            $model->direct_url = $this->getDirectUrl($rec->link);
+                            $model->external_sale = 1;
+                            $model->status = 'active';
+                            $model->imported = 1;
+                            $model->to_delete = 0;
+                            $model->imported_from = $file_name;
+                            $model->save();
+                        }
                     } else {
                         if ($model->price != $rec->sale_price) {
                             $model->price = $rec->sale_price;
@@ -139,6 +151,7 @@ class ImportCjCommand extends CConsoleCommand
                 }
             }
         }
+        //print_r(array_unique($cats));
     }
     
     protected function generateUrl($name)
@@ -173,8 +186,10 @@ class ImportCjCommand extends CConsoleCommand
         
         $image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
         
-        ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0);
+        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
+            return $image;
+        }
         
-        return $image;
+        return false;
     }
 }
