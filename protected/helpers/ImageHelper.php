@@ -485,8 +485,15 @@ class ImageHelper
                 self::saveWithoutCompress($file, $save_max_path, true);
             }
             
-            self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true, false, $crop_mode);
-            unlink($save_max_path);
+            if (filesize($save_max_path) > 0) {
+                self::compress($save_max_path, $save_medium_path, $medium_width, $medium_height, $quality, true, false, $crop_mode);
+                unlink($save_max_path);
+                return true;
+            } else {
+                unlink($save_max_path);
+                return false;
+            }
+            
             //self::compress($save_max_path, $save_thumbnail_path, $thumbnail_width, $thumbnail_height, $quality, true, true);
         } catch (Exception $e) {
             Yii::log($e->getMessage());

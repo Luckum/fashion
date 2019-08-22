@@ -405,9 +405,11 @@ class ImportCommand extends CConsoleCommand
         }
         $image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
         
-        ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0);
+        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
+            return $image;
+        }
         
-        return $image;
+        return false;
     }
     
     protected function getFromFtp($file_name)
@@ -458,81 +460,85 @@ class ImportCommand extends CConsoleCommand
                     $cats[] = $product[4];
                 }*/
                 
-                $category_id = 0;
-                if (isset($this->category_link[$product[3]])) {
-                    if (is_array($this->category_link[$product[3]])) {
-                        if (isset($this->category_link[$product[3]][$product[4]])) {
-                            $category_id = $this->category_link[$product[3]][$product[4]];
+                if ($file_name == '43650_3620548_mp.txt.gz' || strtolower($product[33]) == 'female') {
+                    $category_id = 0;
+                    if (isset($this->category_link[$product[3]])) {
+                        if (is_array($this->category_link[$product[3]])) {
+                            if (isset($this->category_link[$product[3]][$product[4]])) {
+                                $category_id = $this->category_link[$product[3]][$product[4]];
+                            } else {
+                                $category_id = $this->category_link[$product[3]]['default'];
+                            }
                         } else {
-                            $category_id = $this->category_link[$product[3]]['default'];
+                            $category_id = $this->category_link[$product[3]];
                         }
-                    } else {
-                        $category_id = $this->category_link[$product[3]];
                     }
-                }
-                
-                if ($category_id != 0) {
-                    $brand_file = $file_name == '35118_3620548_mp.txt.gz' ? (isset($product['16']) ? $product[16] : '') : (isset($product[20]) ? $product[20] : '');
                     
-                    if (!empty($brand_file)) {
-                        $brand = Brand::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
-                        if (!$brand) {
-                            $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
+                    if ($category_id != 0) {
+                        $brand_file = $file_name == '35118_3620548_mp.txt.gz' ? (isset($product[16]) ? $product[16] : '') : (isset($product[20]) ? $product[20] : '');
+                        
+                        if (!empty($brand_file)) {
+                            $brand = Brand::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                             if (!$brand) {
-                                $brand_variant = BrandVariant::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
-                                if (!$brand_variant) {
-                                    $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
+                                $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
+                                if (!$brand) {
+                                    $brand_variant = BrandVariant::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                                     if (!$brand_variant) {
-                                        $brand = new Brand();
-                                        $brand->url = $this->generateUrl($brand_file);
-                                        $brand->generate_url = false;
-                                        $brand->name = $brand_file;
-                                        $brand->save();
+                                        $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
+                                        if (!$brand_variant) {
+                                            $brand = new Brand();
+                                            $brand->url = $this->generateUrl($brand_file);
+                                            $brand->generate_url = false;
+                                            $brand->name = $brand_file;
+                                            $brand->save();
+                                        }
+                                    }
+                                    if ($brand_variant) {
+                                        $brand = Brand::model()->findByPk($brand_variant->brand_id);
                                     }
                                 }
-                                if ($brand_variant) {
-                                    $brand = Brand::model()->findByPk($brand_variant->brand_id);
-                                }
                             }
-                        }
-                        $brand_id = $brand->id;
-                        
-                        $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($product[5]) . "'");
-                        if (!$model) {
-                            $image = $this->getImage($product[6], $file_name);
+                            $brand_id = $brand->id;
                             
-                            $model = new Product();
-                            $model->user_id = 185;
-                            $model->category_id = $category_id;
-                            $model->brand_id = $brand_id;
-                            $model->title = $this->getProductTitle($file_name, $product[1]);
-                            $model->description = $product[8];
-                            $model->image1 = $image;
-                            $model->color = isset($product[32]) ? $product[32] : '';
-                            $model->price = !empty($product[12]) ? $product[12] : $product[13];
-                            $model->init_price = $product[13];
-                            $model->condition = 1;
-                            $model->direct_url = $this->getDirectUrl($product[5]);
-                            $model->external_sale = 1;
-                            $model->status = 'active';
-                            $model->imported = 1;
-                            $model->to_delete = 0;
-                            $model->imported_from = $file_name;
-                            $model->save();
-                        } else {
-                            if ($model->price != $product[12]) {
-                                $model->price = $product[12];
+                            $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($product[5]) . "'");
+                            if (!$model) {
+                                $image = $this->getImage($product[6], $file_name);
+                                
+                                if ($image) {
+                                    $model = new Product();
+                                    $model->user_id = 185;
+                                    $model->category_id = $category_id;
+                                    $model->brand_id = $brand_id;
+                                    $model->title = $this->getProductTitle($file_name, $product[1]);
+                                    $model->description = $product[8];
+                                    $model->image1 = $image;
+                                    $model->color = isset($product[32]) ? $product[32] : '';
+                                    $model->price = !empty($product[12]) ? $product[12] : $product[13];
+                                    $model->init_price = $product[13];
+                                    $model->condition = 1;
+                                    $model->direct_url = $this->getDirectUrl($product[5]);
+                                    $model->external_sale = 1;
+                                    $model->status = 'active';
+                                    $model->imported = 1;
+                                    $model->to_delete = 0;
+                                    $model->imported_from = $file_name;
+                                    $model->save();
+                                }
+                            } else {
+                                if ($model->price != $product[12]) {
+                                    $model->price = $product[12];
+                                }
+                                if ($model->init_price != $product[13]) {
+                                    $model->init_price = $product[13];
+                                }
+                                $model->title = $this->getProductTitle($file_name, $product[1]);
+                                $model->brand_id = $brand_id;
+                                $model->to_delete = 0;
+                                $model->save();
                             }
-                            if ($model->init_price != $product[13]) {
-                                $model->init_price = $product[13];
-                            }
-                            $model->title = $this->getProductTitle($file_name, $product[1]);
-                            $model->brand_id = $brand_id;
-                            $model->to_delete = 0;
-                            $model->save();
                         }
+                        
                     }
-                    
                 }
             }
         }
