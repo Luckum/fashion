@@ -111,6 +111,7 @@ $params = array(
                 'designers/<brand:.+>/<category:.+>/<subcategory:.+>'=>'members/shop/showCategory',
 
                 'shop/<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
+                
 
                 '/product/<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
 

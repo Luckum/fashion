@@ -322,6 +322,89 @@ class ImportCommand extends CConsoleCommand
             'Clothing~~Outfit Sets' => 94,
             'Jewelry~~Jewelry Sets' => 148,
         ],
+        'Clothing' => [
+            'T-Shirts' => 162,
+            'Underwear' => 156,
+            'Jeans' => 155,
+            'Tops' => 162,
+            'Pants & Shorts' => 177,
+            'Knitwear' => 94,
+            'Dresses' => 153,
+            'Skirts' => 179,
+            'Shirts' => 162,
+            'Jackets' => 154,
+            'Coats' => 154,
+            'Suits' => 94,
+            'Blazers' => 94,
+            'Activewear' => 94,
+            'Polos' => 162,
+            'Swimwear' => 129,
+            'Pullovers & Hoodies' => 94,
+            'Lingerie And Shapewear' => 156,
+            'default' => 94,
+        ],
+        'Bags' => [
+            'Clutches' => 188,
+            'Totes' => 187,
+            'Shoulder Bags' => 186,
+            'Tote Bags' => 187,
+            'Briefcases' => 182,
+            'Backpacks' => 183,
+            'Weekend Bags' => 182,
+            'Messenger Bags' => 182,
+            'default' => 182,
+        ],
+        'Kitchen & Tabletop' => [
+            'Drinkware' => 199,
+            'Dinnerware' => 199,
+            'Kitchenware' => 199,
+            'default' => 199,
+        ],
+        'Accessories' => [
+            'Fine Jewellery' => 148,
+            'Watches' => 146,
+            'Hats & Gloves' => 191,
+            'Fashion Jewellery' => 148,
+            'Belts' => 192,
+            'Scarves & Wraps' => 191,
+            'Socks' => 194,
+            'High Jewellery' => 148,
+            'Cufflinks & Jewellery' => 148,
+            'Wallets & Small Accessories' => 193,
+            'Scarves' => 191,
+            'Hats' => 191,
+            'Eyewear' => 149,
+            'Pocket Squares' => 146,
+            'Others' => 146,
+            'Ties' => 146,
+            'Socks & Hosiery' => 194,
+            'Hair Accessories' => 196,
+            'Gloves' => 191,
+            'Fur' => 146,
+            'default' => 146,
+        ],
+        'Shoes' => [
+            'Boots' => 140,
+            'Sneakers' => 138,
+            'Loafers' => 180,
+            'Flats' => 136,
+            'High Heels' => 137,
+            'Sandals' => 181,
+            'Monk Straps' => 135,
+            'Mid Heels' => 137,
+            'Lace Ups' => 135,
+            'Low Heels' => 137,
+            'Slip-Ons' => 135,
+            'default' => 135,
+        ],
+        'Beauty' => 196,
+        'Bedding' => 199,
+        'Lighting' => 199,
+        'Bath & Towels' => 199,
+        'Furniture' => 146,
+        'Home Appliances' => 199,
+        'Home Furnishing & Décor' => 199,
+        'Lifestyle' => 146,
     ];
     
     protected $ftp_server = 'aftp.linksynergy.com';
@@ -331,8 +414,9 @@ class ImportCommand extends CConsoleCommand
         '35725_3620548_mp.txt.gz',
         '43650_3620548_mp.txt.gz',
         '35118_3620548_mp.txt.gz',
-        '37998_3620548_mp.txt.gz',
-        '44162_3620548_mp.txt.gz'
+        //'37998_3620548_mp.txt.gz', deleted
+        '44162_3620548_mp.txt.gz',
+        '38297_3620548_mp.txt.gz',
     ];
     
     public function run($args)
@@ -456,11 +540,11 @@ class ImportCommand extends CConsoleCommand
         //$cats = [];
         foreach ($products as $product) {
             if ($product[0] != 'HDR' && $product[0] != 'TRL') {
-                /*if ($product[3] == 'Beauty') {
+                /*if ($product[3] == 'Kids') {
                     $cats[] = $product[4];
                 }*/
                 
-                if ($file_name == '43650_3620548_mp.txt.gz' || strtolower($product[33]) == 'female') {
+                if ($file_name == '43650_3620548_mp.txt.gz' || (isset($product[33]) && strtolower($product[33]) == 'female')) {
                     $category_id = 0;
                     if (isset($this->category_link[$product[3]])) {
                         if (is_array($this->category_link[$product[3]])) {

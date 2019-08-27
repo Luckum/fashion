@@ -439,6 +439,13 @@ class ImageHelper
 
     public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false, $crop_mode = 0)
     {
+        if ($is_url) {
+            $urlHeaders = get_headers($is_url);
+            if (strpos($urlHeaders[0], '200') === false) {
+                return false;
+            }
+        }
+
         $name = $newName == null ? $file->getName() : $newName;
 
         // --------- paths

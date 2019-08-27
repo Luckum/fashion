@@ -76,8 +76,8 @@ class ShopController extends MemberController
         echo '|';
         echo trim($subcategory);
         echo '|';
-        echo $brand;*/
-        //die();
+        echo $brand;
+        die();
         /*if (Yii::app()->request->getQuery('page')) {
             Yii::app()->clientScript->registerMetaTag('noindex,follow', 'robots');
         }*/
@@ -118,6 +118,9 @@ class ShopController extends MemberController
             }
         } else {
             $model = Category::model()->findByPath($category . '/' . $subcategory);
+            if ($model && $model == 'details') {
+                return $this->actionProductDetails($subcategory);
+            }
         }
         if (!$model) {
             if (!empty($category) || !empty($subcategory)) {

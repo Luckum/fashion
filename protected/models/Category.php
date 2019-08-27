@@ -430,11 +430,17 @@ class Category extends CActiveRecord
                     $model = self::model()->findAll($criteria_category);
                 }
             } else {
+                $searchid = array_pop(explode("-", $categories[1]));
+                if (Product::model()->findByPk($searchid)) {
+                    return 'details';
+                }
+                
                 $isTopCategory = (strcmp($categories[0], $categories[1]) == 0);
                 $criteria_parent = new CDbCriteria;
                 $criteria_parent->condition = 'LOWER(t.alias) = :alias AND parent_id IS NULL';
                 $criteria_parent->params = array(':alias'=>$categories[0]);
                 $parent = self::model()->findAll($criteria_parent);
+                
                 if ($parent){
                     $criteria_category = new CDbCriteria;
                     if ($isTopCategory) {

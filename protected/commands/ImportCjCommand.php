@@ -114,7 +114,15 @@ class ImportCjCommand extends CConsoleCommand
                     
                     $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($rec->link) . "'");
                     if (!$model) {
-                        $image = $this->getImage($rec->image_link);
+                        if ($file_name == 'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip') {
+                            foreach ($rec->additional_image_link as $additional_image_link) {
+                                $image = $this->getImage($additional_image_link);
+                                break;
+                            }
+                        } else {
+                            $image = $this->getImage($rec->image_link);
+                        }
+                        
                         
                         if ($image) {
                             $model = new Product();
@@ -145,6 +153,7 @@ class ImportCjCommand extends CConsoleCommand
                         }
                         $model->title = $rec->title;
                         $model->brand_id = $brand_id;
+                        $model->image1 = $image;
                         $model->to_delete = 0;
                         $model->save();
                     }

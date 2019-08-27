@@ -1139,13 +1139,13 @@ var EasyAutocomplete = (function(scope) {
 												config.get("list").onClickEvent();
 												config.get("list").onChooseEvent();
 											})
-											.mouseover(function() {
+											/*.mouseover(function() {
 
 												selectedElement = itemCounter;
 												selectElement(itemCounter);	
 
 												config.get("list").onMouseOverEvent();
-											})
+											})*/
 											.mouseout(function() {
 												config.get("list").onMouseOutEvent();
 											})
