@@ -276,7 +276,7 @@ class ImportCommand extends CConsoleCommand
         'Super Fine 100% Cashmere' => 94,
         'Lightweight 85% Cotton 15% Cashmere' => 94,
         '100% Cashmere' => 94,
-        'Accessories' => 146,
+        //'Accessories' => 146,
         'Beauty' => 196,
         'Homeware' => 199,
         'Jewellery' => 148,
@@ -286,7 +286,7 @@ class ImportCommand extends CConsoleCommand
         'Demi-Fine Jewelry' => 148,
         'Watches' => 146,
         'Bags' => 182,
-        'Shoes' => 135,
+        //'Shoes' => 135,
         'Activewear' => 94,
         'Fine Jewellery' => 148,
         'Fine Jewelry' => 148,
@@ -341,6 +341,52 @@ class ImportCommand extends CConsoleCommand
             'Swimwear' => 129,
             'Pullovers & Hoodies' => 94,
             'Lingerie And Shapewear' => 156,
+            'Tops~~Blouses' => 162,
+            'Tops~~T-Shirts & Jersey Shirts' => 162,
+            'Pants~~Flared & Bell-Bottom Pants' => 177,
+            'Knits~~Knitted Tops' => 94,
+            'Skirts~~Fitted Skirts' => 179,
+            'Pants~~Slacks' => 177,
+            'Jackets~~Blazers' => 154,
+            'Pants~~Palazzo Pants' => 177,
+            'Knits~~Knitted Sweaters' => 94,
+            'Dresses~~Day Dresses' => 153,
+            'Skirts~~Full Skirts' => 179,
+            'Denim~~Cropped Jeans' => 155,
+            'Tops~~Polo Tops' => 162,
+            'Tops~~Vests & Tank Tops' => 162,
+            'Tops~~Shirts' => 162,
+            'Rompers~~Playsuits' => 94,
+            'Coats~~Trench Coats & Raincoats' => 154,
+            'Pants~~Straight-Leg Pants' => 177,
+            'Denim~~Skinny Jeans' => 155,
+            'Skirts~~A-Line Skirts' => 179,
+            'Dresses~~Cocktail & Party Dresses' => 153,
+            'Beachwear~~Beach Dresses' => 153,
+            'Jackets~~Waistcoats & Gilets' => 154,
+            'Beachwear~~Swimsuits' => 129,
+            'Jackets~~Cropped Jackets' => 154,
+            'Denim~~Flares & Bell Bottom Jeans' => 155,
+            'Beachwear~~Bikinis' => 129,
+            'Tops~~Hoodies' => 94,
+            'Beachwear~~Beach Cover-Ups' => 129,
+            'Knits~~Knitted Skirts' => 179,
+            'Pants~~Cropped Pants' => 177,
+            'Pants~~Sweatpants' => 177,
+            'Knits~~Sweater Dresses' => 94,
+            'Skirts~~High-Waisted Skirts' => 179,
+            'Knits~~Cardigans' => 94,
+            'Skirts~~Pleated Skirts' => 179,
+            'Coats~~Parkas' => 154,
+            'Skirts~~Asymmetric & Draped Skirts' => 179,
+            'Jackets~~Oversized Jackets' => 154,
+            'Rompers~~Jumpsuits' => 94,
+            'Coats~~Single Breasted Coats' => 154,
+            'Skirts~~Straight Skirts' => 179,
+            'Coats~~Oversized Coats' => 154,
+            'Jackets~~Varsity Jackets' => 154,
+            'Tops~~Sweaters' => 94,
+            'Pants~~High Waisted Pants' => 177,
             'default' => 94,
         ],
         'Bags' => [
@@ -352,6 +398,12 @@ class ImportCommand extends CConsoleCommand
             'Backpacks' => 183,
             'Weekend Bags' => 182,
             'Messenger Bags' => 182,
+            'Messenger & Crossbody Bags' => 182,
+            'Clutch Bags' => 188,
+            'Mini Bags' => 182,
+            'Bucket Bags' => 188,
+            'Bag Accessories' => 146,
+            'Belt Bags' => 184,
             'default' => 182,
         ],
         'Kitchen & Tabletop' => [
@@ -371,6 +423,7 @@ class ImportCommand extends CConsoleCommand
             'High Jewellery' => 148,
             'Cufflinks & Jewellery' => 148,
             'Wallets & Small Accessories' => 193,
+            'Wallets & Purses' => 193,
             'Scarves' => 191,
             'Hats' => 191,
             'Eyewear' => 149,
@@ -381,6 +434,7 @@ class ImportCommand extends CConsoleCommand
             'Hair Accessories' => 196,
             'Gloves' => 191,
             'Fur' => 146,
+            'Keyrings & Chains' => 146,
             'default' => 146,
         ],
         'Shoes' => [
@@ -395,6 +449,10 @@ class ImportCommand extends CConsoleCommand
             'Lace Ups' => 135,
             'Low Heels' => 137,
             'Slip-Ons' => 135,
+            'Mules' => 136,
+            'Flip Flops' => 135,
+            'Pumps' => 135,
+            'Lace-Up Shoes' => 135,
             'default' => 135,
         ],
         'Beauty' => 196,
@@ -417,7 +475,13 @@ class ImportCommand extends CConsoleCommand
         //'37998_3620548_mp.txt.gz', deleted
         '44162_3620548_mp.txt.gz',
         '38297_3620548_mp.txt.gz',
+        '43009_3620548_mp.txt.gz',
     ];
+    
+    protected $key = "3CMGDJJNJAU6JXYFT7GG";
+    protected $secret = "bxt9eWx6kJ/E3yvNiNkRG7N9NUbvnN/cwNAFJiQkDZk";
+    protected $space_name = "n2315";
+    protected $region = "fra1";
     
     public function run($args)
     {
@@ -442,14 +506,22 @@ class ImportCommand extends CConsoleCommand
             if ($products) {
                 Product::model()->updateAll(['to_delete' => 1], 'imported = 1 AND imported_from = "' . $file_name . '"');
                 $this->saveData($products, $file_name);
-                Product::model()->deleteAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
+                
+                $to_delete_products = Product::model()->findAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
+                if ($to_delete_products) {
+                    foreach ($to_delete_products as $to_delete) {
+                        $this->removeFromCdn($to_delete->image1);
+                        $to_delete->delete();
+                    }
+                }
+                //Product::model()->deleteAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
                 unlink(Yii::getPathOfAlias('application') . '/data/' . $file_name);
                 unlink(Yii::getPathOfAlias('application') . '/data/' . $out_file_name);
             }
             
         }
         
-        Product::clearImages();
+        //Product::clearImages();
             
         echo 'finished at ' . date('H:i:s') . "\n";
         return true;
@@ -540,7 +612,7 @@ class ImportCommand extends CConsoleCommand
         //$cats = [];
         foreach ($products as $product) {
             if ($product[0] != 'HDR' && $product[0] != 'TRL') {
-                /*if ($product[3] == 'Kids') {
+                /*if ($product[3] == 'Shoes') {
                     $cats[] = $product[4];
                 }*/
                 
@@ -606,7 +678,16 @@ class ImportCommand extends CConsoleCommand
                                     $model->imported = 1;
                                     $model->to_delete = 0;
                                     $model->imported_from = $file_name;
-                                    $model->save();
+                                    if ($model->save()) {
+                                        $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                                        $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+                                        if ($this->copyToCdn($image_path, $path)) {
+                                            $model->image1 = $path;
+                                            if ($model->save()) {
+                                                unlink($image_path);
+                                            }
+                                        }
+                                    }
                                 }
                             } else {
                                 if ($model->price != $product[12]) {
@@ -621,7 +702,6 @@ class ImportCommand extends CConsoleCommand
                                 $model->save();
                             }
                         }
-                        
                     }
                 }
             }
@@ -635,10 +715,45 @@ class ImportCommand extends CConsoleCommand
         if ($file_name == '35725_3620548_mp.txt.gz') {
             $full_name_parts = explode('-', $full_name);
             $title = trim($full_name_parts[1] . trim($full_name_parts[3]));
+        } else if ($file_name == '43009_3620548_mp.txt.gz') {
+            $full_name_parts = explode(' ', $full_name);
+            array_pop($full_name_parts);
+            array_shift($full_name_parts);
+            array_shift($full_name_parts);
+            $title = implode(' ', $full_name_parts);
         } else {
             $title = "$full_name";
         }
         
         return $title;
+    }
+    
+    protected function setCdnPath($id)
+    {
+        $path = sprintf('%08x', $id);
+        $path = preg_replace('/^(.{2})(.{2})(.{2})(.{2})$/', '$1/$2/$3/$4', $path);
+        return $path;
+    }
+    
+    protected function copyToCdn($uploadFile, $path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/amazon-s3-php-class-master/S3.php");
+        
+        $s3 = new S3($this->key, $this->secret);
+        
+        if ($s3->putObjectFile($uploadFile, $this->space_name, $path, S3::ACL_PUBLIC_READ)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function removeFromCdn($path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
+        
+        $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);
+        
+        $space->DeleteObject($path);
     }
 }

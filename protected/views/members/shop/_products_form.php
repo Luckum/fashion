@@ -105,8 +105,9 @@
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
                         if (!empty($products[$i]['image1'])) {
-                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
-                            $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                            //$img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                            $img_url  = 'https://fra1.digitaloceanspaces.com/n2315/' . $products[$i]['image1'];
+                            //$img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
                         } else if (!empty($products[$i]['image2'])) {
                             $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image2'];
                             $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image2'];
@@ -121,7 +122,8 @@
                     
                         
                     <?=CHtml::image(
-                        !empty($products[$i]['image1']) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
+                        //!empty($products[$i]['image1']) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
+                        !empty($products[$i]['image1']) ? $img_url : $no_img,
                         ($products[$i]['title']) ? CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
                         array(
                             'data-plugin'   => 'lazy-load',

@@ -26,7 +26,8 @@
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
                         if (!empty($rec->image1)) {
-                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
+                            //$img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
+                            $img_url  = 'https://fra1.digitaloceanspaces.com/n2315/' . $rec->image1;
                             $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
                         }
                         
@@ -34,7 +35,8 @@
                     ?>
                         
                     <?= CHtml::image(
-                        !empty($rec->image1) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
+                        //!empty($rec->image1) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
+                        !empty($rec->image1) ? $img_url : $no_img,
                         ($rec->title) ? CHtml::encode($rec->title) : CHtml::encode(Category::model()->getAliasById($rec->category_id)),
                         array(
                             'data-plugin'   => 'lazy-load',

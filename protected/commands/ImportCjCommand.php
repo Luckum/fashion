@@ -26,6 +26,11 @@ class ImportCjCommand extends CConsoleCommand
         'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip',
     ];
     
+    protected $key = "3CMGDJJNJAU6JXYFT7GG";
+    protected $secret = "bxt9eWx6kJ/E3yvNiNkRG7N9NUbvnN/cwNAFJiQkDZk";
+    protected $space_name = "n2315";
+    protected $region = "fra1";
+    
     public function run($args)
     {
         echo 'started at ' . date('H:i:s') . "\n";
@@ -41,13 +46,22 @@ class ImportCjCommand extends CConsoleCommand
             if ($xml) {
                 Product::model()->updateAll(['to_delete' => 1], 'imported = 1 AND imported_from = "' . $file_name . '"');
                 $this->saveData($xml, $file_name);
-                Product::model()->deleteAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
+                
+                $to_delete_products = Product::model()->findAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
+                if ($to_delete_products) {
+                    foreach ($to_delete_products as $to_delete) {
+                        $this->removeFromCdn($to_delete->image1);
+                        $to_delete->delete();
+                    }
+                }
+                
+                //Product::model()->deleteAll('to_delete = 1 AND imported = 1 AND imported_from = "' . $file_name . '"');
                 unlink(Yii::getPathOfAlias('application') . '/data/' . $file_name);
                 unlink(Yii::getPathOfAlias('application') . '/data/' . $out_file_name);
             }
         }
         
-        Product::clearImages();
+        //Product::clearImages();
             
         echo 'finished at ' . date('H:i:s') . "\n";
         return true;
@@ -113,18 +127,18 @@ class ImportCjCommand extends CConsoleCommand
                     $brand_id = $brand->id;
                     
                     $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($rec->link) . "'");
-                    if (!$model) {
-                        if ($file_name == 'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip') {
-                            foreach ($rec->additional_image_link as $additional_image_link) {
-                                $image = $this->getImage($additional_image_link);
-                                break;
-                            }
-                        } else {
-                            $image = $this->getImage($rec->image_link);
+                    
+                    if ($file_name == 'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip') {
+                        foreach ($rec->additional_image_link as $additional_image_link) {
+                            $image = $this->getImage($additional_image_link);
+                            break;
                         }
-                        
-                        
-                        if ($image) {
+                    } else {
+                        $image = $this->getImage($rec->image_link);
+                    }
+                    
+                    if ($image) {
+                        if (!$model) {
                             $model = new Product();
                             $model->user_id = 185;
                             $model->category_id = $category_id;
@@ -143,19 +157,28 @@ class ImportCjCommand extends CConsoleCommand
                             $model->to_delete = 0;
                             $model->imported_from = $file_name;
                             $model->save();
+                        } else {
+                            if ($model->price != $rec->sale_price) {
+                                $model->price = $rec->sale_price;
+                            }
+                            if ($model->init_price != $rec->price) {
+                                $model->init_price = $rec->price;
+                            }
+                            $model->title = $rec->title;
+                            $model->brand_id = $brand_id;
+                            $model->image1 = $image;
+                            $model->to_delete = 0;
+                            $model->save();
                         }
-                    } else {
-                        if ($model->price != $rec->sale_price) {
-                            $model->price = $rec->sale_price;
+                        
+                        $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                        $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+                        if ($this->copyToCdn($image_path, $path)) {
+                            $model->image1 = $path;
+                            if ($model->save()) {
+                                unlink($image_path);
+                            }
                         }
-                        if ($model->init_price != $rec->price) {
-                            $model->init_price = $rec->price;
-                        }
-                        $model->title = $rec->title;
-                        $model->brand_id = $brand_id;
-                        $model->image1 = $image;
-                        $model->to_delete = 0;
-                        $model->save();
                     }
                 }
             }
@@ -200,5 +223,34 @@ class ImportCjCommand extends CConsoleCommand
         }
         
         return false;
+    }
+    
+    protected function setCdnPath($id)
+    {
+        $path = sprintf('%08x', $id);
+        $path = preg_replace('/^(.{2})(.{2})(.{2})(.{2})$/', '$1/$2/$3/$4', $path);
+        return $path;
+    }
+    
+    protected function copyToCdn($uploadFile, $path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/amazon-s3-php-class-master/S3.php");
+        
+        $s3 = new S3($this->key, $this->secret);
+        
+        if ($s3->putObjectFile($uploadFile, $this->space_name, $path, S3::ACL_PUBLIC_READ)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function removeFromCdn($path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
+        
+        $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);
+        
+        $space->DeleteObject($path);
     }
 }

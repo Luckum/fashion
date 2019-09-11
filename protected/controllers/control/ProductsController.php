@@ -2,6 +2,11 @@
 
 class ProductsController extends AdminController
 {
+    protected $key = "3CMGDJJNJAU6JXYFT7GG";
+    protected $secret = "bxt9eWx6kJ/E3yvNiNkRG7N9NUbvnN/cwNAFJiQkDZk";
+    protected $space_name = "n2315";
+    protected $region = "fra1";
+    
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -123,6 +128,15 @@ class ProductsController extends AdminController
                 if (!empty($model->image_url3)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image3, $model->image_url3, $crop_mode);
                 if (!empty($model->image_url4)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image4, $model->image_url4, $crop_mode);
                 if (!empty($model->image_url5)) ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $model->image5, $model->image_url5, $crop_mode);
+                
+                $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+                if ($this->copyToCdn($image_path, $path)) {
+                    $model->image1 = $path;
+                    if ($model->save()) {
+                        unlink($image_path);
+                    }
+                }
                 
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -312,6 +326,15 @@ class ProductsController extends AdminController
                 if ($oldModelImage5 != $model->image5) {
                     ImageHelper::removeOldProductImages($oldModelImage5);
                 }
+                
+                $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+                if ($this->copyToCdn($image_path, $path)) {
+                    $model->image1 = $path;
+                    if ($model->save()) {
+                        unlink($image_path);
+                    }
+                }
 
                 $this->redirect(array('view', 'id' => $model->id));
             } else {
@@ -412,6 +435,7 @@ class ProductsController extends AdminController
             if (is_file($imagePath) && $model->existImg($model->image5) < 2)
                 unlink($imagePath);
         }
+        $this->removeFromCdn($model->image1);
     }
 
     public function actionGetSizeType()
@@ -620,6 +644,35 @@ class ProductsController extends AdminController
             Yii::app()->user->setFlash('importSuccess', Yii::t('base', 'Clearing done'));
         }
         $this->redirect(array('index'));
+    }
+    
+    protected function setCdnPath($id)
+    {
+        $path = sprintf('%08x', $id);
+        $path = preg_replace('/^(.{2})(.{2})(.{2})(.{2})$/', '$1/$2/$3/$4', $path);
+        return $path;
+    }
+    
+    protected function copyToCdn($uploadFile, $path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/amazon-s3-php-class-master/S3.php");
+        
+        $s3 = new S3($this->key, $this->secret);
+        
+        if ($s3->putObjectFile($uploadFile, $this->space_name, $path, S3::ACL_PUBLIC_READ)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function removeFromCdn($path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
+        
+        $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);
+        
+        $space->DeleteObject($path);
     }
 }
 

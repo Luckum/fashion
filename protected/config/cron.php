@@ -11,6 +11,7 @@ return array(
         'application.components.*',
         'application.models.*',
         'application.helpers.*',
+        'application.helpers.Spaces-API-master.spaces',
         'ext.shoppingCart.*',
         'application.helpers.LogHelper',
         'application.helpers.EmailHelper',

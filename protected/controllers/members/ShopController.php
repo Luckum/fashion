@@ -2,7 +2,7 @@
 
 class ShopController extends MemberController
 {
-    public $pageSize = 129;
+    public $pageSize = 60;
 
     public $publicActions = array(
         'showCategory',

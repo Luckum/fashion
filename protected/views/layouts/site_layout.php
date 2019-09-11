@@ -39,12 +39,23 @@ if (YII_DEBUG) {
 }
 ?>
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147078144-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-147078144-1');
+    </script>
+    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="<?=CHtml::encode($description)?>">
     <meta name="p:domain_verify" content="974be073ba2c43edbc2aff13c6adc6f2"/>
+    <meta name="fo-verify" content="e0f8bd61-0f64-47a0-ae53-adfccf08d641">
     <!-- meta property="og:image" content="<?=Yii::app()->createAbsoluteUrl('/images/logo-black-fb.png')?>" -->
     <?php 
     $link = explode('/',$_SERVER['REQUEST_URI']);
@@ -70,16 +81,16 @@ if (YII_DEBUG) {
          which is situated above title  -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/uikit/js/jquery-1.11.3.min.js"></script>
     <title><?=CHtml::encode($this->title)?></title>
-    <!-- Hotjar Tracking Code for http://www.n2315.com -->
+    <!-- Hotjar Tracking Code for https://www.n2315.com -->
     <script>
         (function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:75385,hjsv:5};
+            h._hjSettings={hjid:1464278,hjsv:6};
             a=o.getElementsByTagName('head')[0];
             r=o.createElement('script');r.async=1;
             r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
             a.appendChild(r);
-        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
 </head>
 <body>

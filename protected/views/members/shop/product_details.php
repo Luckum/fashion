@@ -39,10 +39,10 @@
                 <div id="photo-zoom-wrapper" class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 photo-zoom-in">
                     <div class="product-image-wrapper wishlist-wrapper">
                         <?php if (!empty($model['image1'])): ?>
-                            <?= CHtml::image($medium_dir . $model['image1'], $productTitle, array(
+                            <?= CHtml::image('https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'], $productTitle, array(
                                 'id' => 'image1',
-                                'small' => $medium_dir . $model['image1'],
-                                'big' => $big_dir . $model['image1']
+                                'small' => 'https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'],
+                                'big' => 'https://fra1.digitaloceanspaces.com/n2315/' . $model['image1']
                             )) ?>
                         <?php endif; ?>
                         <?php if (!empty($model['image2'])): ?>

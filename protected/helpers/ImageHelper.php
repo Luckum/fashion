@@ -147,6 +147,9 @@ abstract class ImageWrapperAbstract
                     $this->output_height = Yii::app()->params['image_settings']['smax_medium_height'];
                 }
             }
+            
+            $this->output_width = Yii::app()->params['image_settings']['min_medium_width'];
+            $this->output_height = Yii::app()->params['image_settings']['min_medium_height'];
         }
         
         switch ($mode) {
@@ -200,6 +203,7 @@ abstract class ImageWrapperAbstract
                 //self::img_crop($this->file_path, $this->save_path, 0, 0, $this->output_width, $this->output_height, null, 90, 0, 0, $crop_mode);
             break;
         }
+        return true;
     }
     
     public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 100)
@@ -418,7 +422,9 @@ class ImageHelper
 
         $wrapper = new FileImageWrapper($file_path, $save_path, $max_width, $max_height, $quality);
 
-        $wrapper->create($is_thumb, $crop_mode);
+        if ($wrapper->create($is_thumb, $crop_mode)) {
+            return true;
+        }
     }
 
     public static function getUniqueValidName($path, $name)
@@ -440,6 +446,9 @@ class ImageHelper
     public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false, $crop_mode = 0)
     {
         if ($is_url) {
+            if (filter_var($is_url, FILTER_VALIDATE_URL) === false) {
+                return false;
+            }
             $urlHeaders = get_headers($is_url);
             if (strpos($urlHeaders[0], '200') === false) {
                 return false;
@@ -452,6 +461,7 @@ class ImageHelper
         //
         //$base_path = Yii::getPathOfAlias('webroot');
         $base_path = Yii::getPathOfAlias('application') . '/../html';
+        //$base_path = 'D:\dev\wamp\www\fashion\html';
         //$base_path = '/var/www/html';
         $save_max_path = $base_path . ShopConst::IMAGE_MAX_DIR . $name;
         $save_medium_path = $base_path . ShopConst::IMAGE_MEDIUM_DIR . $name;
@@ -461,8 +471,11 @@ class ImageHelper
         //
         //$max_width = Yii::app()->params['image_settings']['max_width'];
         //$max_height = Yii::app()->params['image_settings']['max_height'];
-        $medium_width = Yii::app()->params['image_settings']['max_medium_width'];
-        $medium_height = Yii::app()->params['image_settings']['max_medium_height'];
+        //$medium_width = Yii::app()->params['image_settings']['max_medium_width'];
+        //$medium_height = Yii::app()->params['image_settings']['max_medium_height'];
+        
+        $medium_width = Yii::app()->params['image_settings']['min_medium_width'];
+        $medium_height = Yii::app()->params['image_settings']['min_medium_height'];
         $thumbnail_width = Yii::app()->params['image_settings']['max_thumbnail_width'];
         $thumbnail_height = Yii::app()->params['image_settings']['max_thumbnail_height'];
 

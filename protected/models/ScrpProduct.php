@@ -26,7 +26,12 @@
  */
 class ScrpProduct extends CActiveRecord
 {
-	/**
+	static $key = "3CMGDJJNJAU6JXYFT7GG";
+    static $secret = "bxt9eWx6kJ/E3yvNiNkRG7N9NUbvnN/cwNAFJiQkDZk";
+    static $space_name = "n2315";
+    static $region = "fra1";
+    
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -144,7 +149,7 @@ class ScrpProduct extends CActiveRecord
                             $f_name = end($arr);
                             $crop_mode = 0;
                             $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
-                            if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $data->picture_path, $crop_mode)) {
+                            if (ImageHelper::compress($data->picture_path, Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $image, Yii::app()->params['image_settings']['min_medium_width'], Yii::app()->params['image_settings']['min_medium_height'], Yii::app()->params['image_settings']['quality'], false, false, 0)) {
                                 $product = new Product();
                                 $product->user_id = 185;
                                 $product->category_id = $category_id;
@@ -161,7 +166,16 @@ class ScrpProduct extends CActiveRecord
                                 $product->status = 'active';
                                 $product->screpped = 1;
                                 $product->to_delete = 0;
-                                $product->save();
+                                if ($product->save()) {
+                                    $path = self::setCdnPath($product->id) . '/' . $product->image1;
+                                    $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $product->image1;
+                                    if (self::copyToCdn($image_path, $path)) {
+                                        $product->image1 = $path;
+                                        if ($product->save()) {
+                                            unlink($image_path);
+                                        }
+                                    }
+                                }
                             }
                             unlink($data->picture_path);
                         }
@@ -178,9 +192,47 @@ class ScrpProduct extends CActiveRecord
                     self::model()->deleteByPk($data->id);
                 }
             }
-            Product::model()->deleteAll('to_delete = 1 AND screpped = 1');
-            Product::clearImages();
+            
+            $to_delete_products = Product::model()->findAll('to_delete = 1 AND screpped = 1');
+            if ($to_delete_products) {
+                foreach ($to_delete_products as $to_delete) {
+                    self::removeFromCdn($to_delete->image1);
+                    $to_delete->delete();
+                }
+            }
+            
+            //Product::model()->deleteAll('to_delete = 1 AND screpped = 1');
+            //Product::clearImages();
         }
         return true;
+    }
+    
+    protected static function setCdnPath($id)
+    {
+        $path = sprintf('%08x', $id);
+        $path = preg_replace('/^(.{2})(.{2})(.{2})(.{2})$/', '$1/$2/$3/$4', $path);
+        return $path;
+    }
+    
+    protected static function copyToCdn($uploadFile, $path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/amazon-s3-php-class-master/S3.php");
+        
+        $s3 = new S3(self::$key, self::$secret);
+        
+        if ($s3->putObjectFile($uploadFile, self::$space_name, $path, S3::ACL_PUBLIC_READ)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected static function removeFromCdn($path)
+    {
+        require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
+        
+        $space = new SpacesConnect(self::$key, self::$secret, self::$space_name, self::$region);
+        
+        $space->DeleteObject($path);
     }
 }
