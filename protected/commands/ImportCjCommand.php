@@ -96,7 +96,7 @@ class ImportCjCommand extends CConsoleCommand
     {
         //$cats = [];
         foreach ($data as $rec) {
-            if ($rec->gender == 'female') {
+            if (strtolower($rec->gender) == 'female') {
                 //$cats[] = $rec->google_product_category_name;
                 
                 $category_id = 0;

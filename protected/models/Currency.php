@@ -144,4 +144,9 @@ class Currency extends CActiveRecord
         
         return $currency;
     }
+    
+    public static function getCurrencyByName($name)
+    {
+        return self::model()->find("name = '$name'");
+    }
 }

@@ -468,15 +468,20 @@ class ImportCommand extends CConsoleCommand
     protected $ftp_server = 'aftp.linksynergy.com';
     protected $ftp_user_name = 'n2315_';
     protected $ftp_user_pass = 'GyTLMNP';
-    protected $file_names = [
+    protected $file_names_part_1 = [
         '35725_3620548_mp.txt.gz',
-        '43650_3620548_mp.txt.gz',
+        '43650_3620548_mp.txt.gz'
+    ];
+    protected $file_names_part_2 = [
         '35118_3620548_mp.txt.gz',
-        //'37998_3620548_mp.txt.gz', deleted
-        '44162_3620548_mp.txt.gz',
+        '44162_3620548_mp.txt.gz'
+    ];
+    protected $file_names_part_3 = [
         '38297_3620548_mp.txt.gz',
         '43009_3620548_mp.txt.gz',
     ];
+    
+    //'37998_3620548_mp.txt.gz', deleted
     
     protected $key = "3CMGDJJNJAU6JXYFT7GG";
     protected $secret = "bxt9eWx6kJ/E3yvNiNkRG7N9NUbvnN/cwNAFJiQkDZk";
@@ -489,7 +494,9 @@ class ImportCommand extends CConsoleCommand
         set_time_limit(0);
         ini_set('memory_limit', '2048M');
         
-        foreach ($this->file_names as $file_name) {
+        $str = 'file_names_part_';
+        
+        foreach ($this->{$str . $args[0]} as $file_name) {
             $this->getFromFtp($file_name);
             $out_file_name = $this->unzipFile($file_name);
             
