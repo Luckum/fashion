@@ -369,6 +369,19 @@ class SearchController extends Controller
                             'link' => $res_link
                         ]));
                     }
+                    
+                    $criteria = new CDbCriteria;
+                    $criteria->select = 'id, alias, parent_id';
+                    $criteria->condition = "LOWER(alias) = '$query'";
+                    
+                    $category = Category::model()->find($criteria);
+                    if ($category) {
+                        $parent = Category::model()->findByPk($category->parent_id);
+                        $res_link = ($parent ? strtolower(str_replace(' ', '-', '/' . $parent->alias . '/' . $category->alias)) : strtolower(str_replace(' ', '-', '/' . $category->alias))) . '/designers/' . $brand_ad->url;
+                        die (CJSON::encode([
+                            'link' => $res_link
+                        ]));
+                    }
                 }
             }
         }
