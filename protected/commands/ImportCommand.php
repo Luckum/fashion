@@ -554,7 +554,7 @@ class ImportCommand extends CConsoleCommand
         return (!empty($parsed['scheme']) ? $parsed['scheme'] . '://' : "") . $parsed['host'] . $parsed['path']; 
     }
     
-    protected function getImage($img_path, $file_name)
+    protected function getImage($img_path, $file_name, $brand, $title)
     {
         $main_upload_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
         
@@ -566,7 +566,11 @@ class ImportCommand extends CConsoleCommand
         if ($file_name == '37998_3620548_mp.txt.gz') {
             $f_name .= '.jpg';
         }
-        $image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        
+        $arr = explode('.', $f_name);
+        $ext = end($arr);
+        //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
             return $image;
@@ -665,7 +669,7 @@ class ImportCommand extends CConsoleCommand
                             
                             $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($product[5]) . "'");
                             if (!$model) {
-                                $image = $this->getImage($product[6], $file_name);
+                                $image = $this->getImage($product[6], $file_name, $brand->url, $this->getProductTitle($file_name, $product[1]));
                                 
                                 if ($image) {
                                     $model = new Product();

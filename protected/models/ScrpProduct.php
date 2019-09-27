@@ -148,7 +148,11 @@ class ScrpProduct extends CActiveRecord
                             $arr = explode('/', $data->picture_path);
                             $f_name = end($arr);
                             $crop_mode = 0;
-                            $image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
+                            //$image = ImageHelper::getUniqueValidName(Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR, $f_name);
+                            $arr = explode('.', $f_name);
+                            $ext = end($arr);
+                            $image = strtolower($brand->url) . '-' . self::generateUrl($data->name) . '.' . $ext;
+                            
                             if (ImageHelper::compress($data->picture_path, Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $image, Yii::app()->params['image_settings']['min_medium_width'], Yii::app()->params['image_settings']['min_medium_height'], Yii::app()->params['image_settings']['quality'], false, false, 0)) {
                                 $product = new Product();
                                 $product->user_id = 185;
@@ -234,5 +238,16 @@ class ScrpProduct extends CActiveRecord
         $space = new SpacesConnect(self::$key, self::$secret, self::$space_name, self::$region);
         
         $space->DeleteObject($path);
+    }
+    
+    protected static function generateUrl($name)
+    {
+        
+        $url = trim(strtolower($name));
+        $url = str_replace(' ', '-', $url);
+        $url = str_replace('--', '-', $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $url);
+        
+        return $url;
     }
 }

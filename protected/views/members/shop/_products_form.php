@@ -93,11 +93,11 @@
                 if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
                     $url = $products[$i]['direct_url'];
                     $target = "_blank";
-                    if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured')) {
+                    //if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured')) {
                         $partner = Product::getExternalSiteName($url);
                         $partner_site_name = $partner['name'];
                         $partner_site_url = $partner['url'];
-                    }
+                    //}
                 }
             ?>
             <a href="<?php echo $url; ?>" <?=$modalParameters; ?> class="uk-display-block product-url" target="<?= $target ?>">
@@ -124,11 +124,12 @@
                     <?=CHtml::image(
                         //!empty($products[$i]['image1']) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
                         !empty($products[$i]['image1']) ? $img_url : $no_img,
-                        ($products[$i]['title']) ? CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
+                        ($products[$i]['title']) ? strtolower(Brand::getFormatedTitle($products[$i]['brand_name'])) . ' ' . CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
                         array(
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
                             'itemprop' => "image",
+                            'title' => "Click to view more detailed imagery on our partner's website",
                             'style' => Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'width: calc(16 * (100% / 18));' : 'width: calc(14 * (100% / 18));',
                         )
                     )?>
@@ -160,7 +161,7 @@
                     <span class="price-new" style="margin-right: 25px;">SOLD</span>
                 <?php } ?>
                 <?php if($products[$i]['external_sale'] == 0): ?>
-                <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?php echo $products[$i]['full_size']; ?></span>
+                    <span class="size"><?php echo Yii::t('base', 'size'); ?>: <?php echo $products[$i]['full_size']; ?></span>
                 <?php endif; ?>
             </div>
             <?php if (!empty($partner_site_name)): ?>

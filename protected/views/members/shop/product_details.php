@@ -36,14 +36,15 @@
                 $medium_dir = $baseUrl . ShopConst::IMAGE_MEDIUM_DIR;
                 $big_dir = $baseUrl . ShopConst::IMAGE_MEDIUM_DIR;
                 ?>
-                <div id="photo-zoom-wrapper" class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 photo-zoom-in">
+                <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2">
                     <div class="product-image-wrapper wishlist-wrapper">
                         <?php if (!empty($model['image1'])): ?>
-                            <?= CHtml::image('https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'], $productTitle, array(
-                                'id' => 'image1',
-                                'small' => 'https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'],
-                                'big' => 'https://fra1.digitaloceanspaces.com/n2315/' . $model['image1']
-                            )) ?>
+                            <a href="<?php echo $model->direct_url; ?>" class="uk-display-block product-url" target="<?= $model['external_sale'] && !(empty($model['direct_url'])) ? '_blank' : '_self' ?>">
+                                <?= CHtml::image('https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'], strtolower($brandName) . ' ' . $productTitle, array(
+                                    'id' => 'image1',
+                                    'title' => "Click to view more detailed imagery on our partner's website",
+                                )) ?>
+                            </a>
                         <?php endif; ?>
                         <?php if (!empty($model['image2'])): ?>
                             <?= CHtml::image($medium_dir . $model['image2'], $productTitle, array(
@@ -156,7 +157,7 @@
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
                                 <li><a href="#"
-                                       onclick="Share.pinterest('<?=$p_link?>', '<?= $this->createAbsoluteUrl('/images/upload/medium/' . $model->image1) ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
+                                       onclick="Share.pinterest('<?=$p_link?>', '<?= 'https://fra1.digitaloceanspaces.com/n2315/' . $model->image1 ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
                                             class="uk-icon-pinterest"></i></a></li>
                                 <li><a href="#"
                                        onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', 'n2315.com')"><i

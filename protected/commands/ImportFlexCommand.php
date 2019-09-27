@@ -200,7 +200,7 @@ class ImportFlexCommand extends CConsoleCommand
                         
                         $model = Product::model()->find('direct_url = "' . $rec->deepLinkUrl . '"');
                         
-                        $image = $this->getImage($rec->imageUrl);
+                        $image = $this->getImage($rec->imageUrl, $brand->url, $file_name == '171455/1.8FDC/' ? $this->getNameFromDesc("$rec->shortDescription") : "$rec->name");
                         
                         $currency = Currency::getCurrencyByName(strtoupper($rec->priceCurrency));
                         if ($currency) {
@@ -274,7 +274,7 @@ class ImportFlexCommand extends CConsoleCommand
         return $url;
     }
     
-    protected function getImage($img_path)
+    protected function getImage($img_path, $brand, $title)
     {
         $main_upload_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
         
@@ -291,7 +291,10 @@ class ImportFlexCommand extends CConsoleCommand
             $f_name .= '.jpg';
         }
         
-        $image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $arr = explode('.', $f_name);
+        $ext = end($arr);
+        //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
             return $image;

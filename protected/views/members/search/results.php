@@ -87,11 +87,12 @@
                                 <?= CHtml::image(
                                     //!empty($rec->image1) ? (file_exists($img_path) ? '' : $no_img) : $img_url,
                                     !empty($rec->image1) ? $img_url : $no_img,
-                                    ($rec->title) ? CHtml::encode($rec->title) : CHtml::encode(Category::model()->getAliasById($rec->category_id)),
+                                    ($rec->title) ? strtolower(Brand::getFormatedTitle($rec->brand->name)) . ' ' . CHtml::encode($rec->title) : CHtml::encode(Category::model()->getAliasById($rec->category_id)),
                                     array(
                                         'data-plugin'   => 'lazy-load',
                                         'data-original' => $img_url,
                                         'itemprop' => "image",
+                                        'title' => "Click to view more detailed imagery on our partner's website",
                                         'style' => 'width: calc(16 * (100% / 18));',
                                     )
                                 )?>

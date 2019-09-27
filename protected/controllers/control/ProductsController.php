@@ -50,7 +50,15 @@ class ProductsController extends AdminController
             $img4 = CUploadedFile::getInstance($model, 'image4');
             $img5 = CUploadedFile::getInstance($model, 'image5');
 
-            $model->image1 = $img1 ? ImageHelper::getUniqueValidName($main_upload_path, $img1->getName()) : null;
+            if ($img1) {
+                $arr = explode('.', $img1->getName());
+                $ext = end($arr);
+                $image = strtolower($model->brand->url) . '-' . $this->generateUrl($model->title) . '.' . $ext;
+                
+                $model->image1 = $image;
+            }
+            
+            //$model->image1 = $img1 ? ImageHelper::getUniqueValidName($main_upload_path, $img1->getName()) : null;
             $model->image2 = $img2 ? ImageHelper::getUniqueValidName($main_upload_path, $img2->getName()) : null;
             $model->image3 = $img3 ? ImageHelper::getUniqueValidName($main_upload_path, $img3->getName()) : null;
             $model->image4 = ($img4 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img4->getName()) : null;
@@ -62,7 +70,11 @@ class ProductsController extends AdminController
                 }
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
-                $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                
+                $arr = explode('.', $f_name);
+                $ext = end($arr);
+                $model->image1 = strtolower($model->brand->url) . '-' . $this->generateUrl($model->title) . '.' . $ext;
+                //$model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
                 $model->is_url = 1;
             }
             
@@ -192,7 +204,15 @@ class ProductsController extends AdminController
 
             $main_upload_path = Yii::getPathOfAlias('webroot') . ShopConst::IMAGE_MAX_DIR;
 
-            $model->image1 = $img1 ? ImageHelper::getUniqueValidName($main_upload_path, $img1->getName()) : $oldImage1;
+            if ($img1) {
+                $arr = explode('.', $img1->getName());
+                $ext = end($arr);
+                $image = strtolower($model->brand->url) . '-' . $this->generateUrl($model->title) . '.' . $ext;
+                
+                $model->image1 = $image;
+            }
+            
+            //$model->image1 = $img1 ? ImageHelper::getUniqueValidName($main_upload_path, $img1->getName()) : $oldImage1;
             $model->image2 = $img2 ? ImageHelper::getUniqueValidName($main_upload_path, $img2->getName()) : $oldImage2;
             $model->image3 = $img3 ? ImageHelper::getUniqueValidName($main_upload_path, $img3->getName()) : $oldImage3;
             $model->image4 = ($img4 && !$model->external_sale) ? ImageHelper::getUniqueValidName($main_upload_path, $img4->getName()) : $oldImage4;
@@ -204,7 +224,11 @@ class ProductsController extends AdminController
                 }
                 $arr = explode('/', $model->image_url1);
                 $f_name = end($arr);
-                $model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+                
+                $arr = explode('.', $f_name);
+                $ext = end($arr);
+                $model->image1 = strtolower($model->brand->url) . '-' . $this->generateUrl($model->title) . '.' . $ext;
+                //$model->image1 = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
                 $model->is_url = 1;
             }
             
@@ -673,6 +697,16 @@ class ProductsController extends AdminController
         $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);
         
         $space->DeleteObject($path);
+    }
+    
+    protected function generateUrl($name)
+    {
+        $url = trim(strtolower($name));
+        $url = str_replace(' ', '-', $url);
+        $url = str_replace('--', '-', $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $url);
+        
+        return $url;
     }
 }
 

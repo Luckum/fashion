@@ -67,8 +67,8 @@
                     <?=CHtml :: image(
                         //Yii :: app() -> request -> getBaseUrl(true) . ShopConst :: IMAGE_MEDIUM_DIR . $products[$i]['image1'],
                         'https://fra1.digitaloceanspaces.com/n2315/' . $products[$i]['image1'],
-                        ($products[$i]['title']) ? CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
-                        array('onerror' => '$(this).prop({"class" : "no-image", "src" : "/images/prod-no-img.png"})')
+                        ($products[$i]['title']) ? strtolower(Brand::getFormatedTitle($products[$i]->brand->name)) . ' ' . CHtml::encode($products[$i]['title']) : CHtml::encode(Category::model()->getAliasById($products[$i]['category_id'])),
+                        array('onerror' => '$(this).prop({"class" : "no-image", "src" : "/images/prod-no-img.png"})', 'title' => "Click to view more detailed imagery on our partner's website",)
                     )?>
                     <?php if (!Wishlist::in_wishlist($products[$i]['id']) && !Yii::app()->member->isGuest) : ?>
                         <p class="pagination-centered">

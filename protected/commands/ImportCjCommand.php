@@ -134,10 +134,12 @@ class ImportCjCommand extends CConsoleCommand
                             break;
                         }
                     } else {
-                        $image = $this->getImage($rec->image_link);
+                        $image = $this->getImage($rec->image_link, $brand->url, "$rec->title");
                     }
                     
                     if ($image) {
+                        $sale_price = isset($rec->sale_price) ? str_replace(' EUR', '', (string)$rec->sale_price) : str_replace(' EUR', '', (string)$rec->price);
+                        $price = str_replace(' EUR', '', (string)$rec->price);
                         if (!$model) {
                             $model = new Product();
                             $model->user_id = 185;
@@ -147,8 +149,8 @@ class ImportCjCommand extends CConsoleCommand
                             $model->description = "$rec->description";
                             $model->image1 = $image;
                             $model->color = "$rec->color";
-                            $model->price = isset($rec->sale_price) ? str_replace(' EUR', '', "$rec->sale_price") : str_replace(' EUR', '', "$rec->price");
-                            $model->init_price = str_replace(' EUR', '', "$rec->price");
+                            $model->price = $sale_price;
+                            $model->init_price = $price;
                             $model->condition = 1;
                             $model->direct_url = $this->getDirectUrl($rec->link);
                             $model->external_sale = 1;
@@ -158,11 +160,11 @@ class ImportCjCommand extends CConsoleCommand
                             $model->imported_from = $file_name;
                             $model->save();
                         } else {
-                            if ($model->price != $rec->sale_price) {
-                                $model->price = $rec->sale_price;
+                            if ($model->price != $sale_price) {
+                                $model->price = $sale_price;
                             }
-                            if ($model->init_price != $rec->price) {
-                                $model->init_price = $rec->price;
+                            if ($model->init_price != $price) {
+                                $model->init_price = $price;
                             }
                             $model->title = $rec->title;
                             $model->brand_id = $brand_id;
@@ -206,7 +208,7 @@ class ImportCjCommand extends CConsoleCommand
         return (!empty($parsed['scheme']) ? $parsed['scheme'] . '://' : "") . $parsed['host'] . $parsed['path']; 
     }
     
-    protected function getImage($img_path)
+    protected function getImage($img_path, $brand, $title)
     {
         $main_upload_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
         
@@ -216,7 +218,10 @@ class ImportCjCommand extends CConsoleCommand
         $arr = explode('/', $img_path);
         $f_name = end($arr);
         
-        $image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $arr = explode('.', $f_name);
+        $ext = end($arr);
+        //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
             return $image;
