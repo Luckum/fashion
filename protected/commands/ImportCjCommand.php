@@ -221,6 +221,7 @@ class ImportCjCommand extends CConsoleCommand
         $arr = explode('.', $f_name);
         $ext = end($arr);
         //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
+        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"'), "", $title);
         $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {

@@ -15,8 +15,31 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing > Outerwear > Coats & Jackets' => 154,
         'Apparel & Accessories > Clothing > Skirts' => 179,
         'Apparel & Accessories > Handbags, Wallets & Cases > Handbags' => 188,
+        'Apparel & Accessories > Handbags, Wallets & Cases' => 188,
         'Apparel & Accessories > Clothing > One-Pieces > Jumpsuits & Rompers' => 94,
+        'Apparel & Accessories > Clothing > Activewear' => 94,
+        'Apparel & Accessories > Clothing Accessories > Hats' => 191,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Underwear' => 156,
+        'Apparel & Accessories > Clothing > Shorts' => 178,
+        'Apparel & Accessories > Clothing Accessories > Belts' => 192,
+        'Apparel & Accessories > Clothing > Traditional & Ceremonial Clothing > Traditional Leather Pants' => 177,
+        'Apparel & Accessories > Jewelry > Body Jewelry' => 148,
+        'Apparel & Accessories > Jewelry > Necklaces' => 148,
+        'Apparel & Accessories > Jewelry > Earrings' => 148,
+        'Apparel & Accessories > Jewelry > Rings' => 148,
+        'Apparel & Accessories > Jewelry > Bracelets' => 148,
+        'Apparel & Accessories > Handbag & Wallet Accessories > Keychains' => 188,
+        'Apparel & Accessories > Clothing Accessories > Neckties' => 146,
+        'Apparel & Accessories > Clothing Accessories > Hair Accessories' => 199,
+        'Apparel & Accessories > Jewelry > Brooches & Lapel Pins' => 148,
+        'Apparel & Accessories > Clothing Accessories > Scarves & Shaw' => 191,
+        'Apparel & Accessories > Shoe Accessories' => 146,
+        'Apparel & Accessories > Clothing > Outerwear' => 94,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Shapewear' => 156,
+        'Apparel & Accessories > Clothing > Underwear & Socks' => 156,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Bras' => 156,
         'Home & Garden' => 199,
+        'Home & Garden > Lighting' => 199,
         'Health & Beauty' => 196,
         'Apparel & Accessories > Clothing Accessories' => 146,
         'Luggage & Bags > Luggage Accessories' => 146,
@@ -24,9 +47,34 @@ class ImportFlexCommand extends CConsoleCommand
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body Gift Sets' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Skin Care' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Makeup' => 196,
+        'Health & Beauty > Personal Care > Ear Care > Ear Candles' => 196,
+        'Health & Beauty > Personal Care > Hair Care > Shampoo & Conditioner' => 196,
+        'Health & Beauty > Health Care' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Body Wash' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Powdered Hand Soap' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Lip Makeup' => 196,
+        'Health & Beauty > Personal Care > Massage & Relaxation > Massage Oil' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Perfume & Cologne' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Bar Soap' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Cosmetic Tools > Makeup Tools > False Eyelash Accessories > False Eyelash Remover' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Cosmetic Sets' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Nail Care' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Sunscreen' => 196,
+        'Health & Beauty > Personal Care > Deodorant & Anti-Perspirant' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Nail Care > Nail Polish Thinners' => 196,
         'Home & Garden > Decor > Home Fragrance Accessories' => 199,
+        'Home & Garden > Decor > Flameless Candles' => 199,
         'Health & Beauty > Jewelry Cleaning & Care > Jewelry Cleaning Tools' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body' => 196,
+        'Sporting Goods > Athletics > Rounders > Rounders Gloves' => 191,
+        'Sporting Goods > Athletics > Racquetball & Squash > Racquetball & Squash Eyewear' => 149,
+        'Luggage & Bags > Backpacks' => 183,
+        'Luggage & Bags > Luggage Accessories > Travel Pouches' => 185,
+        'Luggage & Bags > Messenger Bags' => 182,
+        'Luggage & Bags > Luggage Accessories > Luggage Straps' => 182,
+        'Luggage & Bags > Suitcases' => 182,
+        'Luggage & Bags > Shopping Totes' => 187,
+        'Luggage & Bags > Luggage Accessories > Dry Box Liners & Inserts' => 182,
         'Accessories' => 146,
         'SMALL LEATHER GOODS' => 193,
         'BACKPACKS' => 183,
@@ -76,13 +124,34 @@ class ImportFlexCommand extends CConsoleCommand
     protected $file_names_part_1 = [
         '160518/2.23288B42649C3C46/',
         '171455/1.8FDC/',
-        '181599/1.A3BC/'
+        '197461/1.A6F0/',
+        //'181599/1.A3BC/' - deleted
     ];
     
     protected $file_names_part_2 = [
-        '185499/1.A2BE/',
-        '197461/1.A6F0/',
+        //'185499/1.A2BE/', - deleted
+        '201513/156052.2408/',
+        '207169/1.AC44/',
+        '209091/1.A6B8/'
         //'203945/1.AAFB/', - absent gender
+    ];
+    
+    protected $file_names_part_3 = [
+        '180914/1.AAE6/',
+        '189747/1.9A26/',
+        '209895/1.AEE4/'
+    ];
+    
+    protected $file_names_part_4 = [
+        '160630/156052.16F9/',
+        //'180980/156052.202A/' - absend gender
+        '193024/156052.21AB/',
+        '211253/156074.A84D272FB8996740/',
+        //'175269/156100.2827/', - absend gender, bad links
+        //'196330/156052.2231/' - absend gender
+        
+        //'202535/156052.22AD/' - absend gender
+        
     ];
     
     protected $_file_name = '1172566_Products.xml.gz';
@@ -162,7 +231,11 @@ class ImportFlexCommand extends CConsoleCommand
         foreach ($data->product as $rec) {
             //print_r($rec);
             //die();
-            if ((strtolower($rec->gender) == 'female' || strtolower($rec->gender) == 'womens') && strtolower($rec->isInStock) == 'true') {
+            if ((strtolower($rec->gender) == 'female' || strtolower($rec->gender) == 'womens' || strtolower($rec->gender) == 'women' || 
+                 stripos($rec->deepLinkUrl, '/women/') !== false || $file_name == '160630/156052.16F9/' || $file_name == '193024/156052.21AB/') && strtolower($rec->isInStock) == 'true') {
+                
+                //$cats[] = $rec->category;
+                
                 $category_id = 0;
                 if (isset($this->category_link["$rec->category"])) {
                     $category_id = $this->category_link["$rec->category"];
@@ -171,6 +244,9 @@ class ImportFlexCommand extends CConsoleCommand
                     if (isset($this->category_link[$this->getCategory("$rec->name")])) {
                         $category_id = $this->category_link[$this->getCategory("$rec->name")];
                     }
+                }
+                if ($file_name == '160630/156052.16F9/') {
+                    $category_id = 154;
                 }
                 if ($category_id != 0) {
                     $brand_file = isset($rec->brand) ? $rec->brand : (isset($rec->manufacturer) ? $rec->manufacturer : '');
@@ -198,11 +274,21 @@ class ImportFlexCommand extends CConsoleCommand
                         }
                         $brand_id = $brand->id;
                         
-                        $model = Product::model()->find('direct_url = "' . $rec->deepLinkUrl . '"');
+                        if ($file_name == '193024/156052.21AB/') {
+                            $d_link = $rec->deepLinkUrl;
+                            if (($pos_s = strpos($d_link, '?')) !== false) {
+                                $d_link = substr($d_link, 0, $pos_s);
+                            }
+                        } else {
+                            $d_link = $rec->deepLinkUrl;
+                        }
                         
-                        $image = $this->getImage($rec->imageUrl, $brand->url, $file_name == '171455/1.8FDC/' ? $this->getNameFromDesc("$rec->shortDescription") : "$rec->name");
+                        $model = Product::model()->find('direct_url = "' . $d_link . '"');
                         
-                        $currency = Currency::getCurrencyByName(strtoupper($rec->priceCurrency));
+                        $image = $this->getImage($rec->imageUrl, $brand->url, $file_name == '171455/1.8FDC/' ? $this->getNameFromDesc("$rec->shortDescription") : "$rec->name", $file_name);
+                        
+                        $priceCurrency = $file_name == '211253/156074.A84D272FB8996740/' ? 'USD' : strtoupper($rec->priceCurrency);
+                        $currency = Currency::getCurrencyByName($priceCurrency);
                         if ($currency) {
                             $rate = $currency->currencyRate->rate;
                         } else {
@@ -210,6 +296,8 @@ class ImportFlexCommand extends CConsoleCommand
                                 $rate = 0.63;
                             } else if (strtoupper($rec->priceCurrency) == 'HKD') {
                                 $rate = 0.12;
+                            } else if (strtoupper($rec->priceCurrency) == 'CAD') {
+                                $rate = 0.69;
                             }
                         }
                         
@@ -226,7 +314,7 @@ class ImportFlexCommand extends CConsoleCommand
                                 $model->price = isset($rec->salePrice) ? $rec->salePrice * $rate : $rec->price * $rate;
                                 $model->init_price = $rec->price * $rate;
                                 $model->condition = 1;
-                                $model->direct_url = "$rec->deepLinkUrl";
+                                $model->direct_url = "$d_link";
                                 $model->external_sale = 1;
                                 $model->status = 'active';
                                 $model->imported = 1;
@@ -248,6 +336,7 @@ class ImportFlexCommand extends CConsoleCommand
                                     $model->save();
                                 }
                             }
+                            
                             $path = $this->setCdnPath($model->id) . '/' . $model->image1;
                             $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
                             if ($this->copyToCdn($image_path, $path)) {
@@ -274,13 +363,20 @@ class ImportFlexCommand extends CConsoleCommand
         return $url;
     }
     
-    protected function getImage($img_path, $brand, $title)
+    protected function getImage($img_path, $brand, $title, $file_name)
     {
         $main_upload_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
         
-        if (($pos_s = strpos($img_path, '?')) !== false) {
-            $img_path = substr($img_path, 0, $pos_s);
+        if ($file_name == '160630/156052.16F9/') {
+            if (($pos_s = strpos($img_path, '&')) != false) {
+                $img_path = substr($img_path, 0, $pos_s);
+            }
+        } else {
+            if (($pos_s = strpos($img_path, '?')) !== false) {
+                $img_path = substr($img_path, 0, $pos_s);
+            }
         }
+        
         if (($pos_s = strpos($img_path, '$')) !== false) {
             $img_path = substr($img_path, 0, $pos_s);
         }
@@ -294,9 +390,11 @@ class ImportFlexCommand extends CConsoleCommand
         $arr = explode('.', $f_name);
         $ext = end($arr);
         //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
-        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
+        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"'), "", $title);
+        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '-' . uniqid() . '.' . $ext;
+        //$image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
-        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
+        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0, $file_name == '211253/156074.A84D272FB8996740/' ? false : true)) {
             return $image;
         }
         

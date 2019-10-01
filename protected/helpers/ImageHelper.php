@@ -443,15 +443,18 @@ class ImageHelper
         return $new;
     }
 
-    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false, $crop_mode = 0)
+    public static function cSaveWithReducedCopies(CUploadedFile $file, $newName = null, $is_url = false, $crop_mode = 0, $checkit = true)
     {
         if ($is_url) {
             if (filter_var($is_url, FILTER_VALIDATE_URL) === false) {
                 return false;
             }
-            $urlHeaders = get_headers($is_url);
-            if (strpos($urlHeaders[0], '200') === false) {
-                return false;
+            
+            if ($checkit) {
+                $urlHeaders = get_headers($is_url);
+                if (strpos($urlHeaders[0], '200') === false) {
+                    return false;
+                }
             }
         }
 

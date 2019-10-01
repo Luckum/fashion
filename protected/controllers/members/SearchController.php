@@ -387,7 +387,7 @@ class SearchController extends Controller
         }
         
         die (CJSON::encode([
-            'link' => '/search/results?q=' . Yii::app()->request->getPost('query')
+            'link' => '/search/results?q=' . urlencode(Yii::app()->request->getPost('query'))
         ]));
     }
 }

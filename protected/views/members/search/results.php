@@ -1,7 +1,7 @@
 <div class="uk-container uk-container-center" style="max-width: 95%;">
     <div class="uk-block uk-margin-large-top">
         <div class="uk-container uk-container-center">
-            <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Showing results for') . ' ' . "'" . trim($q) . "'" ?></div>
+            <div class="uk-h1 uk-text-center"><?=Yii::t('base', 'Showing results for') . ' ' . "'" . str_replace('+', ' ', strip_tags(trim($q))) . "'" ?></div>
         </div>
     </div>
     <?php $menu = UtilsHelper::getCategoryMenu(); ?>
