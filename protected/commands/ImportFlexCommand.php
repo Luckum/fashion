@@ -28,16 +28,21 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Jewelry > Earrings' => 148,
         'Apparel & Accessories > Jewelry > Rings' => 148,
         'Apparel & Accessories > Jewelry > Bracelets' => 148,
+        'Apparel & Accessories > Jewelry > Charms & Pendants' => 148,
         'Apparel & Accessories > Handbag & Wallet Accessories > Keychains' => 188,
         'Apparel & Accessories > Clothing Accessories > Neckties' => 146,
         'Apparel & Accessories > Clothing Accessories > Hair Accessories' => 199,
         'Apparel & Accessories > Jewelry > Brooches & Lapel Pins' => 148,
         'Apparel & Accessories > Clothing Accessories > Scarves & Shaw' => 191,
+        'Apparel & Accessories > Clothing Accessories > Scarves & Shawls' => 191,
         'Apparel & Accessories > Shoe Accessories' => 146,
         'Apparel & Accessories > Clothing > Outerwear' => 94,
         'Apparel & Accessories > Clothing > Underwear & Socks > Shapewear' => 156,
         'Apparel & Accessories > Clothing > Underwear & Socks' => 156,
         'Apparel & Accessories > Clothing > Underwear & Socks > Bras' => 156,
+        'Apparel & Accessories > Clothing > Sleepwear & Loungewear > Loungewear' => 94,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Lingerie' => 156,
+        'Apparel & Accessories > Clothing > Activewear > Bicycle Activewear > Bicycle Tights' => 94,
         'Home & Garden' => 199,
         'Home & Garden > Lighting' => 199,
         'Health & Beauty' => 196,
@@ -49,6 +54,7 @@ class ImportFlexCommand extends CConsoleCommand
         'Health & Beauty > Personal Care > Cosmetics > Makeup' => 196,
         'Health & Beauty > Personal Care > Ear Care > Ear Candles' => 196,
         'Health & Beauty > Personal Care > Hair Care > Shampoo & Conditioner' => 196,
+        'Health & Beauty > Personal Care > Hair Care' => 196,
         'Health & Beauty > Health Care' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Body Wash' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Powdered Hand Soap' => 196,
@@ -62,8 +68,10 @@ class ImportFlexCommand extends CConsoleCommand
         'Health & Beauty > Personal Care > Cosmetics > Skin Care > Sunscreen' => 196,
         'Health & Beauty > Personal Care > Deodorant & Anti-Perspirant' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Nail Care > Nail Polish Thinners' => 196,
+        'Health & Beauty > Personal Care > Vision Care > Eyeglasses' => 149,
         'Home & Garden > Decor > Home Fragrance Accessories' => 199,
         'Home & Garden > Decor > Flameless Candles' => 199,
+        'Home & Garden > Decor > Home Fragrances > Candles' => 199,
         'Health & Beauty > Jewelry Cleaning & Care > Jewelry Cleaning Tools' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body' => 196,
         'Sporting Goods > Athletics > Rounders > Rounders Gloves' => 191,
@@ -125,11 +133,9 @@ class ImportFlexCommand extends CConsoleCommand
         '160518/2.23288B42649C3C46/',
         '171455/1.8FDC/',
         '197461/1.A6F0/',
-        //'181599/1.A3BC/' - deleted
     ];
     
     protected $file_names_part_2 = [
-        //'185499/1.A2BE/', - deleted
         '201513/156052.2408/',
         '207169/1.AC44/',
         '209091/1.A6B8/'
@@ -138,20 +144,35 @@ class ImportFlexCommand extends CConsoleCommand
     
     protected $file_names_part_3 = [
         '180914/1.AAE6/',
-        '189747/1.9A26/',
-        '209895/1.AEE4/'
+        '209895/1.AEE4/',
+        '185499/1.A2BE/'
     ];
     
     protected $file_names_part_4 = [
-        '160630/156052.16F9/',
+        //'160630/156052.16F9/', - deleted?
         //'180980/156052.202A/' - absend gender
         '193024/156052.21AB/',
         '211253/156074.A84D272FB8996740/',
+        '202535/156052.22AD/',
         //'175269/156100.2827/', - absend gender, bad links
         //'196330/156052.2231/' - absend gender
+    ];
+    
+    protected $file_names_part_5 = [
+        //'171537/1.9D00/' - absend gender, absend category
+        //'199801/1.A802/' - lesgirlslesboys shit
         
-        //'202535/156052.22AD/' - absend gender
-        
+        '194020/156100.33A1/',
+        '203104/1.A9DA/',
+        '189747/1.9A26/',
+        //'188219/1.A935/' - absend geneder
+    ];
+    
+    protected $file_names_part_6 = [
+        '194849/1.A6B3/',
+        '195216/1.A67E/',
+        '203133/2.2ADB060C575BA471/',
+        //'203181/1.ABA9/', - absend category
     ];
     
     protected $_file_name = '1172566_Products.xml.gz';
@@ -168,6 +189,7 @@ class ImportFlexCommand extends CConsoleCommand
             $this->getFromFtp($file_name);
             $out_file_name = $this->unzipFile($this->_file_name);
             
+            //die();
             //$out_file_name = '1172566_Products.xml';
             
             $xml = simplexml_load_file(Yii::getPathOfAlias('application') . '/data/' . $out_file_name);
@@ -232,7 +254,8 @@ class ImportFlexCommand extends CConsoleCommand
             //print_r($rec);
             //die();
             if ((strtolower($rec->gender) == 'female' || strtolower($rec->gender) == 'womens' || strtolower($rec->gender) == 'women' || 
-                 stripos($rec->deepLinkUrl, '/women/') !== false || $file_name == '160630/156052.16F9/' || $file_name == '193024/156052.21AB/') && strtolower($rec->isInStock) == 'true') {
+                 stripos($rec->deepLinkUrl, '/women/') !== false || $file_name == '160630/156052.16F9/' || $file_name == '193024/156052.21AB/' ||
+                 $file_name == '202535/156052.22AD/' || $file_name == '203181/1.ABA9/' || $file_name == '195216/1.A67E/') && strtolower($rec->isInStock) == 'true') {
                 
                 //$cats[] = $rec->category;
                 
@@ -248,10 +271,17 @@ class ImportFlexCommand extends CConsoleCommand
                 if ($file_name == '160630/156052.16F9/') {
                     $category_id = 154;
                 }
+                if ($file_name == '202535/156052.22AD/') {
+                    $category_id = 188;
+                }
                 if ($category_id != 0) {
                     $brand_file = isset($rec->brand) ? $rec->brand : (isset($rec->manufacturer) ? $rec->manufacturer : '');
+                    if ($file_name == '195216/1.A67E/') {
+                        $brand_file = 'Malin+Goetz';
+                    }
                     
                     if (!empty($brand_file)) {
+                        $brand_file = SymbolHelper::getCorrectName("$brand_file");
                         $brand = Brand::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                         if (!$brand) {
                             $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
@@ -274,7 +304,7 @@ class ImportFlexCommand extends CConsoleCommand
                         }
                         $brand_id = $brand->id;
                         
-                        if ($file_name == '193024/156052.21AB/') {
+                        if ($file_name == '193024/156052.21AB/' || $file_name == '209091/1.A6B8/' || $file_name == '203133/2.2ADB060C575BA471/') {
                             $d_link = $rec->deepLinkUrl;
                             if (($pos_s = strpos($d_link, '?')) !== false) {
                                 $d_link = substr($d_link, 0, $pos_s);
@@ -301,6 +331,9 @@ class ImportFlexCommand extends CConsoleCommand
                             }
                         }
                         
+                        $price = isset($rec->salePrice) ? floatval($rec->salePrice * $rate) : floatval($rec->price * $rate);
+                        $init_price = $rec->price * $rate;
+                        
                         if ($image) {
                             if (!$model) {
                                 $model = new Product();
@@ -311,8 +344,8 @@ class ImportFlexCommand extends CConsoleCommand
                                 $model->description = "$rec->description";
                                 $model->image1 = $image;
                                 $model->color = "$rec->color";
-                                $model->price = isset($rec->salePrice) ? $rec->salePrice * $rate : $rec->price * $rate;
-                                $model->init_price = $rec->price * $rate;
+                                $model->price = $price;
+                                $model->init_price = $init_price;
                                 $model->condition = 1;
                                 $model->direct_url = "$d_link";
                                 $model->external_sale = 1;
@@ -323,11 +356,11 @@ class ImportFlexCommand extends CConsoleCommand
                                 $model->save();
                             } else {
                                 if ($model->screpped != 1) {
-                                    if ($model->price != $rec->salePrice * $rate) {
-                                        $model->price = $rec->salePrice * $rate;
+                                    if ($model->price != $price) {
+                                        $model->price = $price;
                                     }
-                                    if ($model->init_price != $rec->price * $rate) {
-                                        $model->init_price = $rec->price * $rate;
+                                    if ($model->init_price != $init_price) {
+                                        $model->init_price = $init_price;
                                     }
                                     $model->title = "$rec->name";
                                     $model->brand_id = $brand_id;
@@ -337,14 +370,14 @@ class ImportFlexCommand extends CConsoleCommand
                                 }
                             }
                             
-                            $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                            /*$path = $this->setCdnPath($model->id) . '/' . $model->image1;
                             $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
                             if ($this->copyToCdn($image_path, $path)) {
                                 $model->image1 = $path;
                                 if ($model->save()) {
                                     unlink($image_path);
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
@@ -357,8 +390,8 @@ class ImportFlexCommand extends CConsoleCommand
     {
         $url = trim(strtolower($name));
         $url = str_replace(' ', '-', $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $url);
         $url = str_replace('--', '-', $url);
-        $url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $url);
         
         return $url;
     }
@@ -366,6 +399,11 @@ class ImportFlexCommand extends CConsoleCommand
     protected function getImage($img_path, $brand, $title, $file_name)
     {
         $main_upload_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR;
+        
+        if ($file_name == '201513/156052.2408/') {
+            $img_path = str_replace('h_1080', 'h_680', $img_path);
+            $img_path = str_replace('w_1080', 'w_540', $img_path);
+        }
         
         if ($file_name == '160630/156052.16F9/') {
             if (($pos_s = strpos($img_path, '&')) != false) {
@@ -390,11 +428,12 @@ class ImportFlexCommand extends CConsoleCommand
         $arr = explode('.', $f_name);
         $ext = end($arr);
         //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
-        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"'), "", $title);
+        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"', '|'), "", $title);
         $image = strtolower($brand) . '-' . $this->generateUrl($title) . '-' . uniqid() . '.' . $ext;
         //$image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
-        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0, $file_name == '211253/156074.A84D272FB8996740/' ? false : true)) {
+        $checkit = $file_name == '211253/156074.A84D272FB8996740/' || $file_name == '202535/156052.22AD/' || $file_name == '194849/1.A6B3/' || $file_name == '193024/156052.21AB/' ? false : true;
+        if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0, $checkit)) {
             return $image;
         }
         
@@ -423,6 +462,10 @@ class ImportFlexCommand extends CConsoleCommand
     
     protected function removeFromCdn($path)
     {
+        $path_parts = explode('/', $path);
+        array_pop($path_parts);
+        $path = implode('/', $path_parts);
+        
         require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
         
         $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);

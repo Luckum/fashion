@@ -118,11 +118,12 @@ class ScrpProduct extends CActiveRecord
                 if ($category_id != 0) {
                     $brand = Brand::model()->find('LOWER(url) = "' . strtolower($data->brand_from_url) . '"');
                     if (!$brand) {
-                        $brand = Brand::model()->find('LOWER(name) = "' . strtolower($data->brand) . '"');
+                        $brand_file = SymbolHelper::getCorrectName($data->brand);
+                        $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
                         if (!$brand) {
                             $brand_variant = BrandVariant::model()->find('LOWER(url) = "' . strtolower($data->brand_from_url) . '"');
                             if (!$brand_variant) {
-                                $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($data->brand) . '"');
+                                $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
                                 if (!$brand_variant) {
                                     $brand = new Brand();
                                     if (strpos($data->brand_from_url, 'search-results') === false) {
@@ -130,7 +131,7 @@ class ScrpProduct extends CActiveRecord
                                         $brand->generate_url = false;
                                     }
                                     
-                                    $brand->name = $data->brand;
+                                    $brand->name = $brand_file;
                                     $brand->save();
                                 }
                             }

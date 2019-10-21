@@ -538,8 +538,8 @@ class ImportCommand extends CConsoleCommand
     {
         $url = trim(strtolower($name));
         $url = str_replace(' ', '-', $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $url);
         $url = str_replace('--', '-', $url);
-        $url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $url);
         
         return $url;
     }
@@ -570,7 +570,7 @@ class ImportCommand extends CConsoleCommand
         $arr = explode('.', $f_name);
         $ext = end($arr);
         //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
-        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"'), "", $title);
+        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"', '|'), "", $title);
         $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
@@ -646,6 +646,7 @@ class ImportCommand extends CConsoleCommand
                         $brand_file = $file_name == '35118_3620548_mp.txt.gz' ? (isset($product[16]) ? $product[16] : '') : (isset($product[20]) ? $product[20] : '');
                         
                         if (!empty($brand_file)) {
+                            $brand_file = SymbolHelper::getCorrectName("$brand_file");
                             $brand = Brand::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                             if (!$brand) {
                                 $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
@@ -668,6 +669,9 @@ class ImportCommand extends CConsoleCommand
                             }
                             $brand_id = $brand->id;
                             
+                            $price = !empty($product[12]) ? $product[12] : $product[13];
+                            $init_price = $product[13];
+                            
                             $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($product[5]) . "'");
                             if (!$model) {
                                 $image = $this->getImage($product[6], $file_name, $brand->url, $this->getProductTitle($file_name, $product[1]));
@@ -681,8 +685,8 @@ class ImportCommand extends CConsoleCommand
                                     $model->description = $product[8];
                                     $model->image1 = $image;
                                     $model->color = isset($product[32]) ? $product[32] : '';
-                                    $model->price = !empty($product[12]) ? $product[12] : $product[13];
-                                    $model->init_price = $product[13];
+                                    $model->price = $price;
+                                    $model->init_price = $init_price;
                                     $model->condition = 1;
                                     $model->direct_url = $this->getDirectUrl($product[5]);
                                     $model->external_sale = 1;
@@ -702,8 +706,8 @@ class ImportCommand extends CConsoleCommand
                                     }
                                 }
                             } else {
-                                if ($model->price != $product[12]) {
-                                    $model->price = $product[12];
+                                if ($model->price != $price) {
+                                    $model->price = $price;
                                 }
                                 if ($model->init_price != $product[13]) {
                                     $model->init_price = $product[13];
@@ -762,6 +766,10 @@ class ImportCommand extends CConsoleCommand
     
     protected function removeFromCdn($path)
     {
+        $path_parts = explode('/', $path);
+        array_pop($path_parts);
+        $path = implode('/', $path_parts);
+        
         require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
         
         $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);

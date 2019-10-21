@@ -202,8 +202,8 @@ class Brand extends CActiveRecord
     {
         $this->url = trim(strtolower($this->name));
         $this->url = str_replace(' ', '-', $this->url);
+        $this->url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $this->url);
         $this->url = str_replace('--', '-', $this->url);
-        $this->url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $this->url);
     }
 
     public static function getFormatedTitle($title)

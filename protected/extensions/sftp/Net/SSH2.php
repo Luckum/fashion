@@ -614,7 +614,7 @@ class Net_SSH2 {
      * @return Net_SSH2
      * @access public
      */
-    function Net_SSH2($host, $port = 22, $timeout = 10)
+    function __constructor($host, $port = 22, $timeout = 10)
     {
         $this->message_numbers = array(
             1 => 'NET_SSH2_MSG_DISCONNECT',
@@ -1823,7 +1823,7 @@ class Net_SSH2 {
      */
     function disconnect()
     {
-        $this->_disconnect(NET_SSH2_DISCONNECT_BY_APPLICATION);
+        $this->_disconnect('NET_SSH2_DISCONNECT_BY_APPLICATION');
     }
 
     /**

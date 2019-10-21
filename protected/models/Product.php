@@ -114,7 +114,7 @@ class Product extends CActiveRecord implements IECartPosition
             array('price, init_price', 'length', 'max' => 9),
             array('color', 'length', 'max' => 20, 'allowEmpty' => true),
             array('imported_from', 'length', 'max' => 255, 'allowEmpty' => true),
-            array('description', 'length', 'max' => 1000, 'allowEmpty' => true),
+            array('description', 'length', 'max' => 3000, 'allowEmpty' => true),
             //array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg', 'allowEmpty' => true),
             array('status', 'in', 'range' => array(self::PRODUCT_STATUS_ACTIVE, self::PRODUCT_STATUS_DEACTIVE, self::PRODUCT_STATUS_PENDING, self::PRODUCT_STATUS_DECLINED, self::PRODUCT_STATUS_SOLD)),
             //array('image1, image2, image3, image4, image5', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => true),

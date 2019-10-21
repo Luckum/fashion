@@ -452,6 +452,7 @@ class ImageHelper
             
             if ($checkit) {
                 $urlHeaders = get_headers($is_url);
+                
                 if (strpos($urlHeaders[0], '200') === false) {
                     return false;
                 }

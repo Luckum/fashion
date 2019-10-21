@@ -16,6 +16,7 @@ return array(
         'application.helpers.LogHelper',
         'application.helpers.EmailHelper',
         'application.extensions.sftp.*',
+        'application.vendor.phpseclib.*',
     ),
     // We'll log cron messages to the separate files
     'components'=>array(

@@ -16,6 +16,8 @@ class ImportCjCommand extends CConsoleCommand
         'Apparel & Accessories > Handbags, Wallets & Cases > Handbags' => 188,
         'Apparel & Accessories > Clothing > One-Pieces' => 94,
         'Apparel & Accessories > Clothing > Swimwear' => 129,
+        "Women's shoes" => 135,
+        'Street shoes' => 135,
     ];
     
     protected $ftp_server = 'datatransfer.cj.com';
@@ -24,6 +26,7 @@ class ImportCjCommand extends CConsoleCommand
     protected $file_names = [
         'SVMoscow-GOOGLE_PRODUCT_FEED_EUROPE_ENG_EUR_-shopping.xml.zip',
         'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip',
+        'Footshop_eu-FootshopEU_google_all-shopping.xml.zip',
     ];
     
     protected $key = "3CMGDJJNJAU6JXYFT7GG";
@@ -69,13 +72,32 @@ class ImportCjCommand extends CConsoleCommand
     
     protected function getFromFtp($file_name)
     {
-        try {
+        include_once('Net/SSH2.php');
+        include_once('Net/SFTP.php');
+        include_once('Math/BigInteger.php');
+        include_once('Crypt/Hash.php');
+        include_once('Crypt/Base.php');
+        include_once('Crypt/RC4.php');
+        include_once('Crypt/Rijndael.php');
+        include_once('Crypt/Twofish.php');
+        include_once('Crypt/Blowfish.php');
+        include_once('Crypt/DES.php');
+        include_once('Crypt/TripleDES.php');
+        
+        $sftp = new Net_SFTP($this->ftp_server);
+        if (!$sftp->login($this->ftp_user_name, $this->ftp_user_pass)) {
+            exit('Login Failed');
+        }
+
+        $sftp->get('/outgoing/productcatalog/229336/' . $file_name, Yii::getPathOfAlias('application') . '/data/' . $file_name);
+        
+        /*try {
             $sftp_obj = new SftpComponent($this->ftp_server, $this->ftp_user_name, $this->ftp_user_pass);
             $sftp_obj->connect();
             $sftp_obj->getFile('/outgoing/productcatalog/229336/' . $file_name, Yii::getPathOfAlias('application') . '/data/' . $file_name);
         } catch(Exception $e) {
             echo $e->getMessage();
-        }
+        }*/
     }
     
     protected function unzipFile($file_name)
@@ -97,25 +119,28 @@ class ImportCjCommand extends CConsoleCommand
         //$cats = [];
         foreach ($data as $rec) {
             if (strtolower($rec->gender) == 'female') {
-                //$cats[] = $rec->google_product_category_name;
+                //$cats[] = $rec->product_type;
                 
                 $category_id = 0;
-                if (isset($this->category_link["$rec->google_product_category_name"])) {
+                if (isset($rec->google_product_category_name) && isset($this->category_link["$rec->google_product_category_name"])) {
                     $category_id = $this->category_link["$rec->google_product_category_name"];
+                } else if (isset($rec->product_type) && isset($this->category_link["$rec->product_type"])) {
+                    $category_id = $this->category_link["$rec->product_type"];
                 }
                 if ($category_id != 0) {
-                    $brand = Brand::model()->find('url = "' . $this->generateUrl($rec->brand) . '"');
+                    $brand_file = SymbolHelper::getCorrectName("$rec->brand");
+                    $brand = Brand::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                     if (!$brand) {
-                        $brand = Brand::model()->find('LOWER(name) = "' . strtolower($rec->brand) . '"');
+                        $brand = Brand::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
                         if (!$brand) {
-                            $brand_variant = BrandVariant::model()->find('url = "' . $this->generateUrl($rec->brand) . '"');
+                            $brand_variant = BrandVariant::model()->find('url = "' . $this->generateUrl($brand_file) . '"');
                             if (!$brand_variant) {
-                                $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($rec->brand) . '"');
+                                $brand_variant = BrandVariant::model()->find('LOWER(name) = "' . strtolower($brand_file) . '"');
                                 if (!$brand_variant) {
                                     $brand = new Brand();
-                                    $brand->url = $this->generateUrl($rec->brand);
+                                    $brand->url = $this->generateUrl($brand_file);
                                     $brand->generate_url = false;
-                                    $brand->name = $rec->brand;
+                                    $brand->name = $brand_file;
                                     $brand->save();
                                 }
                             }
@@ -128,9 +153,9 @@ class ImportCjCommand extends CConsoleCommand
                     
                     $model = Product::model()->find("direct_url = '" . $this->getDirectUrl($rec->link) . "'");
                     
-                    if ($file_name == 'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip') {
+                    if ($file_name == 'Nanushka-Nanushka_Product_Feed_-shopping.xml.zip' || $file_name == 'Footshop_eu-FootshopEU_google_all-shopping.xml.zip') {
                         foreach ($rec->additional_image_link as $additional_image_link) {
-                            $image = $this->getImage($additional_image_link);
+                            $image = $this->getImage($additional_image_link, $brand->url, "$rec->title");
                             break;
                         }
                     } else {
@@ -192,8 +217,8 @@ class ImportCjCommand extends CConsoleCommand
     {
         $url = trim(strtolower($name));
         $url = str_replace(' ', '-', $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $url);
         $url = str_replace('--', '-', $url);
-        $url = str_replace(array('\'', '.', ',', '&', '*', '/'), "", $url);
         
         return $url;
     }
@@ -221,8 +246,8 @@ class ImportCjCommand extends CConsoleCommand
         $arr = explode('.', $f_name);
         $ext = end($arr);
         //$image = ImageHelper::getUniqueValidName($main_upload_path, $f_name);
-        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"'), "", $title);
-        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
+        $title = str_replace(array('\'', '.', ',', '&', '*', '/', '"', '|'), "", $title);
+        $image = strtolower($brand) . '-' . $this->generateUrl($title) . '-' . uniqid() . '.' . $ext;
         
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0)) {
             return $image;
@@ -253,6 +278,10 @@ class ImportCjCommand extends CConsoleCommand
     
     protected function removeFromCdn($path)
     {
+        $path_parts = explode('/', $path);
+        array_pop($path_parts);
+        $path = implode('/', $path_parts);
+        
         require_once(Yii::app()->basePath . "/helpers/Spaces-API-master/spaces.php");
         
         $space = new SpacesConnect($this->key, $this->secret, $this->space_name, $this->region);
