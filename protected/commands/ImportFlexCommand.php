@@ -43,10 +43,15 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing > Sleepwear & Loungewear > Loungewear' => 94,
         'Apparel & Accessories > Clothing > Underwear & Socks > Lingerie' => 156,
         'Apparel & Accessories > Clothing > Activewear > Bicycle Activewear > Bicycle Tights' => 94,
+        'Apparel & Accessories > Clothing Accessories > Gloves & Mittens' => 191,
+        'Apparel & Accessories > Clothing Accessories > Wristbands' => 146,
+        'Apparel & Accessories > Clothing > Uniforms > White Coats' => 94,
+        'Apparel & Accessories > Clothing > Outerwear > Vests' => 94,
         'Home & Garden' => 199,
         'Home & Garden > Lighting' => 199,
         'Health & Beauty' => 196,
         'Apparel & Accessories > Clothing Accessories' => 146,
+        'Luggage & Bags' => 182,
         'Luggage & Bags > Luggage Accessories' => 146,
         'Apparel & Accessories > Jewelry' => 148,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body Gift Sets' => 196,
@@ -69,9 +74,19 @@ class ImportFlexCommand extends CConsoleCommand
         'Health & Beauty > Personal Care > Deodorant & Anti-Perspirant' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Nail Care > Nail Polish Thinners' => 196,
         'Health & Beauty > Personal Care > Vision Care > Eyeglasses' => 149,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Face Makeup' => 196,
+        'Health & Beauty > Personal Care > Shaving & Grooming > Shaving Cream' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Face Makeup > Face Powder' => 196,
+        'Health & Beauty > Health Care > Respiratory Care > PAP Masks' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Eye Makeup' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Lip Makeup > Lipstick' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Makeup Removers' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Face Makeup > Face Primer' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Shower Caps' => 196,
         'Home & Garden > Decor > Home Fragrance Accessories' => 199,
         'Home & Garden > Decor > Flameless Candles' => 199,
         'Home & Garden > Decor > Home Fragrances > Candles' => 199,
+        'Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Umbrellas & Sunshades' => 199,
         'Health & Beauty > Jewelry Cleaning & Care > Jewelry Cleaning Tools' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body' => 196,
         'Sporting Goods > Athletics > Rounders > Rounders Gloves' => 191,
@@ -172,7 +187,13 @@ class ImportFlexCommand extends CConsoleCommand
         '194849/1.A6B3/',
         '195216/1.A67E/',
         '203133/2.2ADB060C575BA471/',
-        //'203181/1.ABA9/', - absend category
+    ];
+    
+    protected $file_names_part_7 = [
+        //'171717/1.5F67/', - jpg error
+        //'202740/156052.23D6/', - absent gender
+        '203181/1.ABA9/',
+        '209986/156052.2145/'
     ];
     
     protected $_file_name = '1172566_Products.xml.gz';
@@ -255,7 +276,8 @@ class ImportFlexCommand extends CConsoleCommand
             //die();
             if ((strtolower($rec->gender) == 'female' || strtolower($rec->gender) == 'womens' || strtolower($rec->gender) == 'women' || 
                  stripos($rec->deepLinkUrl, '/women/') !== false || $file_name == '160630/156052.16F9/' || $file_name == '193024/156052.21AB/' ||
-                 $file_name == '202535/156052.22AD/' || $file_name == '203181/1.ABA9/' || $file_name == '195216/1.A67E/') && strtolower($rec->isInStock) == 'true') {
+                 $file_name == '202535/156052.22AD/' || $file_name == '203181/1.ABA9/' || $file_name == '195216/1.A67E/' || $file_name == '203181/1.ABA9/' ||
+                 $file_name == '209986/156052.2145/') && strtolower($rec->isInStock) == 'true') {
                 
                 //$cats[] = $rec->category;
                 
@@ -432,7 +454,7 @@ class ImportFlexCommand extends CConsoleCommand
         $image = strtolower($brand) . '-' . $this->generateUrl($title) . '-' . uniqid() . '.' . $ext;
         //$image = strtolower($brand) . '-' . $this->generateUrl($title) . '.' . $ext;
         
-        $checkit = $file_name == '211253/156074.A84D272FB8996740/' || $file_name == '202535/156052.22AD/' || $file_name == '194849/1.A6B3/' || $file_name == '193024/156052.21AB/' ? false : true;
+        $checkit = $file_name == '211253/156074.A84D272FB8996740/' || $file_name == '202535/156052.22AD/' || $file_name == '194849/1.A6B3/' || $file_name == '193024/156052.21AB/' || $file_name = '203181/1.ABA9/' ? false : true;
         if (ImageHelper::cSaveWithReducedCopies(new CUploadedFile(null, null, null, null, null), $image, $img_path, 0, $checkit)) {
             return $image;
         }
