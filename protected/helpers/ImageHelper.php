@@ -450,9 +450,12 @@ class ImageHelper
                 return false;
             }
             
+            $urlHeaders = get_headers($is_url);
+            if (strpos($urlHeaders[0], '404') !== false) {
+                return false;
+            }
+            
             if ($checkit) {
-                $urlHeaders = get_headers($is_url);
-                
                 if (strpos($urlHeaders[0], '200') === false) {
                     return false;
                 }

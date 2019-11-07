@@ -47,6 +47,18 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing Accessories > Wristbands' => 146,
         'Apparel & Accessories > Clothing > Uniforms > White Coats' => 94,
         'Apparel & Accessories > Clothing > Outerwear > Vests' => 94,
+        'Apparel & Accessories > Handbags, Wallets & Cases > Wallets & Money Clips' => 182,
+        'Apparel & Accessories > Clothing > Sleepwear & Loungewear > Robes' => 94,
+        'Apparel & Accessories > Clothing > Sleepwear & Loungewear > Nightgowns' => 94,
+        'Apparel & Accessories > Clothing > Sleepwear & Loungewear' => 94,
+        'Apparel & Accessories > Clothing > Suits' => 94,
+        'Apparel & Accessories > Clothing > Uniforms > Sports Uniforms' => 94,
+        'Apparel & Accessories > Clothing Accessories > Arm Warmers & Sleeves' => 199,
+        'Apparel & Accessories > Clothing Accessories > Suspenders' => 199,
+        'Apparel & Accessories > Clothing > Traditional & Ceremonial Clothing > Kimonos' => 94,
+        'Apparel & Accessories > Clothing > Activewear > Dance Dresses, Skirts & Costumes' => 94,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Hosiery' => 156,
+        'Apparel & Accessories > Clothing > Suits > Skirt Suits' => 94,
         'Home & Garden' => 199,
         'Home & Garden > Lighting' => 199,
         'Health & Beauty' => 196,
@@ -87,6 +99,27 @@ class ImportFlexCommand extends CConsoleCommand
         'Home & Garden > Decor > Flameless Candles' => 199,
         'Home & Garden > Decor > Home Fragrances > Candles' => 199,
         'Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Umbrellas & Sunshades' => 199,
+        'Home & Garden > Parasols & Rain Umbrellas' => 199,
+        'Home & Garden > Linens & Bedding > Bedding > Pillowcases & Shams' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Bowls' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Plates' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Coffee Servers & Tea Pots' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Drinkware > Mugs' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware' => 199,
+        'Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Aprons' => 199,
+        'Home & Garden > Linens & Bedding > Towels' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Drinkware' => 199,
+        'Home & Garden > Kitchen & Dining > Tableware > Serveware Accessories' => 199,
+        'Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Oven Mitts & Pot Holders' => 199,
+        'Home & Garden > Linens & Bedding > Towels > Kitchen Towels' => 199,
+        'Home & Garden > Linens & Bedding > Bedding > Blankets' => 199,
+        'Home & Garden > Decor > Vases' => 199,
+        'Home & Garden > Decor > Home Fragrance Accessories > Candle Holders' => 199,
+        'Home & Garden > Linens & Bedding > Table Linens > Placemats' => 199,
+        'Home & Garden > Bathroom Accessories' => 199,
+        'Home & Garden > Linens & Bedding > Table Linens' => 199,
+        'Home & Garden > Household Supplies > Storage & Organization > Storage Hooks & Racks > Umbrella Stands & Racks' => 199,
+        'Arts & Entertainment > Hobbies & Creative Arts > Arts & Crafts > Art & Crafting Materials > Textiles > Fabric' => 199,
         'Health & Beauty > Jewelry Cleaning & Care > Jewelry Cleaning Tools' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body' => 196,
         'Sporting Goods > Athletics > Rounders > Rounders Gloves' => 191,
@@ -98,6 +131,8 @@ class ImportFlexCommand extends CConsoleCommand
         'Luggage & Bags > Suitcases' => 182,
         'Luggage & Bags > Shopping Totes' => 187,
         'Luggage & Bags > Luggage Accessories > Dry Box Liners & Inserts' => 182,
+        'Luggage & Bags > Cosmetic & Toiletry Bags' => 182,
+        'Luggage & Bags > Luggage Accessories > Luggage Racks & Stands' => 185,
         'Accessories' => 146,
         'SMALL LEATHER GOODS' => 193,
         'BACKPACKS' => 183,
@@ -193,7 +228,22 @@ class ImportFlexCommand extends CConsoleCommand
         //'171717/1.5F67/', - jpg error
         //'202740/156052.23D6/', - absent gender
         '203181/1.ABA9/',
-        '209986/156052.2145/'
+        '209986/156052.2145/',
+        '179969/1.9209/'
+    ];
+    
+    protected $file_names_part_8 = [
+        '179970/1.A302/',
+        '199782/1.A8EA/',
+        //'202186/2.3EFA57E9887750DE/' // images copy fail
+        '211739/1.AF80/'
+    ];
+    
+    protected $file_names_part_9 = [
+        '203300/1.AB30/',
+        '208989/156178.8405/',
+        //'209025/2.858C228760157FC8/' // absent gender, absent category
+        '209396/1.ACC2/'
     ];
     
     protected $_file_name = '1172566_Products.xml.gz';
@@ -277,7 +327,7 @@ class ImportFlexCommand extends CConsoleCommand
             if ((strtolower($rec->gender) == 'female' || strtolower($rec->gender) == 'womens' || strtolower($rec->gender) == 'women' || 
                  stripos($rec->deepLinkUrl, '/women/') !== false || $file_name == '160630/156052.16F9/' || $file_name == '193024/156052.21AB/' ||
                  $file_name == '202535/156052.22AD/' || $file_name == '203181/1.ABA9/' || $file_name == '195216/1.A67E/' || $file_name == '203181/1.ABA9/' ||
-                 $file_name == '209986/156052.2145/') && strtolower($rec->isInStock) == 'true') {
+                 $file_name == '209986/156052.2145/' || $file_name == '199782/1.A8EA/' || $file_name == '208989/156178.8405/' || $file_name == '211739/1.AF80/') && strtolower($rec->isInStock) == 'true') {
                 
                 //$cats[] = $rec->category;
                 
@@ -326,11 +376,14 @@ class ImportFlexCommand extends CConsoleCommand
                         }
                         $brand_id = $brand->id;
                         
-                        if ($file_name == '193024/156052.21AB/' || $file_name == '209091/1.A6B8/' || $file_name == '203133/2.2ADB060C575BA471/') {
+                        if ($file_name == '193024/156052.21AB/' || $file_name == '209091/1.A6B8/' || $file_name == '203133/2.2ADB060C575BA471/' ||
+                            $file_name == '179969/1.9209/' || $file_name == '179970/1.A302/') {
                             $d_link = $rec->deepLinkUrl;
                             if (($pos_s = strpos($d_link, '?')) !== false) {
                                 $d_link = substr($d_link, 0, $pos_s);
                             }
+                        } else if ($file_name == '208989/156178.8405/') {
+                            $d_link = $rec->linkUrl;
                         } else {
                             $d_link = $rec->deepLinkUrl;
                         }
@@ -392,14 +445,14 @@ class ImportFlexCommand extends CConsoleCommand
                                 }
                             }
                             
-                            /*$path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                            $path = $this->setCdnPath($model->id) . '/' . $model->image1;
                             $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
                             if ($this->copyToCdn($image_path, $path)) {
                                 $model->image1 = $path;
                                 if ($model->save()) {
                                     unlink($image_path);
                                 }
-                            }*/
+                            }
                         }
                     }
                 }
@@ -412,7 +465,7 @@ class ImportFlexCommand extends CConsoleCommand
     {
         $url = trim(strtolower($name));
         $url = str_replace(' ', '-', $url);
-        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+', ':'), "", $url);
         $url = str_replace('--', '-', $url);
         
         return $url;

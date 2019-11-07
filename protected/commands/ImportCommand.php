@@ -538,7 +538,7 @@ class ImportCommand extends CConsoleCommand
     {
         $url = trim(strtolower($name));
         $url = str_replace(' ', '-', $url);
-        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+'), "", $url);
+        $url = str_replace(array('\'', '.', ',', '&', '*', '/', '+', ':'), "", $url);
         $url = str_replace('--', '-', $url);
         
         return $url;
