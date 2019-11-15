@@ -354,6 +354,6 @@ if (YII_DEBUG) {
 
 <!--main.js-->
 <script src="<?=Yii::app()->request->baseUrl ?>/js/main.js"></script>
-<script type="text/javascript" src="https://s.skimresources.com/js/118861X1578703.skimlinks.js"></script>
+<!--<script type="text/javascript" src="https://s.skimresources.com/js/118861X1578703.skimlinks.js"></script>-->
 </body>
 </html>

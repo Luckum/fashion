@@ -78,6 +78,8 @@ $params = array(
                 '/search/results' => 'members/search/results',
                 '/search/more-results' => 'members/search/moreResults',
                 '/search/get-product' => 'members/search/getProduct',
+                
+                '/lead' => 'members/lead/index',
 
                 '/blog' => 'members/blog/index',
                 '/blog/post/<id:\d+>' => 'members/blog/post',
