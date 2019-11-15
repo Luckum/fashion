@@ -256,7 +256,6 @@ if (YII_DEBUG) {
     };
 </script>
 
-<script src="<?=Yii::app()->request->baseUrl ?>/js/search.js"></script>
 <!--jquery.cookie-->
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.cookie.js"></script>
 <!--leanModal-->
@@ -264,15 +263,11 @@ if (YII_DEBUG) {
 <!--scrollbar-->
 <script src="<?=Yii::app()->request->baseUrl ?>/js/jquery/jquery.scrollbar.min.js"></script>
 <!--Интеграция с социальными сетями-->
-<script src="<?=Yii::app()->request->baseUrl ?>/js/share.js"></script>
-
 <script src="<?=Yii::app()->request->baseUrl?>/uikit/js/uikit.min.js"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/uikit/js/assets.min.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/uikit/js/login.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/uikit/js/category.js<?php echo $noCacheParameter; ?>"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/js/common.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery-ui.min.js"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/js/eternalSession.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
 
 

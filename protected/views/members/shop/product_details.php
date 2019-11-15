@@ -40,7 +40,7 @@
                     <div class="product-image-wrapper wishlist-wrapper">
                         <?php if (!empty($model['image1'])): ?>
                             <a href="<?php echo $model->direct_url; ?>" class="uk-display-block product-url" target="<?= $model['external_sale'] && !(empty($model['direct_url'])) ? '_blank' : '_self' ?>">
-                                <?= CHtml::image('https://fra1.digitaloceanspaces.com/n2315/' . $model['image1'], strtolower($brandName) . ' ' . $productTitle, array(
+                                <?= CHtml::image('https://n2315.fra1.cdn.digitaloceanspaces.com/' . $model['image1'], strtolower($brandName) . ' ' . $productTitle, array(
                                     'id' => 'image1',
                                     'title' => "Click to view more detailed imagery on our partner's website",
                                 )) ?>
@@ -157,7 +157,7 @@
                             <?php $p_link = $this->createAbsoluteUrl(Product::getProductUrl($model->id, $model))?>
                             <ul class="social-list">
                                 <li><a href="#"
-                                       onclick="Share.pinterest('<?=$p_link?>', '<?= 'https://fra1.digitaloceanspaces.com/n2315/' . $model->image1 ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
+                                       onclick="Share.pinterest('<?=$p_link?>', '<?= 'https://n2315.fra1.cdn.digitaloceanspaces.com/' . $model->image1 ?>', '<?= $model->brand->name . ', ' . CHtml::encode($model->title) ?>', '')"><i
                                             class="uk-icon-pinterest"></i></a></li>
                                 <li><a href="#"
                                        onclick="Share.twitter('<?=$p_link?>', '<?= $model->brand->name . ' ' . CHtml::encode($model->title) ?>', 'n2315.com')"><i

@@ -8,10 +8,10 @@
     <div class="uk-navbar-content uk-navbar-flip show-menu" style="width: 100%; padding-right: 20px;" id="navbar-collapse">
         <ul class="uk-navbar-nav top_menu uk-navbar-nav-light" style="width: 100%;">
             <li class="uk-visible-large">
-                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-black.jpg" style="margin-top: -15px;" alt="N2315.com - best designer clothing stores in one place"></a>
+                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-black.jpg" style="margin-top: -15px;" alt="N2315.com - best designer clothing stores in one place" width="140" height="30"></a>
             </li>
             <li class="uk-hidden-large">
-                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-white.jpg" style="margin-top: -5px;" alt="N2315.com - best designer clothing stores in one place"></a>
+                <a href="/"><img src="<?= Yii::app()->request->baseUrl ?>/images/logo-white.jpg" style="margin-top: -5px;" alt="N2315.com - best designer clothing stores in one place" width="140" height="30"></a>
             </li>
             <?php $menu = UtilsHelper::getCategoryMenu(); $count = count($menu);?>
             <?php for ($i = 0; $i < $count; $i++): ?>

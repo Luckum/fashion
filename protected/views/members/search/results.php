@@ -76,7 +76,7 @@
                                 <?php
                                     $base     = Yii::app()->request->getBaseUrl(true);
                                     if (!empty($rec->image1)) {
-                                        $img_url  = 'https://fra1.digitaloceanspaces.com/n2315/' . $rec->image1;
+                                        $img_url  = 'https://n2315.fra1.cdn.digitaloceanspaces.com/' . $rec->image1;
                                         //$img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
                                         $img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $rec->image1;
                                     }

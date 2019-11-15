@@ -91,7 +91,8 @@
                 $target = "_self";
                 $partner_site_name = $partner_site_url = '';
                 if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
-                    $url = $products[$i]['direct_url'];
+                    //$url = $products[$i]['direct_url'];
+                    $url = $this->createAbsoluteUrl('/lead');
                     $target = "_blank";
                     //if (Category::getParentByCategory($products[$i]['category_id']) != Category::getIdByAlias('featured')) {
                         $partner = Product::getExternalSiteName($url);
@@ -105,8 +106,9 @@
                     <?php
                         $base     = Yii::app()->request->getBaseUrl(true);
                         if (!empty($products[$i]['image1'])) {
-                            //$img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
-                            $img_url  = 'https://fra1.digitaloceanspaces.com/n2315/' . $products[$i]['image1'];
+                            $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
+                            //$img_url  = 'https://fra1.digitaloceanspaces.com/n2315/' . $products[$i]['image1'];
+                            //$img_url  = 'https://n2315.fra1.cdn.digitaloceanspaces.com/' . $products[$i]['image1'];
                             //$img_path = Yii::getpathOfAlias('webroot') . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image1'];
                         } else if (!empty($products[$i]['image2'])) {
                             $img_url  = $base . ShopConst::IMAGE_MEDIUM_DIR . $products[$i]['image2'];
@@ -129,6 +131,8 @@
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
                             'itemprop' => "image",
+                            'width' => '540',
+                            'height' => '680',
                             'title' => "Click to view more detailed imagery on our partner's website",
                             'style' => Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'width: calc(16 * (100% / 18));' : 'width: calc(14 * (100% / 18));',
                         )

@@ -246,6 +246,11 @@ class ImportFlexCommand extends CConsoleCommand
         '209396/1.ACC2/'
     ];
     
+    protected $file_names_part_10 = [
+        //'178564/156178.2B8D/',
+        //'199306/156052.2110/' //absent gender
+    ];
+    
     protected $_file_name = '1172566_Products.xml.gz';
     
     public function run($args)
@@ -382,7 +387,7 @@ class ImportFlexCommand extends CConsoleCommand
                             if (($pos_s = strpos($d_link, '?')) !== false) {
                                 $d_link = substr($d_link, 0, $pos_s);
                             }
-                        } else if ($file_name == '208989/156178.8405/') {
+                        } else if ($file_name == '208989/156178.8405/' || $file_name == '178564/156178.2B8D/') {
                             $d_link = $rec->linkUrl;
                         } else {
                             $d_link = $rec->deepLinkUrl;
@@ -445,20 +450,20 @@ class ImportFlexCommand extends CConsoleCommand
                                 }
                             }
                             
-                            $path = $this->setCdnPath($model->id) . '/' . $model->image1;
-                            $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
-                            if ($this->copyToCdn($image_path, $path)) {
-                                $model->image1 = $path;
-                                if ($model->save()) {
-                                    unlink($image_path);
-                                }
-                            }
+                            //$path = $this->setCdnPath($model->id) . '/' . $model->image1;
+//                            $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+//                            if ($this->copyToCdn($image_path, $path)) {
+//                                $model->image1 = $path;
+//                                if ($model->save()) {
+//                                    unlink($image_path);
+//                                }
+//                            }
                         }
                     }
                 }
             }
         }
-        //print_r(array_unique($cats));
+        print_r(array_unique($cats));
     }
     
     protected function generateUrl($name)
@@ -478,6 +483,11 @@ class ImportFlexCommand extends CConsoleCommand
         if ($file_name == '201513/156052.2408/') {
             $img_path = str_replace('h_1080', 'h_680', $img_path);
             $img_path = str_replace('w_1080', 'w_540', $img_path);
+        }
+        
+        if ($file_name == '178564/156178.2B8D/') {
+            $img_path = str_replace('/180/', '/1600/', $img_path);
+            $img_path = str_replace('/180/', '/1600/', $img_path);
         }
         
         if ($file_name == '160630/156052.16F9/') {
