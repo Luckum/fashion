@@ -219,7 +219,6 @@ class ShopController extends MemberController
             }
 
             $products = Product::model()->getShopProducts($model, $where, $limit, $offset, $order, $isTopCategory);
-            $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
             $currency = Currency::getCurrency();
 
             if (isset($_POST['currency'])) {
@@ -233,8 +232,8 @@ class ShopController extends MemberController
                         's_subcategory' => trim($subcategory),
                         's_brand' => $brand,
                         's_brand_title' => $brand_title,
-                        'brands_all' => $brands_all,
-                        'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+                        //'brands_all' => $brands_all,
+                        //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
                         'currency' => $currency,
                     ], true),
                     'selector_html' => $this->renderPartial('_currency', [
@@ -253,8 +252,8 @@ class ShopController extends MemberController
                     's_subcategory' => trim($subcategory),
                     's_brand' => $brand,
                     's_brand_title' => $brand_title,
-                    'brands_all' => $brands_all,
-                    'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+                    //'brands_all' => $brands_all,
+                    //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
                     'currency' => $currency,
                 )
             );
@@ -281,7 +280,7 @@ class ShopController extends MemberController
         }
 
         $products = Product::model()->getShopProducts($model, $where, $limit, $offset, $order, $isTopCategory);
-        $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
+        //$brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
         $currency = Currency::getCurrency();
         
         $this->render('category', array(
@@ -293,8 +292,8 @@ class ShopController extends MemberController
             's_subcategory' => $subcategory,
             's_brand' => $brand,
             's_brand_title' => $brand_title,
-            'brands_all' => $brands_all,
-            'alphabet' => UtilsHelper:: getAlphabet(array('#')),
+            //'brands_all' => $brands_all,
+            //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
             'currency' => $currency,
         ));
     }

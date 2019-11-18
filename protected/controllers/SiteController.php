@@ -609,4 +609,29 @@ class SiteController extends Controller
         
         return $data;
     }
+    
+    public function actionGetAllBrands()
+    {
+        $alphabet = UtilsHelper:: getAlphabet(array('#'));
+        $data = [];
+        $data['alphabet'] = '';
+        foreach ($alphabet as $item) {
+            $data['alphabet'] .= '<li><a href="#' . $item . '" onclick="clickAlphabet(this)">' . $item . '</a></li>';
+        }
+        $data['alphabet'] .= '<li><a href="#all" onclick="clickAlphabet(this)">(ALL)</a></li>';
+        
+        $data['brands'] = '';
+        $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());
+        foreach ($brands_all as $key => $dataB) {
+            $data['brands'] .= '<ul class="uk-list uk-list-brand uk-margin-top-remove uk-margin-large-bottom" data-category="' . $key .  '">';
+            $data['brands'] .= '<li><div class="uk-h3"><b>' . $key . '</b></div></li>';
+            foreach ($dataB as $item) {
+                $brandName = Brand::getFormatedTitle(CHtml::encode($item));
+                $data['brands'] .= '<li><a href="' . Brand::getBrandLink($item) . '" title="brand ' . $brandName . '">' . $brandName . '</a></li>';
+            }
+            $data['brands'] .= '</ul>';
+        }
+        
+        die(CJSON::encode($data)); 
+    }
 }
