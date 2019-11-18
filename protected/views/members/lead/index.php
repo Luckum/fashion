@@ -3,10 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <title>Redirect to partner</title>
     <style>
-        body {
-            background-color: #f2f2f2;
-        }
         .center-screen {
             font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
             display: flex;
@@ -26,8 +24,8 @@
 </head>
 <body>
     <div class="center-screen">
-        <p>now you will go to <?= strtoupper($partner_site_name) ?></p>
-        <p style="font-weight: 300;">if you are not automatically redirected, <a href="http://go.skimresources.com/?id=118861X1578703&url=<?= urlencode($url) ?>">click here</a></p>
+        <p>Taking you to <?= strtoupper($partner_site_name) ?></p>
+        <p style="font-weight: 300; font-size: 13px;">If you are not automatically redirected, <a href="http://go.skimresources.com/?id=118861X1578703&url=<?= urlencode($url) ?>">click here</a></p>
     </div>
 </body>
 </html>

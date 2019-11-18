@@ -37,10 +37,12 @@ if (YII_DEBUG) {
 
     //$noCacheParameter = '?nocache=' . rand(1, 1000);
 }
+
 ?>
 <head>
+    <!-- TradeDoubler site verification 3129507 -->    
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147078144-1"></script>
+    <script async><?= file_get_contents('https://www.googletagmanager.com/gtag/js?id=UA-147078144-1') ?></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -68,13 +70,12 @@ if (YII_DEBUG) {
 
     <?php echo $noCacheHeader; ?>
 
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+    <style>
+        <?= file_get_contents('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300') ?>
+    </style>
 
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/uikit/css/all-min.css<?php echo $noCacheParameter; ?>">
-    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/uikit/css/added.css<?php echo $noCacheParameter; ?>">
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css<?php echo $noCacheParameter; ?>">
-    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.scrollbar.css">
-    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui-min.css">
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/js/EasyAutocomplete-1.3.5/easy-autocomplete.css">
 
     <!-- jQuery lib must be higher than title, because EFancyBox include it scripts under last js script,
@@ -256,17 +257,7 @@ if (YII_DEBUG) {
     };
 </script>
 
-<!--jquery.cookie-->
-<script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery.cookie.js"></script>
-<!--leanModal-->
-<script src="<?=Yii::app()->request->baseUrl ?>/js/jquery/jquery.leanModal.min.js"></script>
-<!--scrollbar-->
-<script src="<?=Yii::app()->request->baseUrl ?>/js/jquery/jquery.scrollbar.min.js"></script>
-<!--Интеграция с социальными сетями-->
 <script src="<?=Yii::app()->request->baseUrl?>/uikit/js/uikit.min.js"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/uikit/js/assets.min.js<?php echo $noCacheParameter; ?>"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/uikit/js/login.js<?php echo $noCacheParameter; ?>"></script>
-<script src="<?=Yii::app()->request->baseUrl?>/uikit/js/category.js<?php echo $noCacheParameter; ?>"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/jquery/jquery-ui.min.js"></script>
 <script src="<?=Yii::app()->request->baseUrl?>/js/EasyAutocomplete-1.3.5/jquery.easy-autocomplete.js"></script>
 

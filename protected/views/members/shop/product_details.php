@@ -39,7 +39,11 @@
                 <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2">
                     <div class="product-image-wrapper wishlist-wrapper">
                         <?php if (!empty($model['image1'])): ?>
-                            <a href="<?php echo $model->direct_url; ?>" class="uk-display-block product-url" target="<?= $model['external_sale'] && !(empty($model['direct_url'])) ? '_blank' : '_self' ?>">
+                            <?php
+                                $directUrl = $model->direct_url;
+                                $url = $this->createAbsoluteUrl('/lead?id=' . $model->id);
+                            ?>
+                            <a href="<?php echo $url; ?>" class="uk-display-block product-url" target="<?= $model['external_sale'] && !(empty($model['direct_url'])) ? '_blank' : '_self' ?>">
                                 <?= CHtml::image('https://n2315.fra1.cdn.digitaloceanspaces.com/' . $model['image1'], strtolower($brandName) . ' ' . $productTitle, array(
                                     'id' => 'image1',
                                     'title' => "Click to view more detailed imagery on our partner's website",
@@ -134,13 +138,14 @@
                             <?php endif; ?>
                         <?php else: ?>
                             <?php 
-                                $url = $model->direct_url;
-                                $partner = Product::getExternalSiteName($url);
+                                $directUrl = $model->direct_url;
+                                $url = $this->createAbsoluteUrl('/lead?id=' . $model->id);
+                                $partner = Product::getExternalSiteName($directUrl);
                                 $partner_site_name = $partner['name'];
                                 $partner_site_url = $partner['url'];
                             ?>
                             <div class="uk-margin-large-top" style="display: inline-block;">
-                                <a href="<?=$model->direct_url?>" target="_blank" style="width:200px;" class="uk-button open-bag">
+                                <a href="<?=$url?>" target="_blank" style="width:200px;" class="uk-button open-bag">
                                     shop on <span><?= $partner_site_name ?></span>
                                 </a>
                             </div>

@@ -53,9 +53,10 @@
                 $target = "_self";
                 $partner_site_name = $partner_site_url = '';
                 if ($products[$i]['external_sale'] && !(empty($products[$i]['direct_url']))) {
-                    $url = $products[$i]['direct_url'];
+                    $directUrl = $products[$i]['direct_url'];
+                    $url = $this->createAbsoluteUrl('/lead?id=' . $products[$i]['id']);
                     $target = "_blank";
-                    $partner = Product::getExternalSiteName($url);
+                    $partner = Product::getExternalSiteName($directUrl);
                     $partner_site_name = $partner['name'];
                     $partner_site_url = $partner['url'];
                 }

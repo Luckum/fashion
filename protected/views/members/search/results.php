@@ -62,10 +62,11 @@
                             $target = "_self";
                             $partner_site_name = $partner_site_url = '';
                             if ($rec->external_sale && !(empty($rec->direct_url))) {
-                                $url = $rec->direct_url;
+                                $directUrl = $rec->direct_url;
+                                $url = $this->createAbsoluteUrl('/lead?id=' . $rec->id);
                                 $target = "_blank";
                                 if (Category::getParentByCategory($rec->category_id) != Category::getIdByAlias('featured')) {
-                                    $partner = Product::getExternalSiteName($url);
+                                    $partner = Product::getExternalSiteName($directUrl);
                                     $partner_site_name = $partner['name'];
                                     $partner_site_url = $partner['url'];
                                 }
