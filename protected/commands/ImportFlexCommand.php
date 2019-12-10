@@ -42,7 +42,6 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing > Underwear & Socks > Bras' => 156,
         'Apparel & Accessories > Clothing > Sleepwear & Loungewear > Loungewear' => 94,
         'Apparel & Accessories > Clothing > Underwear & Socks > Lingerie' => 156,
-        'Apparel & Accessories > Clothing > Activewear > Bicycle Activewear > Bicycle Tights' => 94,
         'Apparel & Accessories > Clothing Accessories > Gloves & Mittens' => 191,
         'Apparel & Accessories > Clothing Accessories > Wristbands' => 146,
         'Apparel & Accessories > Clothing > Uniforms > White Coats' => 94,
@@ -56,16 +55,14 @@ class ImportFlexCommand extends CConsoleCommand
         'Apparel & Accessories > Clothing Accessories > Arm Warmers & Sleeves' => 199,
         'Apparel & Accessories > Clothing Accessories > Suspenders' => 199,
         'Apparel & Accessories > Clothing > Traditional & Ceremonial Clothing > Kimonos' => 94,
-        'Apparel & Accessories > Clothing > Activewear > Dance Dresses, Skirts & Costumes' => 94,
         'Apparel & Accessories > Clothing > Underwear & Socks > Hosiery' => 156,
         'Apparel & Accessories > Clothing > Suits > Skirt Suits' => 94,
-        'Home & Garden' => 199,
-        'Home & Garden > Lighting' => 199,
         'Health & Beauty' => 196,
         'Apparel & Accessories > Clothing Accessories' => 146,
         'Luggage & Bags' => 182,
         'Luggage & Bags > Luggage Accessories' => 146,
         'Apparel & Accessories > Jewelry' => 148,
+        'Health & Beauty > Personal Care' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body Gift Sets' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Skin Care' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Makeup' => 196,
@@ -95,35 +92,8 @@ class ImportFlexCommand extends CConsoleCommand
         'Health & Beauty > Personal Care > Cosmetics > Skin Care > Makeup Removers' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Makeup > Face Makeup > Face Primer' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body > Shower Caps' => 196,
-        'Home & Garden > Decor > Home Fragrance Accessories' => 199,
-        'Home & Garden > Decor > Flameless Candles' => 199,
-        'Home & Garden > Decor > Home Fragrances > Candles' => 199,
-        'Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Umbrellas & Sunshades' => 199,
-        'Home & Garden > Parasols & Rain Umbrellas' => 199,
-        'Home & Garden > Linens & Bedding > Bedding > Pillowcases & Shams' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Bowls' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Dinnerware > Plates' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Coffee Servers & Tea Pots' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Drinkware > Mugs' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware' => 199,
-        'Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Aprons' => 199,
-        'Home & Garden > Linens & Bedding > Towels' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Drinkware' => 199,
-        'Home & Garden > Kitchen & Dining > Tableware > Serveware Accessories' => 199,
-        'Home & Garden > Kitchen & Dining > Kitchen Tools & Utensils > Oven Mitts & Pot Holders' => 199,
-        'Home & Garden > Linens & Bedding > Towels > Kitchen Towels' => 199,
-        'Home & Garden > Linens & Bedding > Bedding > Blankets' => 199,
-        'Home & Garden > Decor > Vases' => 199,
-        'Home & Garden > Decor > Home Fragrance Accessories > Candle Holders' => 199,
-        'Home & Garden > Linens & Bedding > Table Linens > Placemats' => 199,
-        'Home & Garden > Bathroom Accessories' => 199,
-        'Home & Garden > Linens & Bedding > Table Linens' => 199,
-        'Home & Garden > Household Supplies > Storage & Organization > Storage Hooks & Racks > Umbrella Stands & Racks' => 199,
-        'Arts & Entertainment > Hobbies & Creative Arts > Arts & Crafts > Art & Crafting Materials > Textiles > Fabric' => 199,
         'Health & Beauty > Jewelry Cleaning & Care > Jewelry Cleaning Tools' => 196,
         'Health & Beauty > Personal Care > Cosmetics > Bath & Body' => 196,
-        'Sporting Goods > Athletics > Rounders > Rounders Gloves' => 191,
-        'Sporting Goods > Athletics > Racquetball & Squash > Racquetball & Squash Eyewear' => 149,
         'Luggage & Bags > Backpacks' => 183,
         'Luggage & Bags > Luggage Accessories > Travel Pouches' => 185,
         'Luggage & Bags > Messenger Bags' => 182,
@@ -133,6 +103,28 @@ class ImportFlexCommand extends CConsoleCommand
         'Luggage & Bags > Luggage Accessories > Dry Box Liners & Inserts' => 182,
         'Luggage & Bags > Cosmetic & Toiletry Bags' => 182,
         'Luggage & Bags > Luggage Accessories > Luggage Racks & Stands' => 185,
+        'Luggage & Bags > Train Cases' => 182,
+        'Apparel & Accessories > Jewelry > Jewelry Sets' => 148,
+        'Apparel & Accessories > Clothing > Underwear & Socks > Lingerie Accessories > Garter Belts' => 156,
+        'Apparel & Accessories > Clothing Accessories > Headwear > Turbans' => 191,
+        'Apparel & Accessories > Clothing Accessories > Tie Clips' => 146,
+        'Apparel & Accessories > Handbag & Wallet Accessories' => 190,
+        'Apparel & Accessories > Clothing > Outerwear > Snow Pants & Suits' => 94,
+        'Apparel & Accessories > Handbag & Wallet Accessories > Lanyards' => 190,
+        'Health & Beauty > Personal Care > Cosmetics' => 196,
+        'Health & Beauty > Personal Care > Hair Care > Hair Styling Products' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Lotion & Moisturizer' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Skin Care Masks & Peels' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Body Oil' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Cosmetic Tools > Makeup Tools' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Cosmetic Tools > Makeup Tools > Makeup Sponges' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Makeup > Eye Makeup > Eye Shadow' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Tanning Products' => 196,
+        'Health & Beauty > Personal Care > Cosmetics > Skin Care > Toners & Astringents' => 196,
+        'Apparel & Accessories > Clothing > Outerwear > Coats & Jackets' => 154,
+        'Luggage & Bags > Fanny Packs' => 182,
+        'Apparel & Accessories > Handbags, Wallets & Cases > Badge & Pass Holders' => 193,
+        'Health & Beauty > Personal Care > Cosmetics > Cosmetic Tools > Makeup Tools > Makeup Brushes' => 196,
         'Accessories' => 146,
         'SMALL LEATHER GOODS' => 193,
         'BACKPACKS' => 183,
@@ -180,76 +172,96 @@ class ImportFlexCommand extends CConsoleCommand
     protected $region = "fra1";
     
     protected $file_names_part_1 = [
-        '160518/2.23288B42649C3C46/',
-        '171455/1.8FDC/',
-        '197461/1.A6F0/',
+        '160518/2.23288B42649C3C46/', // HBX
+        '171455/1.8FDC/', // Alexander Wang
+        '197461/1.A6F0/', // Opening Ceremony
     ];
     
     protected $file_names_part_2 = [
-        '201513/156052.2408/',
-        '207169/1.AC44/',
-        '209091/1.A6B8/'
-        //'203945/1.AAFB/', - absent gender
+        '201513/156052.2408/', // Influence U
+        '207169/1.AC44/', // Eraldo
+        '209091/1.A6B8/' // 24S Worldwide
     ];
     
     protected $file_names_part_3 = [
-        '180914/1.AAE6/',
-        '209895/1.AEE4/',
-        '185499/1.A2BE/'
+        '180914/1.AAE6/', // Stefania Mode UK
+        '209895/1.AEE4/', // The List
+        '185499/1.A2BE/' // Liberty London
     ];
     
     protected $file_names_part_4 = [
-        //'160630/156052.16F9/', - deleted?
-        //'180980/156052.202A/' - absend gender
-        '193024/156052.21AB/',
-        '211253/156074.A84D272FB8996740/',
-        '202535/156052.22AD/',
-        //'175269/156100.2827/', - absend gender, bad links
-        //'196330/156052.2231/' - absend gender
+        '193024/156052.21AB/', // Nili Lotan
+        '211253/156074.A84D272FB8996740/', // SKIMS
+        '202535/156052.22AD/', // Senreve
     ];
     
     protected $file_names_part_5 = [
-        //'171537/1.9D00/' - absend gender, absend category
-        //'199801/1.A802/' - lesgirlslesboys shit
-        
-        '194020/156100.33A1/',
-        '203104/1.A9DA/',
-        '189747/1.9A26/',
-        //'188219/1.A935/' - absend geneder
+        '194020/156100.33A1/', // The Modist
+        '203104/1.A9DA/', // P.E Nation
+        '189747/1.9A26/', // ?? ln-cc.com удален с флекса
     ];
     
     protected $file_names_part_6 = [
-        '194849/1.A6B3/',
-        '195216/1.A67E/',
-        '203133/2.2ADB060C575BA471/',
+        '179902/1.922C/', // MATCHESFASHION.COM
+        '195216/1.A67E/', // Malin+Goetz
+        '203133/2.2ADB060C575BA471/', // ANINE BING
     ];
     
     protected $file_names_part_7 = [
-        //'171717/1.5F67/', - jpg error
-        //'202740/156052.23D6/', - absent gender
-        '203181/1.ABA9/',
-        '209986/156052.2145/',
-        '179969/1.9209/'
+        '203181/1.ABA9/', // illesteva
+        '209986/156052.2145/', // IFCHIC
+        '179969/1.9209/' // modaoperandi.com
     ];
     
     protected $file_names_part_8 = [
-        '179970/1.A302/',
-        '199782/1.A8EA/',
-        //'202186/2.3EFA57E9887750DE/' // images copy fail
-        '211739/1.AF80/'
+        '179970/1.A302/', // Frame Denim
+        //'185381/1.95D9/', // Barneys Warehouse
+        '211739/1.AF80/' // Thakoon
     ];
     
     protected $file_names_part_9 = [
-        '203300/1.AB30/',
-        '208989/156178.8405/',
-        //'209025/2.858C228760157FC8/' // absent gender, absent category
-        '209396/1.ACC2/'
+        '203300/1.AB30/', // Leam
+        '201214/1.9453/', // Boutique 1
+        '209396/1.ACC2/', // Hunter EU
     ];
     
     protected $file_names_part_10 = [
-        //'178564/156178.2B8D/',
-        //'199306/156052.2110/' //absent gender
+        //'178564/156178.2B8D/', // Coggles
+        '178509/1.A570/', // Shopbop
+        '180260/2.7FDB09775E3B9DE4/', // Mytheresa
     ];
+    
+    protected $file_names_part_11 = [
+        //'185400/1.95D7/', // Barneys New York
+        '197965/1.9AE6/', // Harvey Nichols & Co Ltd
+    ];
+    
+    protected $file_names_part_12 = [
+        //'199276/2.C3C492CEE2C7E2B2/', // Madewell US нет категорий
+        
+    ];
+    
+    /*
+    deleted
+        '160630/156052.16F9/'
+        '171537/1.9D00/'
+        '171717/1.5F67/'
+        '175269/156100.2827/'
+        '194849/1.A6B3/'
+        '196330/156052.2231/'
+        '180980/156052.202A/'
+        '199306/156052.2110/'
+        '202740/156052.23D6/'
+        '199801/1.A802/'
+        '203945/1.AAFB/'
+        '199782/1.A8EA/', // marimekko
+        '208989/156178.8405/', // Etam UK
+    bads
+        //'188219/1.A935/' // Calvin Klein - absend geneder
+        //'202186/2.3EFA57E9887750DE/' // LUISAVIAROMA.COM images copy fail
+        //'209025/2.858C228760157FC8/' // D'ANIELLO BOUTIQUE absent gender, absent category
+        //'181545/1.A0FA/', // Astrid & Miyu ссылки не открываются, изображений нет
+    */
     
     protected $_file_name = '1172566_Products.xml.gz';
     
@@ -411,8 +423,8 @@ class ImportFlexCommand extends CConsoleCommand
                             }
                         }
                         
-                        $price = isset($rec->salePrice) ? floatval($rec->salePrice * $rate) : floatval($rec->price * $rate);
-                        $init_price = $rec->price * $rate;
+                        $price = isset($rec->salePrice) ? number_format(sprintf("%01.2f", floatval($rec->salePrice / $rate)), 2, '.', '') : number_format(sprintf("%01.2f", floatval($rec->price / $rate)), 2, '.', '');
+                        $init_price = number_format(sprintf("%01.2f", $rec->price / $rate), 2, '.', '');
                         
                         if ($image) {
                             if (!$model) {
@@ -450,20 +462,20 @@ class ImportFlexCommand extends CConsoleCommand
                                 }
                             }
                             
-                            //$path = $this->setCdnPath($model->id) . '/' . $model->image1;
-//                            $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
-//                            if ($this->copyToCdn($image_path, $path)) {
-//                                $model->image1 = $path;
-//                                if ($model->save()) {
-//                                    unlink($image_path);
-//                                }
-//                            }
+                            $path = $this->setCdnPath($model->id) . '/' . $model->image1;
+                            $image_path = Yii::getPathOfAlias('application') . '/../html' . ShopConst::IMAGE_MAX_DIR . 'medium/' . $model->image1;
+                            if ($this->copyToCdn($image_path, $path)) {
+                                $model->image1 = $path;
+                                if ($model->save()) {
+                                    unlink($image_path);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        print_r(array_unique($cats));
+        //print_r(array_unique($cats));
     }
     
     protected function generateUrl($name)

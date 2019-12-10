@@ -26,7 +26,8 @@
             </div>
         </div>
         <div class="uk-block" style="margin-top: -20px;">
-            <div class="uk-grid">
+            <div class="uk-grid" itemscope itemtype="http://schema.org/Product">
+                <meta itemprop="brand" content="<?= $brandName ?>">
                 <div
                     class="uk-width-1-1 uk-width-large-1-10 uk-width-medium-1-10 uk-text-right uk-text-left-small uk-margin-bottom">
                     <a href="javascript:void(0);" onclick="goBack()">&lt; <?=Yii::t('base', 'back')?></a>
@@ -47,6 +48,7 @@
                                 <?= CHtml::image('https://n2315.fra1.cdn.digitaloceanspaces.com/' . $model['image1'], strtolower($brandName) . ' ' . $productTitle, array(
                                     'id' => 'image1',
                                     'title' => "Click to view more detailed imagery on our partner's website",
+                                    'itemprop' => "image",
                                 )) ?>
                             </a>
                         <?php endif; ?>
@@ -95,28 +97,32 @@
                 <div class="uk-width-1-1 uk-width-large-3-10 uk-width-medium-3-10 outer-product-info">
                     <h2 class="uk-margin-right product-title"><?= '<a href="/designers/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
                     <br>
-                    <h1 style="font-size:14px !important;" class="uk-margin-right product-title"><?php echo $productTitle; ?></h1>
+                    <h1 style="font-size:14px !important;" class="uk-margin-right product-title" itemprop="name"><?php echo $productTitle; ?></h1>
                     <div class="product-description">
-                        <div class="product-detail" id="products">
+                        <div class="product-detail" id="products" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                            <meta itemprop="priceCurrency" content="EUR"/>
+                            <meta itemprop="priceValidUntil" content="<?= date('Y-m-d', strtotime('tomorrow')) ?>"/>
+                            <link itemprop="availability" href="http://schema.org/InStock"/>
+                            <link itemprop="url" href="<?= $this->createAbsoluteUrl(Yii::app()->request->requestUri) ?>">
                             <?php if($model->isVisible): ?>
                                 <?php if($model->price == $model->init_price): ?>
                                     <div class="uk-h3-lg">
-                                        <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                        <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                                     </div>
                                 <?php else: ?>
                                     <div class="uk-h3-lg price">
                                         <span style="margin-right:10px;text-decoration: line-through;">
-                                            <?= $currency->sign . number_format(sprintf("%01.2f", $model->init_price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                            <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->init_price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                                         </span>
                                         <span class="uk-h3-lg price price-new" style="color: red !important;">
-                                            <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                            <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                                         </span>
                                     </div>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <div class="uk-h3-lg price">
                                     <span style="margin-right:10px;">
-                                        <?= $currency->sign . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', ''); ?>
+                                        <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                                     </span>
                                     <span class="uk-h3-lg price price-new">SOLD</span>
                                 </div>
@@ -152,7 +158,7 @@
                         <?php endif; ?>
                     </div>
                     <div class="product-description">
-                        <span class="word-break">
+                        <span class="word-break" itemprop="description">
                             <?php echo nl2br(CHtml::encode($model->description)); ?>
                         </span>
                     </div>

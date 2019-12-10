@@ -293,7 +293,7 @@ class ImportCommand extends CConsoleCommand
         'Clothing' => 94,
         'Health & Beauty' => 196,
         'Electronics' => 146,
-        'Home & Garden' => 146,
+        //'Home & Garden' => 146,
         'Apparel & Accessories' => [
             'Clothing~~Outerwear~~Coats & Jackets' => 154,
             'Clothing~~Shirts & Tops' => 162,
@@ -457,19 +457,19 @@ class ImportCommand extends CConsoleCommand
         ],
         'Beauty' => 196,
         'Bedding' => 199,
-        'Lighting' => 199,
+        //'Lighting' => 199,
         'Bath & Towels' => 199,
-        'Furniture' => 146,
-        'Home Appliances' => 199,
-        'Home Furnishing & Décor' => 199,
-        'Lifestyle' => 146,
+        //'Furniture' => 146,
+        //'Home Appliances' => 199,
+        //'Home Furnishing & Décor' => 199,
+        //'Lifestyle' => 146,
     ];
     
     protected $ftp_server = 'aftp.linksynergy.com';
     protected $ftp_user_name = 'n2315_';
     protected $ftp_user_pass = 'GyTLMNP';
     protected $file_names_part_1 = [
-        '35725_3620548_mp.txt.gz',
+        //'35725_3620548_mp.txt.gz',
         '43650_3620548_mp.txt.gz'
     ];
     protected $file_names_part_2 = [
