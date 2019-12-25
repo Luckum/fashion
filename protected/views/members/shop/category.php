@@ -46,7 +46,7 @@
                             <?php endforeach; ?>
                         <?php else: ?>
                             <li><span><b>DESIGNERS</b></span>
-                                <ul style="list-style: none; padding-left: 0;" class="design">
+                                <ul style="list-style: none; padding-left: 0; margin-top:20px;" class="design">
                                     <li><input type="text" data-category="<?= $s_category ?>" data-sub-category="<?= $s_subcategory ?>" id="search-text-design-filter" name="search-text" class="search-input-normal" maxlength="50"/ placeholder="Search by designer"></li>
                                     <?php foreach ($brands as $brand): ?>
                                         <li style="padding-top: 5px;">

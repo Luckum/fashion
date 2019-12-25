@@ -425,6 +425,7 @@ body.loading .loader{display:block;}
 .tools-block-lnk{width: 100%;display: block;height: 35px;text-align: center;border: 1px solid #000;text-transform: uppercase;padding-top:7px;}
 .tools-block-lnk:hover{text-decoration: none;}
 .mbl-tools{position: fixed;width:100%;height: 100%;z-index: 899;background-color: #000;color:#fff;margin-top: 50px;}
+.mbl-tools a{color:#fff;}
 .mbl-tools .mbl-tools-inner{height:calc(100% - 105px);overflow-y:auto;padding: 4px 20px 20px;}
 .mbl-tools .close-tools-lnk{color:#fff;height: 55px;text-transform: uppercase;font-size: 16px;font-weight: 700;text-align: center;border-top: 1px solid #fff;padding: 15px 0;display: block;width: 100%;}
 .mbl-tools .close-tools-lnk:hover{text-decoration: none;}
