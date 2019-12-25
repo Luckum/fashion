@@ -216,7 +216,7 @@ class Brand extends CActiveRecord
     {
         return self::model()->findAll(['select' => 'DISTINCT(name), url', 'order' => 'url']);
     }*/
-    public static function getBrandsSorted($category = "", $subcategory = "")
+    public static function getBrandsSorted($category = "", $subcategory = "", $showInFilter = true, $condition = "", $limit = "")
     {
         $cats = [];
         $in_cats = $join = $where = '';
@@ -239,16 +239,22 @@ class Brand extends CActiveRecord
             }
         }
         
+        $where = $showInFilter ? 'show_in_filter = 1' : '1 = 1';
+        if (!empty($condition)) {
+            $where .= ' AND ' . $condition;
+        }
+        
         if (!empty($subcategory)) {
             $join = 'LEFT JOIN product p ON t.id = p.brand_id';
-            $where = 'p.category_id IN (' . $in_cats . ')';
+            $where .= ' AND p.category_id IN (' . $in_cats . ')';
         } 
         
         return self::model()->findAll([
             'select' => 'DISTINCT(name), url, show_in_filter',
             'join' => $join,
             'condition' => $where,
-            'order' => 'url'
+            'order' => 'url',
+            'limit' => !empty($limit) ? $limit : '-1'
         ]);
     }
 }

@@ -36,11 +36,9 @@
                         <a href="#all-brands" id="all-brands-lnk" data-uk-modal><span>View all</span></a>
                     </li>
                     <?php foreach ($brands as $brand): ?>
-                        <?php if ($brand->show_in_filter): ?>
-                            <li style="padding-top: 5px;">
-                                <a href="/designers/<?= $brand->url ?>"><span><?= $brand->name ?></span></a>
-                            </li>
-                        <?php endif; ?>
+                        <li style="padding-top: 5px;">
+                            <a href="/designers/<?= $brand->url ?>"><span><?= $brand->name ?></span></a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </li>

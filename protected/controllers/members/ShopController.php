@@ -70,8 +70,15 @@ class ShopController extends MemberController
         );
     }
 
-    public function actionShowCategory($category = "", $subcategory = "", $brand ="")
+    public function actionShowCategory($category = "", $subcategory = "", $brand = "", $sale = "")
     {
+        $columnsCount = 3;
+        if ($value = (string)Yii::app()->request->cookies['width']) {
+            if ($value <= 768) {
+                $columnsCount = 2;
+            }
+        }
+        
         /*echo $category;
         echo '|';
         echo trim($subcategory);
@@ -162,6 +169,11 @@ class ShopController extends MemberController
         $page = (isset($_GET['page']) ? $_GET['page'] : 1);
 
         $where = array('and');
+        
+        if ($sale) {
+            array_push($where, ShopConst::SORT_SALE_CONDITION);
+        }
+        
         $limit = $this->pageSize;
         $offset = ($page - 1) * $this->pageSize;
 
@@ -235,10 +247,10 @@ class ShopController extends MemberController
                         //'brands_all' => $brands_all,
                         //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
                         'currency' => $currency,
+                        'columnsCount' => $columnsCount,
                     ], true),
-                    'selector_html' => $this->renderPartial('_currency', [
-                        
-                    ], true),
+                    'selector_html' => $this->renderPartial('_currency', [], true),
+                    'selector_html_mbl' => $this->renderPartial('_currency_mbl', [], true),
                 ]));
             }
             
@@ -255,6 +267,7 @@ class ShopController extends MemberController
                     //'brands_all' => $brands_all,
                     //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
                     'currency' => $currency,
+                    'columnsCount' => isset($_GET['mbl']) ? 2 : $columnsCount,
                 )
             );
 
@@ -295,6 +308,7 @@ class ShopController extends MemberController
             //'brands_all' => $brands_all,
             //'alphabet' => UtilsHelper:: getAlphabet(array('#')),
             'currency' => $currency,
+            'columnsCount' => $columnsCount,
         ));
     }
 

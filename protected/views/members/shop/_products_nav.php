@@ -1,5 +1,4 @@
-<div
-    class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-2 uk-flex uk-flex-space-between uk-flex-middle uk-margin-bottom">
+<div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-2 uk-flex uk-flex-space-between uk-flex-middle uk-margin-bottom sort-block">
     <div class="before-ready-hidden">
         <span class="uk-margin-right-mini uk-display-inline-block"><?php echo Yii::t('base', 'sort by'); ?>:</span>
         <?php
@@ -82,7 +81,7 @@
         ?>
     </div>
 </div>
-<div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-2">
+<div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 pagination-block">
     <?php
     $this->widget('LinkPager', array(
         'pages' => $pages,

@@ -109,7 +109,9 @@ $params = array(
 
                 '<language:\w{2}>/profile-<id:\d+>'=>'members/profile/showProfile',
 
+                'designers/<category:.+>/<sale:.+>'=>'members/shop/showCategory',
                 'designers/<category:.+>'=>'members/shop/showCategory',
+                
                 'designers/<brand:.+>/<category:.+>/<subcategory:.+>'=>'members/shop/showCategory',
 
                 'shop/<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
@@ -130,6 +132,8 @@ $params = array(
                 '/site/<action:[\w\-]+>' => 'site/<action>',
                 
                 '<category:\w+>/<subcategory:.+>/designers/<brand:.+>'=>'members/shop/showCategory',
+                
+                '<category:\w+>/<subcategory:.+>/<sale:.+>'=>'members/shop/showCategory',
                 '<category:\w+>/<subcategory:.+>/<id:.+>'=>'members/shop/productDetails',
                 '<category:\w+>'=>'members/shop/showCategory',
                 '<category:\w+>/<subcategory:.+>'=>'members/shop/showCategory',

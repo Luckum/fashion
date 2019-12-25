@@ -10,7 +10,7 @@ $this->breadcrumbs = array(
 <!--LOGIN MODAL-->
 <div id="signup" class="uk-modal uk-modal-signup" >
     <div class="uk-modal-dialog">
-<!--        <a class="uk-modal-close uk-close"></a>-->
+        <a class="uk-modal-close uk-close"></a>
         <div class="uk-grid">
             <div class="uk-width-large-1-3 uk-width-medium-1-3 uk-width-small-1-1">
                 <div class="signup-hdr uk-h2 uk-margin-large-bottom">

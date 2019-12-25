@@ -1,14 +1,26 @@
+<div class="uk-grid uk-hidden-medium uk-hidden-large">
+    <div class="uk-width-1-2">
+        <a href="javascript:void(0);" class="tools-block-lnk" id="filter-block-show-lnk">filter</a>
+    </div>
+    <div class="uk-width-1-2">
+        <a href="javascript:void(0);" class="tools-block-lnk" id="sort-block-show-lnk">sort</a>
+    </div>
+</div>
+
+<?php if (empty($s_brand) && !empty($s_subcategory)): ?>
+    <div class="uk-grid uk-hidden-large">
+        <div class="uk-width-1-1 uk-text-center">
+            <a href="/<?= $s_category ?>"><?= ucfirst($s_category) ?></a>&nbsp;/&nbsp;<a href=""><?= $model->getNameByLanguage()->header_text ?></a>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!--PAGINATION AND VIEW-->
 <div class="pagination-block">
     <div class="uk-grid uk-margin-large-top">
-        <!--FILTER-->
-        <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 uk-margin-bottom">
-            
-        </div>
-        <!--END FILTER-->
-
+        <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 uk-margin-bottom"></div>
         <div class="uk-width-1-1 uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1">
-            <div class="uk-grid uk-padding-small-screen">
+            <div class="uk-grid">
                 <?php $this->renderPartial('_products_nav',
                     array(
                         'products' => $products,
@@ -26,7 +38,7 @@
 <?php if (Category::getParentByCategory($model->id) != Category::getIdByAlias('featured')): ?>
     <?php $menu = UtilsHelper::getCategoryMenu($s_brand); ?>
     <?php $brands = Brand::getBrandsSorted($s_category, $s_subcategory); ?>
-    <div style="display: inline-block; width: 15%;" id="side-menu">
+    <div style="display: inline-block; width: 15%;" id="side-menu" class="side-menu">
         <ul style="list-style: none; padding-left: 0;">
             <li><span><b>CATEGORIES</b></span></li>
             <?php foreach ($menu as $menu_item): ?>
@@ -55,17 +67,16 @@
                         <a href="#all-brands" id="all-brands-lnk" data-uk-modal><span>View all</span></a>
                     </li>
                     <?php foreach ($brands as $brand): ?>
-                        <?php if ($brand->show_in_filter): ?>
-                            <li style="padding-top: 5px;">
-                                <a href="/<?= !empty($s_subcategory) ? $s_category . '/' . str_replace(' ', '-', trim($s_subcategory)) . '/designers' : 'designers' ?>/<?= $brand->url ?>" <?= $s_brand == $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
-                            </li>
-                        <?php endif; ?>
+                        <li style="padding-top: 5px;">
+                            <a href="/<?= !empty($s_subcategory) ? $s_category . '/' . str_replace(' ', '-', trim($s_subcategory)) . '/designers' : 'designers' ?>/<?= $brand->url ?>" <?= $s_brand == $brand->url ? 'style="text-decoration: underline;"' : '' ?>><span><?= $brand->name ?></span></a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </li>
         </ul>
     </div>
 <?php endif; ?>
+
 <div class="block-category" <?= Category::getParentByCategory($model->id) != Category::getIdByAlias('featured') ? 'style="display: inline-block; vertical-align: top; width: 80%; float: right;"' : '' ?>>
     <?php
     $count = count($products);
@@ -77,11 +88,11 @@
                    $i < $count;
                    $i++) : ?>
 
-            <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
+            <?php $isNewRow = (($i % $columnsCount) == 0 || $i == 0); ?>
             <?php $modalParameters = ""; ?>
             <div <?php echo $isNewRow ?
                 // new row
-                'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
+                'class="uk-grid uk-grid-width-1-2 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
                 '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">' :
                 // new item
                 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
@@ -142,7 +153,7 @@
                     <?php echo Brand::getFormatedTitle($products[$i]['brand_name']); ?>
                 </div>
             </a>
-            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
+            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left">
                 <h2><?php echo Product::getFormatedTitle(CHtml::encode($products[$i]['title'])); ?></h2>
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
@@ -180,7 +191,7 @@
             <?php
             $countInRow++;
 
-            if ($countInRow == 3 || $i == ($count - 1)) {
+            if ($countInRow == $columnsCount || $i == ($count - 1)) {
                 echo '</div></div>';
                 $countInRow = 0; // reset counter for next row
             } else {
@@ -380,6 +391,13 @@
                 });
             }
         });
+    });
+    
+    $('#sort-block-show-lnk').click(function () {
+        $('.mbl-tools-sort').show();
+    });
+    $('#filter-block-show-lnk').click(function () {
+        $('.mbl-tools-filter').show();
     });
 
 </script>

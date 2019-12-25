@@ -634,4 +634,101 @@ class SiteController extends Controller
         
         die(CJSON::encode($data)); 
     }
+    
+    public function actionAjaxSearchDesign()
+    {
+        if (!Yii::app()->request->isAjaxRequest ||
+            !Yii::app()->request->isPostRequest) {
+            throw new CHttpException(403, 'Forbidden');
+        }
+        
+        $query = strtolower(Yii::app()->request->getPost('phrase'));
+        
+        if (strlen($query) > 2) {
+            $criteria = new CDbCriteria;
+            $criteria->select = '*';
+            $criteria->condition = "LOWER(name) LIKE '%$query%'";
+            $criteria->limit = '10';
+            $brands = Brand::model()->findAll($criteria);
+            
+            if ($brands) {
+                foreach ($brands as $brand) {
+                    $data['brand'][] = [
+                        'title' => $brand->name,
+                        'link' => '/designers/' . $brand->url
+                    ];
+                }
+            }
+        }
+        
+        die(CJSON::encode($data));
+    }
+    
+    public function actionAjaxSearchDesignSale()
+    {
+        if (!Yii::app()->request->isAjaxRequest ||
+            !Yii::app()->request->isPostRequest) {
+            throw new CHttpException(403, 'Forbidden');
+        }
+        
+        $query = strtolower(Yii::app()->request->getPost('phrase'));
+        
+        if (strlen($query) > 2) {
+            $criteria = new CDbCriteria;
+            $criteria->select = '*';
+            $criteria->condition = "LOWER(name) LIKE '%$query%'";
+            $criteria->limit = '10';
+            $brands = Brand::model()->findAll($criteria);
+            
+            if ($brands) {
+                foreach ($brands as $brand) {
+                    $data['brand'][] = [
+                        'title' => $brand->name,
+                        'link' => '/designers/' . $brand->url . '/sale'
+                    ];
+                }
+            }
+        }
+        
+        die(CJSON::encode($data));
+    }
+    
+    public function actionAjaxSearchDesignFilter()
+    {
+        if (!Yii::app()->request->isAjaxRequest ||
+            !Yii::app()->request->isPostRequest) {
+            throw new CHttpException(403, 'Forbidden');
+        }
+        
+        $query = strtolower(Yii::app()->request->getPost('phrase'));
+        $category = strtolower(Yii::app()->request->getPost('category'));
+        $subCategory = strtolower(Yii::app()->request->getPost('sub_category'));
+        
+        if (strlen($query) > 2) {
+            $condition = "LOWER(name) LIKE '%$query%'";
+            $brands = Brand::getBrandsSorted($category, $subCategory, false, $condition, 10);
+            
+            if ($brands) {
+                foreach ($brands as $brand) {
+                    $data['brand'][] = [
+                        'title' => $brand->name,
+                        'link' => str_replace(' ', '-', trim($subCategory)) . '/designers/' . $brand->url
+                    ];
+                }
+            }
+        }
+        
+        die(CJSON::encode($data));
+    }
+    
+    public function actionSetWidth()
+    {
+        if (isset($_POST['width'])) {
+            if ($_POST['width'] <= 768) {
+                Yii::app()->session['columnsCount'] = 2;
+            } else {
+                Yii::app()->session['columnsCount'] = 3;
+            }
+        }
+    }
 }

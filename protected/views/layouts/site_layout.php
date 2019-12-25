@@ -93,6 +93,16 @@ if (YII_DEBUG) {
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+    <script>
+        /*$.ajax({
+            url: '/site/setWidth',
+            type: "POST",
+            data: {width: screen.width},
+            async: false,
+        });*/
+        
+        document.cookie = "width=" + screen.width + "; path=/";
+    </script>
 </head>
 <body>
 
@@ -337,6 +347,161 @@ if (YII_DEBUG) {
             });
         }
     });
+    
+    var options = {
+        list: {
+            maxNumberOfElements: 10
+            
+        },
+        
+        categories: [
+            {
+                listLocation: "brand",
+                //header: "DESIGNERS",
+                maxNumberOfElements: 10,
+            },
+        ],
+
+        
+        url: function(phrase) {
+            return "/site/ajaxSearchDesign";
+        },
+
+        getValue: function(element) {
+            return element.title;
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+        
+        minCharNumber: 3,
+
+        preparePostData: function(data) {
+            data.phrase = $("#search-text-design").val();
+            return data;
+        },
+        
+        template: {
+            type: "links",
+            fields: {
+                link: "link"
+            }
+        },
+
+        requestDelay: 400,
+        highlightPhrase: false
+    };
+
+    $("#search-text-design").easyAutocomplete(options);
+    
+    var options = {
+        list: {
+            maxNumberOfElements: 10
+            
+        },
+        
+        categories: [
+            {
+                listLocation: "brand",
+                //header: "DESIGNERS",
+                maxNumberOfElements: 10,
+            },
+        ],
+
+        
+        url: function(phrase) {
+            return "/site/ajaxSearchDesignSale";
+        },
+
+        getValue: function(element) {
+            return element.title;
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json"
+            }
+        },
+        
+        minCharNumber: 3,
+
+        preparePostData: function(data) {
+            data.phrase = $("#search-text-design-sale").val();
+            return data;
+        },
+        
+        template: {
+            type: "links",
+            fields: {
+                link: "link"
+            }
+        },
+
+        requestDelay: 400,
+        highlightPhrase: false
+    };
+
+    $("#search-text-design-sale").easyAutocomplete(options);
+    
+    var options = {
+        list: {
+            maxNumberOfElements: 10
+            
+        },
+        
+        categories: [
+            {
+                listLocation: "brand",
+                //header: "DESIGNERS",
+                maxNumberOfElements: 10,
+            },
+        ],
+
+        
+        url: function(phrase) {
+            return "/site/ajaxSearchDesignFilter";
+        },
+
+        getValue: function(element) {
+            return element.title;
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+                dataType: "json",
+                category: $("#search-text-design-filter").attr('data-category'),
+                sub_category: $("#search-text-design-filter").attr('data-sub-category'),
+            }
+        },
+        
+        minCharNumber: 3,
+
+        preparePostData: function(data) {
+            data.phrase = $("#search-text-design-filter").val();
+            return data;
+        },
+        
+        template: {
+            type: "links",
+            fields: {
+                link: "link"
+            }
+        },
+
+        requestDelay: 400,
+        highlightPhrase: false
+    };
+
+    $("#search-text-design-filter").easyAutocomplete(options);
 </script>
 
 <?php if (empty($_COOKIE['USR_CNT'])): ?>
