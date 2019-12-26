@@ -110,6 +110,12 @@ class ShopController extends MemberController
         if (empty($category) && empty($subcategory)) {
             $model = array();
         } elseif(empty($subcategory)) {
+            $catAr = explode('/', $category);
+            if ($catAr[1] && $catAr[1] == 'sale') {
+                $category = $catAr[0];
+                $sale = true;
+            }
+            
             $model = Category::model()->findByPath($category . '/' . $category);
             if ($model) {
                 $isTopCategory = true;
