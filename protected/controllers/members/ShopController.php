@@ -137,7 +137,7 @@ class ShopController extends MemberController
         }
         if (!$model) {
             if (!empty($category) || !empty($subcategory)) {
-                $this->redirect(array('members/shop/showCategory', 'category' => 'brands', 'subcategory' => 'brands'));
+                //$this->redirect(array('members/shop/showCategory', 'category' => 'brands', 'subcategory' => 'brands'));
             }            
         }
 
