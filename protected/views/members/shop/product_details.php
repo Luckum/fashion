@@ -27,14 +27,14 @@
         </div>
         <div class="uk-block product-description-all">
             <div class="uk-grid" itemscope itemtype="http://schema.org/Product">
-                <h2 class="uk-margin-right product-title uk-hidden-large"><?= '<a href="/designers/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
-                <h1 style="font-size:14px !important;" class="uk-margin-right product-title uk-hidden-large" itemprop="name"><?php echo $productTitle; ?></h1>
+                <h2 class="uk-margin-right product-title uk-hidden-large uk-hidden-medium"><?= '<a href="/designers/'.strtolower($model->brand->url).'">'.$brandName.'</a>' ?></h2>
+                <h1 style="font-size:14px !important;" class="uk-margin-right product-title uk-hidden-large uk-hidden-medium" itemprop="name"><?php echo $productTitle; ?></h1>
                 <?php if($model->price == $model->init_price): ?>
-                    <div class="uk-h3-lg uk-hidden-large">
+                    <div class="uk-h3-lg uk-hidden-large uk-hidden-medium">
                         <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                     </div>
                 <?php else: ?>
-                    <div class="uk-h3-lg price uk-hidden-large">
+                    <div class="uk-h3-lg price uk-hidden-large uk-hidden-medium">
                         <span style="margin-right:10px;text-decoration: line-through;">
                             <?= $currency->sign . '<span itemprop="price">' . number_format(sprintf("%01.2f", $model->init_price * $currency->currencyRate->rate), 2, '.', '') . '</span>'; ?>
                         </span>
@@ -144,7 +144,7 @@
                             <?php endif; ?>
                         </div>
                         
-                        <div class="product-description uk-hidden-large uk-text-center">
+                        <div class="product-description uk-hidden-large uk-hidden-medium uk-text-center">
                             <span class="word-break" itemprop="description">
                                 <?php echo nl2br(CHtml::encode($model->description)); ?>
                             </span>

@@ -218,6 +218,9 @@ input#search-text{width:100%;font-size:18px;}
 .product-description-all .price{width:100%;text-align:center;margin-bottom: 20px;}
 .product-desc-blck{text-align:center;}
 }
+@media all and (min-width:770px) and (max-width:1200px){
+.product-breadcrumb{margin-top: -10px;}
+}
 .outer-product-info{position:relative;}
 .product-information{margin-top:25px;bottom:25px;border:none;border-bottom:2px solid #000;width:100%;}
 .product-information div{padding:4px 0 40px 0;}

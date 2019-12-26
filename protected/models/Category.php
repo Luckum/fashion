@@ -465,6 +465,12 @@ class Category extends CActiveRecord
                 }
             }
         }
+        if (count($categories) == 3) {
+            $searchid = array_pop(explode("-", $categories[2]));
+            if (Product::model()->findByPk($searchid)) {
+                return 'details';
+            }
+        }
 
         return $model;
     }

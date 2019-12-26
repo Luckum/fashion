@@ -130,6 +130,13 @@ class ShopController extends MemberController
                 $brand = $url[0];
             }
         } else {
+            if ($sale && $sale != 'sale') {
+                $model = Category::model()->findByPath($category . '/' . $subcategory . '/' . $sale);
+                if ($model && $model == 'details') {
+                    return $this->actionProductDetails($sale);
+                }
+            }
+            
             $model = Category::model()->findByPath($category . '/' . $subcategory);
             if ($model && $model == 'details') {
                 return $this->actionProductDetails($subcategory);
