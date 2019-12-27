@@ -448,7 +448,7 @@ class Category extends CActiveRecord
                     } elseif($parent->external_sale == 1) {
                         $criteria_category->condition = 't.parent_id = :parent_id';
                     } else {
-                      $criteria_category->condition = '(LOWER(t.alias) = LOWER(:alias) OR LOWER(t.alias) = LOWER(:alias_spaces)) AND t.parent_id = :parent_id';
+                        $criteria_category->condition = '(LOWER(t.alias) = LOWER(:alias) OR LOWER(t.alias) = LOWER(:alias_spaces)) AND t.parent_id = :parent_id';
                     }
 
                     $criteria_category->with = array(

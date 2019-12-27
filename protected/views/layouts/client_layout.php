@@ -153,7 +153,7 @@ $brands = Brand::getBrandsSorted();
         <div id="nav-level-3-<?= $menu_item['id'] ?>" style="display: none;" class="mbl-nav">
             <ul>
                 <li><a class="level-back" data-level-to="2" data-level-from="3-<?= $menu_item['id'] ?>" href="javascript:void(0);">Back</a></li>
-                <li><a href="<?= $menu_item['url']?>">all <?= $menu_item['name']?></a></li>
+                <li><a href="<?= $menu_item['url'] . '/sale'?>">all <?= $menu_item['name']?></a></li>
                 <?php foreach ($menu_item['items'] as $child) : ?>
                     <li><a style="text-transform: capitalize;" href="<?= $child['url'] . '/sale' ?>"><?= $child['name'] ?></a></li>
                 <?php endforeach; ?>

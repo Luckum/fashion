@@ -137,6 +137,14 @@ class ShopController extends MemberController
                 }
             }
             
+            if ($subcategory == 'sale') {
+                $model = Category::model()->findByPath($category . '/' . $category);
+                if ($model) {
+                    $isTopCategory = true;
+                    $sale = true;
+                    $subcategory = '';
+                }
+            }
             $model = Category::model()->findByPath($category . '/' . $subcategory);
             if ($model && $model == 'details') {
                 return $this->actionProductDetails($subcategory);
