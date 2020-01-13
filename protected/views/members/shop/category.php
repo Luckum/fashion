@@ -27,7 +27,7 @@
                             <?php foreach ($menu as $menu_item): ?>
                                 <?php if ($menu_item['id'] != Category::getIdByAlias('featured')): ?>
                                     <?php if (count($menu_item['items'])): ?>
-                                        <li style="text-transform: capitalize; padding-top: 5px;">
+                                        <li style="text-transform: uppercase; padding-top: 25px;">
                                             <a href='#'><span><?= $menu_item['name'] ?></span></a>
                                             <ul style="list-style: none; padding-left: 20px;" <?= empty($s_subcategory) ? 'class="non-enbl-sb-open"' : (strtolower($menu_item['name']) == $s_category ? 'class="enbl-sb-open"' : 'class="non-enbl-sb-open"') ?>>
                                                 <?php foreach ($menu_item['items'] as $child): ?>
@@ -38,7 +38,7 @@
                                             </ul>
                                         </li>
                                     <?php else: ?>
-                                        <li style="text-transform: capitalize; padding-top: 5px;">
+                                        <li style="text-transform: uppercase; padding-top: 15px;">
                                             <a href='<?= $menu_item['url'] ?><?= !empty($s_brand) ? '/' . $s_brand : '' ?>'><span><?= $menu_item['name'] ?></span></a>
                                         </li>
                                     <?php endif; ?>
