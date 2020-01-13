@@ -8,6 +8,13 @@ class SearchController extends Controller
     
     public function actionResults($q)
     {
+        $columnsCount = 3;
+        if ($value = (string)Yii::app()->request->cookies['width']) {
+            if ($value <= 768) {
+                $columnsCount = 2;
+            }
+        }
+        
         $limit = 129;
         $offset = 0;
         //$products = $brands = $categories = [];
@@ -58,10 +65,10 @@ class SearchController extends Controller
                     'limit' => $limit,
                     'offset' => $offset,
                     'products_cnt' => $products_cnt,
+                    'columnsCount' => $columnsCount,
                 ], true),
-                'selector_html' => $this->renderPartial('application.views.members.shop._currency', [
-                    
-                ], true),
+                'selector_html' => $this->renderPartial('application.views.members.shop._currency', [], true),
+                'selector_html_mbl' => $this->renderPartial('application.views.members.shop._currency_mbl', [], true),
             ]));
         }
         
@@ -80,6 +87,7 @@ class SearchController extends Controller
             'brands_all' => $brands_all,
             'alphabet' => UtilsHelper:: getAlphabet(array('#')),
             'currency' => $currency,
+            'columnsCount' => $columnsCount,
         ]);
     }
     

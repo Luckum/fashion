@@ -6,7 +6,7 @@
     </div>
     <?php $menu = UtilsHelper::getCategoryMenu(); ?>
     <?php $brands = Brand::getBrandsSorted(); ?>
-    <div style="display: inline-block; width: 15%;" id="side-menu">
+    <div style="display: inline-block; width: 15%;" id="side-menu" class="side-menu">
         <ul style="list-style: none; padding-left: 0;">
             <li><span><b>CATEGORIES</b></span></li>
                 <?php foreach ($menu as $menu_item): ?>
@@ -44,14 +44,14 @@
             </li>
         </ul>
     </div>
-    <div class="block-category" id="products" style="display: inline-block; vertical-align: top; width: 80%; float: right;">
+    <div class="block-category srch-results-cnt" id="products">
         <?php if ($count): ?>
             <?php $i = 0; ?>
             <?php $countInRow = 0 ?>
             <?php foreach ($products as $k => $product) : ?>
                 <?php foreach ($product as $rec): ?>
-                    <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
-                    <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
+                    <?php $isNewRow = (($i % $columnsCount) == 0 || $i == 0); ?>
+                    <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-2 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
                         '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'
                         : 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
                         
@@ -101,7 +101,7 @@
                             </div>
                         </a>
                         
-                        <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
+                        <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left">
                             <?php echo Product::getFormatedTitle(CHtml::encode($rec->title)); ?>
                         </div>
                         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
@@ -136,7 +136,7 @@
                     <?php
                         $countInRow ++;
 
-                    if ($countInRow == 3 || $i == ($count - 1)) {
+                    if ($countInRow == $columnsCount || $i == ($count - 1)) {
                         echo '</div></div>';
                         $countInRow = 0;
                     } else {

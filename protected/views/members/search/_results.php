@@ -2,8 +2,8 @@
 <?php $countInRow = 0 ?>
 <?php foreach ($products as $k => $product) : ?>
     <?php foreach ($product as $rec): ?>
-        <?php $isNewRow = (($i % 3) == 0 || $i == 0); ?>
-        <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-1 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
+        <?php $isNewRow = (($i % $columnsCount) == 0 || $i == 0); ?>
+        <div <?php echo $isNewRow ? 'class="uk-grid uk-grid-width-1-2 uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-width-small-1-2">' .
             '<div itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'
             : 'itemscope itemtype="http://schema.org/Product" class="thumbnail uk-margin-bottom pf">'; ?>
             
@@ -53,7 +53,7 @@
                 </div>
             </a>
             
-            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left" style="margin-left: 90px !important;">
+            <div itemprop="description" class="thumbnail-description uk-margin-top-mini uk-margin-large-left">
                 <?php echo Product::getFormatedTitle(CHtml::encode($rec->title)); ?>
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer"  class="thumbnail-details uk-margin-large-left" style="margin-left: 90px !important;">
@@ -88,7 +88,7 @@
         <?php
             $countInRow ++;
 
-        if ($countInRow == 3 || $i == ($count - 1)) {
+        if ($countInRow == $columnsCount || $i == ($count - 1)) {
             echo '</div></div>';
             $countInRow = 0;
         } else {
