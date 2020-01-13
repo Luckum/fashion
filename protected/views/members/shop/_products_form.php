@@ -141,6 +141,7 @@
                         array(
                             'data-plugin'   => 'lazy-load',
                             'data-original' => $img_url,
+                            'class' => 'product-img-catalog',
                             'itemprop' => "image",
                             'width' => '540',
                             'height' => '680',

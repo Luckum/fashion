@@ -211,7 +211,11 @@ input#search-text{width:100%;font-size:18px;}
 #products .block-category{width:100% !important;}
 .sort-block{display: none;}
 .pagination-block{margin-bottom: 20px;}
-.thumbnail-description{margin-left: 40px !important;}
+.block-category .thumbnail-description{margin-left: 20px !important;}
+.block-category .thumbnail-description h2{font-size: 12px;}
+.block-category .thumbnail-title{font-size: 14px;}
+.block-category .product-url{font-size: 12px;}
+.block-category .price-old, .block-category .price-new, .block-category .price{font-size: 12px;}
 .product-breadcrumb{display: none;}
 .product-description-all{margin-top: 0;}
 .product-title{width:100%;text-align:center;margin-bottom: 10px;}
@@ -229,6 +233,7 @@ input#search-text{width:100%;font-size:18px;}
 @media (max-width:1200px){
 .product-information{position:relative !important;bottom:-25px !important;}
 .srch-results-cnt{width:100% !important;}
+.product-img-catalog{width: 100% !important;}
 }
 .loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1030;display:none;background:rgba(255, 255, 255, .8) url(../images/ajax.gif) 50% 50% no-repeat;padding-left:43%;padding-top:20%;}
 body.loading{overflow:hidden;}
