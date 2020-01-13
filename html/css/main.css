@@ -216,6 +216,7 @@ input#search-text{width:100%;font-size:18px;}
 .block-category .thumbnail-title{font-size: 14px;}
 .block-category .product-url{font-size: 12px;}
 .block-category .price-old, .block-category .price-new, .block-category .price{font-size: 12px;}
+.block-category .thumbnail-details {margin-top: 10px;}
 .product-breadcrumb{display: none;}
 .product-description-all{margin-top: 0;}
 .product-title{width:100%;text-align:center;margin-bottom: 10px;}
