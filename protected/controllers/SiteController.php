@@ -618,7 +618,7 @@ class SiteController extends Controller
         foreach ($alphabet as $item) {
             $data['alphabet'] .= '<li><a href="#' . $item . '" onclick="clickAlphabet(this)">' . $item . '</a></li>';
         }
-        $data['alphabet'] .= '<li><a href="#all" onclick="clickAlphabet(this)">(ALL)</a></li>';
+        //$data['alphabet'] .= '<li><a href="#all" onclick="clickAlphabet(this)">(ALL)</a></li>';
         
         $data['brands'] = '';
         $brands_all = UtilsHelper::byAlphabetCat(Brand::getAllBrands());

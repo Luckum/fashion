@@ -420,7 +420,7 @@ body.loading .loader{display:block;}
 .mbl-nav-logo > a{float:right;}
 .mbl-nav-right{float:right;height:50px;padding-right:20px;padding-top:11px;}
 .mbl-nav-right > a{color:#fff;}
-.mbl-nav-right > #login_mobile::after{content:"\f007";font-family:FontAwesome;font-size:20px;padding-right:10px;}
+/*.mbl-nav-right > #login_mobile::after{content:"\f007";font-family:FontAwesome;font-size:20px;padding-right:10px;}*/
 #currency-selector-mbl > a{color:#fff;}
 .mbl-nav-cnt .search-icon::after{content:"\f002";font-family:FontAwesome;font-size:19px;color:#fff;padding-left: 10px;}
 .mbl-nav > ul{padding: 4px 20px 20px;list-style:none;margin-top:50px;height:calc(100% - 120px);overflow-y:auto;}
